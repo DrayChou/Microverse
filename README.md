@@ -135,6 +135,7 @@ cd microverse
    - 字节跳动豆包
    - 月之暗面 Kimi
    - Ollama (本地部署)
+   - LMStudio (本地部署)
 
 ### 4. 开始游戏
 

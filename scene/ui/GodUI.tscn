@@ -2523,7 +2523,7 @@ text = "API密钥："
 [node name="APIKeyInput" type="LineEdit" parent="HBoxContainer/LeftPanel/VBoxContainer/CharacterDetail/TabContainer/AI设置/AISettingsContainer/APIKeyContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "输入API密钥（Ollama无需填写）"
+placeholder_text = "输入API密钥（Ollama,LMStudio无需填写）"
 secret = true
 clear_button_enabled = true
 

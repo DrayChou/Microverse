@@ -5,8 +5,8 @@ var character_name: String = ""
 
 # 当前设置
 var current_settings = {
-	"api_type": "Ollama",
-	"model": "qwen3:4b",
+	"api_type": "LMStudio",
+	"model": "qwen/qwen3-vl-4b",
 	"api_key": ""
 }
 
@@ -67,11 +67,10 @@ func load_settings():
 		print("[AIModelLabel] 无法找到SettingsManager，使用默认设置")
 
 func update_display_text():
-	# 格式化显示文本
-	# var display_text = current_settings.api_type + ": " + current_settings.model
-	var display_text = current_settings.model
+	# 使用APIConfig获取模型的友好显示名称
+	var display_text = APIConfig.get_model_display_name(current_settings.model)
 	text = display_text
-	
+
 	# 动态调整偏移量以确保文本居中
 	adjust_offset_for_text()
 

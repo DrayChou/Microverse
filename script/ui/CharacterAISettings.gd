@@ -55,7 +55,7 @@ func _auto_save_current_settings():
 	else:
 		# 如果没有勾选，保存当前UI中的设置为角色独立设置
 		var settings = {
-			"api_type": api_types[api_type_option.selected] if api_type_option.selected >= 0 else "Ollama",
+			"api_type": api_types[api_type_option.selected] if api_type_option.selected >= 0 else "LMStudio",
 			"model": model_option.get_item_text(model_option.selected) if model_option.selected >= 0 else "",
 			"api_key": api_key_input.text
 		}
@@ -86,7 +86,7 @@ func _load_character_settings():
 func _apply_settings_to_ui(settings: Dictionary):
 	"""将设置应用到UI"""
 	# 设置API类型
-	var api_type = settings.get("api_type", "Ollama")
+	var api_type = settings.get("api_type", "LMStudio")
 	var api_type_index = api_types.find(api_type)
 	if api_type_index >= 0:
 		api_type_option.selected = api_type_index
@@ -150,9 +150,9 @@ func _on_api_type_selected(index: int):
 	_update_model_list(api_type)
 	
 	# 清空API密钥（不同API类型可能需要不同密钥）
-	if api_type == "Ollama":
+	if api_type == "Ollama" or api_type == "LMStudio":
 		api_key_input.text = ""
-		api_key_input.placeholder_text = "Ollama无需API密钥"
+		api_key_input.placeholder_text = "Ollama, LMStudio 无需API密钥"
 	else:
 		api_key_input.placeholder_text = "输入" + api_type + "的API密钥"
 

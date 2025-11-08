@@ -83,7 +83,7 @@ func update_ui():
 	ai_label_checkbox.button_pressed = current_settings.get("show_ai_model_label", true)
 	
 	# 根据API类型显示/隐藏API Key输入框
-	api_key_input.get_parent().visible = current_settings.api_type != "Ollama"
+	api_key_input.get_parent().visible =(current_settings.api_type != "Ollama" || current_settings.api_type != "LMStudio")
 
 	# 初始化分辨率/窗口模式UI
 	_init_display_options()
@@ -151,7 +151,7 @@ func _on_resolution_selected(_i):
 # 保存按钮回调
 func _on_save_pressed():
 	current_settings.model = model_option.get_item_text(model_option.selected)
-	if current_settings.api_type != "Ollama":
+	if current_settings.api_type != "Ollama" && current_settings.api_type != "LMStudio":
 		current_settings.api_key = api_key_input.text
 	
 	# 保存AI标签显示设置

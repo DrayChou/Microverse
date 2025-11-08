@@ -6,6 +6,7 @@ class_name APIConfig
 # API类型枚举
 enum APIType {
 	OLLAMA,
+	LMSTUDIO,
 	OPENAI,
 	DEEPSEEK,
 	DOUBAO,
@@ -24,7 +25,7 @@ class APIProvider:
 	var models: Array[String]
 	var requires_api_key: bool
 	var headers_template: Dictionary
-	var request_format: String  # "ollama", "openai", "gemini", "claude"
+	var request_format: String  # "ollama", "LMStudio", "openai", "gemini", "claude"
 	var response_parser: String  # 响应解析器类型
 	
 	func _init(n: String, dn: String, u: String, m: Array[String], req_key: bool, headers: Dictionary, req_fmt: String, resp_parser: String):
@@ -41,6 +42,39 @@ class APIProvider:
 static var _providers: Dictionary = {}
 static var _initialized: bool = false
 
+# 模型显示名称映射（提升用户体验）
+static var _model_display_names: Dictionary = {
+	"qwen3:4b": "Qwen3 4B",
+	"qwen3-vl:4b": "Qwen3-VL 4B",
+	"qwen2.5:1.5b": "Qwen2.5 1.5B",
+	"llama3.2:1b": "Llama3.2 1B",
+	"llama3.2:3b": "Llama3.2 3B",
+	"gemma2:2b": "Gemma2 2B",
+	"qwen/qwen3-vl-4b": "Qwen3-VL 4B",
+	"gpt-4o-mini": "GPT-4o Mini",
+	"gpt-4o": "GPT-4o",
+	"gpt-3.5-turbo": "GPT-3.5 Turbo",
+	"deepseek-chat": "DeepSeek Chat",
+	"doubao-lite-4k": "Doubao Lite 4K",
+	"doubao-lite-32k": "Doubao Lite 32K",
+	"doubao-lite-128k": "Doubao Lite 128K",
+	"doubao-pro-4k": "Doubao Pro 4K",
+	"doubao-pro-32k": "Doubao Pro 32K",
+	"doubao-pro-128k": "Doubao Pro 128K",
+	"gemini-1.5-flash": "Gemini 1.5 Flash",
+	"gemini-1.5-pro": "Gemini 1.5 Pro",
+	"gemini-1.0-pro": "Gemini 1.0 Pro",
+	"claude-3-5-sonnet-20241022": "Claude 3.5 Sonnet",
+	"claude-3-5-haiku-20241022": "Claude 3.5 Haiku",
+	"claude-3-opus-20240229": "Claude 3 Opus",
+	"moonshot-v1-8k": "Moonshot V1 8K",
+	"moonshot-v1-32k": "Moonshot V1 32K",
+	"moonshot-v1-128k": "Moonshot V1 128K",
+	"deepseek-ai/DeepSeek-V3.1-Terminus": "DeepSeek V3.1 Terminus",
+	"inclusionAI/Ring-1T": "Ring-1T",
+	"zai-org/GLM-4.6": "GLM-4.6"
+}
+
 # 初始化API提供商配置
 static func _initialize():
 	if _initialized:
@@ -56,6 +90,18 @@ static func _initialize():
 		{"Content-Type": "application/json"},
 		"ollama",
 		"ollama"
+	)
+
+	# LMStudio 配置
+	_providers["LMStudio"] = APIProvider.new(
+		"LMStudio",
+		"LMStudio (本地)",
+		"http://localhost:11435/v1/chat/completions",
+		["qwen/qwen3-vl-4b"],
+		false,
+		{"Content-Type": "application/json"},
+		"openai",  # LMStudio使用OpenAI兼容格式
+		"openai"   # LMStudio使用OpenAI兼容解析
 	)
 	
 	# OpenAI配置
@@ -143,7 +189,7 @@ static func _initialize():
 		"openai"
 	)
 	
-# 新增：OpenAI Compatible通用提供商
+	# 新增：OpenAI Compatible通用提供商
 	# URL 这里用占位符，在运行时替换或通过配置文件设置
 	_providers["OpenAICompatible"] = APIProvider.new(
 		"OpenAICompatible",
@@ -263,7 +309,7 @@ static func parse_response(api_type: String, response: Dictionary, character_nam
 				print("[APIConfig] %s 的Ollama API响应格式错误：缺少response字段" % character_name)
 				return ""
 			return response.response
-		
+
 		"openai":
 			if not "choices" in response or not response.has("choices") or response.choices.size() == 0:
 				print("[APIConfig] %s 的OpenAI格式API响应错误：缺少choices字段或为空" % character_name)
@@ -294,3 +340,17 @@ static func parse_response(api_type: String, response: Dictionary, character_nam
 		_:
 			print("[APIConfig] %s 未知的API类型，使用默认处理" % character_name)
 			return ""
+
+# 获取模型的显示名称（提升用户体验）
+static func get_model_display_name(model_id: String) -> String:
+	if _model_display_names.has(model_id):
+		return _model_display_names[model_id]
+	else:
+		# 如果没有映射，返回原ID（但做一些格式化）
+		var display_name = model_id
+		# 移除常见的命名空间前缀
+		if display_name.find("/") != -1:
+			var parts = display_name.split("/")
+			if parts.size() > 1:
+				display_name = parts[1]
+		return display_name

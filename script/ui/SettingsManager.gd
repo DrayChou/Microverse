@@ -12,8 +12,8 @@ const CHARACTER_AI_CONFIG_FILE = "user://character_ai_settings.cfg"
 
 # 当前设置（默认AI设置）
 var current_settings = {
-	"api_type": "Ollama",
-	"model": "qwen3:4b",
+	"api_type": "LMStudio",
+	"model": "qwen/qwen3-vl-4b",
 	"api_key": "",
 	"show_ai_model_label": true,
 	# 显示设置
