@@ -33,6 +33,11 @@ var decision_timer: Timer
 # 添加新的感知相关变量
 @onready var room_manager = get_node("/root/Office/RoomManager")
 
+# 辅助函数：使用角色特定的AI设置解析API响应
+func _parse_character_response(character_name: String, response) -> String:
+	var character_api_settings = SettingsManager.get_character_ai_settings(character_name)
+	return APIConfig.parse_response(character_api_settings.api_type, response, character_name)
+
 func _ready():
 	# 创建并配置决策定时器
 	decision_timer = Timer.new()
@@ -576,7 +581,7 @@ func _on_decision_request_completed(result, _response_code, headers, body, char_
 		return
 	
 	# 使用APIConfig统一解析响应
-	var decision = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var decision = _parse_character_response(target_character.name, response)
 	if decision == "":
 		print("[AIAgent] %s 的API响应解析失败，使用默认决策" % target_character.name)
 		_execute_default_decision(target_character)
@@ -685,7 +690,7 @@ func _on_conversation_decision_completed(result, _response_code, headers, body, 
 		return
 	
 	# 使用APIConfig统一解析响应
-	var decision = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var decision = _parse_character_response(char_node.name, response)
 	if decision == "":
 		print("[AIAgent] %s 的聊天决策API响应解析失败" % char_node.name)
 		return
@@ -766,7 +771,7 @@ func _on_farewell_message_completed(result, _response_code, headers, body, char_
 		return
 	
 	# 使用APIConfig统一解析响应
-	var farewell_message = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var farewell_message = _parse_character_response(char_node.name, response)
 	if farewell_message == "":
 		print("[AIAgent] %s 的告别消息API响应解析失败" % char_node.name)
 		farewell_message = "好的，你先去忙其他事情了，回头聊。"
@@ -973,8 +978,8 @@ func _on_generate_tasks_completed(result, _response_code, headers, body, char_no
 		print("[AIAgent] %s 生成任务的JSON解析失败" % target_character.name)
 		return
 	
-	# 解析AI生成的任务内容
-	var task_content = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	# 解析AI生成的任务内容 - 使用角色特定的AI设置
+	var task_content = _parse_character_response(target_character.name, response)
 	if task_content == "":
 		print("[AIAgent] %s 的任务生成API响应解析失败，使用默认任务" % target_character.name)
 		_generate_default_tasks(target_character)
@@ -1098,7 +1103,7 @@ func _on_adjust_tasks_completed(result, _response_code, headers, body, char_node
 		return
 	
 	# 解析决策
-	var decision = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var decision = _parse_character_response(target_character.name, response)
 	if decision == "":
 		print("[AIAgent] %s 的任务调整API响应解析失败" % target_character.name)
 		return
@@ -1204,7 +1209,7 @@ func _on_continue_task_completed(result, _response_code, headers, body, char_nod
 		return
 	
 	# 解析决策
-	var decision = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var decision = _parse_character_response(target_character.name, response)
 	if decision == "":
 		print("[AIAgent] %s 的任务调整API响应解析失败" % target_character.name)
 		return
@@ -1288,7 +1293,7 @@ func _on_task_movement_completed(result, _response_code, headers, body, char_nod
 		return
 	
 	# 解析目标
-	var target_name = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var target_name = _parse_character_response(target_character.name, response)
 	if target_name == "":
 		print("[AIAgent] %s 的任务移动API响应解析失败" % target_character.name)
 		return
@@ -1419,7 +1424,7 @@ func _on_task_conversation_completed(result, _response_code, headers, body, char
 		return
 	
 	# 解析选择的角色
-	var chosen_name = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var chosen_name = _parse_character_response(target_character.name, response)
 	if chosen_name == "":
 		print("[AIAgent] %s 的任务对话API响应解析失败" % target_character.name)
 		return
@@ -1558,7 +1563,7 @@ func _on_task_thinking_completed(result, _response_code, headers, body, char_nod
 		return
 	
 	# 解析思考内容
-	var thinking_content = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var thinking_content = _parse_character_response(target_character.name, response)
 	if thinking_content == "":
 		print("[AIAgent] %s 的任务思考API响应解析失败" % target_character.name)
 		return
@@ -1619,7 +1624,7 @@ func _on_thinking_request_completed(result, _response_code, headers, body, char_
 		return
 	
 	# 使用APIConfig统一解析响应
-	var thinking_content = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var thinking_content = _parse_character_response(target_character.name, response)
 	if thinking_content == "":
 		print("[AIAgent] %s 的思考内容API响应解析失败" % target_character.name)
 		return
@@ -1922,7 +1927,7 @@ func _on_target_not_found_decision_completed(result, _response_code, headers, bo
 		return
 	
 	# 解析决策
-	var decision = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var decision = _parse_character_response(target_character.name, response)
 	if decision == "":
 		print("[AIAgent] %s 的找不到目标决策API响应解析失败" % target_character.name)
 		return
@@ -2013,7 +2018,7 @@ func _on_room_choice_completed(result, _response_code, headers, body, char_node 
 		return
 	
 	# 解析选择
-	var choice = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var choice = _parse_character_response(target_character.name, response)
 	if choice == "":
 		print("[AIAgent] %s 的房间选择API响应解析失败" % target_character.name)
 		return
@@ -2101,7 +2106,7 @@ func _on_reschedule_task_completed(result, _response_code, headers, body, char_n
 		return
 	
 	# 解析新任务
-	var new_task_description = APIConfig.parse_response(api_manager.current_settings.api_type, response)
+	var new_task_description = _parse_character_response(target_character.name, response)
 	if new_task_description == "":
 		print("[AIAgent] %s 的重新安排任务API响应解析失败" % target_character.name)
 		return
