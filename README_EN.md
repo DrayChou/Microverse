@@ -30,7 +30,7 @@ A god-simulation sandbox game built on Godot 4 as a multi-agent AI social simula
 
 ![Project Preview](asset/pics/office.png)
 
-*AI character interactions in the office scene*
+_AI character interactions in the office scene_
 
 </div>
 
@@ -47,24 +47,28 @@ A god-simulation sandbox game built on Godot 4 as a multi-agent AI social simula
 ## 🎮 Sandbox Game Features
 
 ### 🤖 AI Character Ecosystem
+
 - 8 preset AI characters, each with unique personalities, backstories, and behavioral patterns
 - Characters can freely move, explore, and interact within the virtual world
 - Supports character state management, emotional changes, and autonomous behavioral decisions
 - AI characters respond realistically based on environmental and social situations
 
 ### 💬 Natural Social System
+
 - Natural language conversations powered by large language models, supporting multi-turn deep exchanges
 - Dynamic dialogue bubble UI displaying real-time character interactions
 - Complete dialogue history recording and playback functionality
 - Supports group discussions, private conversations, and random social interactions
 
 ### 🧠 Intelligent Memory & Learning
+
 - Persistent long-term memory storage system
 - AI characters can learn and adapt to environmental changes
 - Formatted memory storage and intelligent retrieval
 - Personalized behavioral development based on memory
 
 ### 📋 Autonomous Task Ecosystem
+
 - Automatic task creation, intelligent assignment, and real-time tracking
 - Priority-based task management system
 - Dynamic monitoring of task completion status
@@ -81,20 +85,24 @@ A god-simulation sandbox game built on Godot 4 as a multi-agent AI social simula
 ## 📋 System Requirements
 
 ### Development Environment
+
 - Godot 4.3 or higher
 
 ### Supported Platforms
+
 - **Windows**: Windows 10/11 (64-bit)
 - **macOS**: macOS 10.15+ (Intel/Apple Silicon)
 - **Linux**: Ubuntu 18.04+, Fedora 32+, Arch Linux and other major distributions
 - **Android**: Android 6.0+ (API Level 23+)
 
 ### Hardware Requirements
+
 - **Minimum**: 4GB RAM, 1GB available storage
 - **Recommended**: 8GB RAM, 2GB available storage
 - **Network**: Stable internet connection (for AI API calls)
 
 ### Important Notes
+
 - Android platform requires additional platform-specific configuration
 - All platforms require valid AI service API keys for dialogue functionality
 
@@ -103,6 +111,7 @@ A god-simulation sandbox game built on Godot 4 as a multi-agent AI social simula
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/KsanaDock/Microverse.git
    cd microverse
@@ -117,11 +126,13 @@ A god-simulation sandbox game built on Godot 4 as a multi-agent AI social simula
 ### API Configuration
 
 1. **Open Settings**
+
    - Launch the game
    - Press `Tab` to open the settings panel
    - Navigate to the "API Settings" tab
 
 2. **Configure API Provider**
+
    - Choose your preferred AI service provider:
      - **OpenAI**: Requires OpenAI API key
      - **Claude**: Requires Anthropic API key
@@ -138,10 +149,12 @@ A god-simulation sandbox game built on Godot 4 as a multi-agent AI social simula
 ### Basic Usage
 
 1. **Start the Game**
+
    - Click "Start Game" on the main menu
    - Select a map (currently supports Office scene)
 
 2. **Interact with AI Characters**
+
    - Click on any AI character to start a conversation
    - Type your message and press Enter
    - Watch AI characters interact with each other autonomously
@@ -167,16 +180,19 @@ The game features 8 unique AI characters, each with distinct personalities:
 ## 🔧 Advanced Features
 
 ### Memory System
+
 - **Long-term Memory**: Characters remember conversations and events across sessions
 - **Contextual Recall**: AI can reference past interactions in current conversations
 - **Relationship Development**: Characters build and maintain relationships over time
 
 ### Task Management
+
 - **Dynamic Task Creation**: Tasks are generated based on character interactions and needs
 - **Priority System**: Tasks are prioritized based on urgency and importance
 - **Collaborative Tasks**: Characters can work together on complex tasks
 
 ### Scene Perception
+
 - **Environmental Awareness**: Characters understand their physical surroundings
 - **Social Awareness**: Characters recognize and respond to other characters' presence
 - **State Management**: Characters maintain internal states affecting their behavior
@@ -184,6 +200,7 @@ The game features 8 unique AI characters, each with distinct personalities:
 ## 🛠️ Development
 
 ### Project Structure
+
 ```
 microverse/
 ├── asset/          # Game assets (sprites, UI, etc.)
@@ -194,6 +211,7 @@ microverse/
 ```
 
 ### Key Components
+
 - **AIAgent**: Core AI character logic
 - **DialogManager**: Handles conversation flow
 - **MemorySystem**: Manages character memory
@@ -201,6 +219,7 @@ microverse/
 - **APIManager**: Handles AI service integration
 
 ### Building from Source
+
 1. Ensure you have Godot 4.3+ installed
 2. Clone the repository
 3. Open the project in Godot
@@ -217,6 +236,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - Code style guidelines
 
 ### Areas for Contribution
+
 - New AI character personalities
 - Additional map/scene designs
 - UI/UX improvements

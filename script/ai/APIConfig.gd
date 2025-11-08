@@ -51,7 +51,7 @@ static func _initialize():
 		"Ollama",
 		"Ollama (本地)",
 		"http://localhost:11434/api/generate",
-		["qwen2.5:1.5b", "llama3.2:1b", "llama3.2:3b", "gemma2:2b"],
+		["qwen3:4b", "qwen3-vl:4b", "qwen2.5:1.5b", "llama3.2:1b", "llama3.2:3b", "gemma2:2b"],
 		false,
 		{"Content-Type": "application/json"},
 		"ollama",

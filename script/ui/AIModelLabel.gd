@@ -6,7 +6,7 @@ var character_name: String = ""
 # 当前设置
 var current_settings = {
 	"api_type": "Ollama",
-	"model": "qwen2.5:1.5b",
+	"model": "qwen3:4b",
 	"api_key": ""
 }
 
