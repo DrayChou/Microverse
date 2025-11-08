@@ -67,8 +67,21 @@ func load_settings():
 		print("[AIModelLabel] 无法找到SettingsManager，使用默认设置")
 
 func update_display_text():
-	# 使用APIConfig获取模型的友好显示名称
-	var display_text = APIConfig.get_model_display_name(current_settings.model)
+	# 智能显示逻辑：优先显示角色名称，但也提供AI模型信息
+	var display_text = character_name
+	if display_text.is_empty():
+		# 如果没有角色名称，显示AI模型信息
+		display_text = APIConfig.get_model_display_name(current_settings.model)
+	else:
+		# 如果有角色名称，但用户可能还想看到AI模型信息
+		# 检查角色是否使用了特殊的AI设置
+		var settings_manager = get_node_or_null("/root/SettingsManager")
+		if settings_manager and settings_manager.has_character_ai_settings(character_name):
+			# 如果角色有独立AI设置，可以在角色名后面添加模型信息的简短标识
+			var model_short_name = APIConfig.get_model_display_name(current_settings.model)
+			# 显示为 "角色名 (Model)" 的格式
+			display_text = character_name + " (" + model_short_name + ")"
+
 	text = display_text
 
 	# 动态调整偏移量以确保文本居中
