@@ -1,0 +1,43 @@
+{
+  "systems": {
+    "camera": {
+      "movement": {
+        "basic_settings": {
+          "speed": 300.0,
+          "zoom_speed": 200.0,
+          "rotation_speed": 1.0,
+          "smooth_time": 0.1,
+          "max_zoom": 2.0,
+          "min_zoom": 0.5
+        },
+        "follow": {
+          "enabled": true,
+          "target_offset": {"x": 0, "y": 0},
+          "look_ahead_factor": 0.5,
+          "smooth_time": 0.2,
+          "deadzone": 50.0
+        },
+        "bounds": {
+          "enabled": true,
+          "margin": 100.0,
+          "smooth_damping": 0.9,
+          "limit_to_map": true
+        },
+        "effects": {
+          "shake": {
+            "enabled": true,
+            "duration": 0.3,
+            "amplitude": 10.0,
+            "frequency": 15.0,
+            "damping": 0.8
+          },
+          "fade": {
+            "enabled": true,
+            "fade_duration": 1.0,
+            "fade_color": "#000000"
+          }
+        }
+      }
+    }
+  }
+}

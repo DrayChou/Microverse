@@ -1,0 +1,76 @@
+{
+  "systems": {
+    "input": {
+      "keyboard": {
+        "enabled": true,
+        "key_mappings": {
+          "move_up": ["W", "UP"],
+          "move_down": ["S", "DOWN"],
+          "move_left": ["A", "LEFT"],
+          "move_right": ["D", "RIGHT"],
+          "interact": ["E", "SPACE"],
+          "run": ["SHIFT"],
+          "menu": ["ESC"],
+          "inventory": ["I"],
+          "quick_save": ["F5"],
+          "quick_load": ["F9"]
+        },
+        "modifiers": {
+          "shift": true,
+          "ctrl": true,
+          "alt": true
+        }
+      },
+      "mouse": {
+        "enabled": true,
+        "sensitivity": 1.0,
+        "buttons": {
+          "left_click": "interact",
+          "right_click": "context_menu",
+          "middle_click": "quick_action",
+          "wheel_up": "zoom_in",
+          "wheel_down": "zoom_out"
+        },
+        "cursor": {
+          "visible": true,
+          "lock_mode": "confined"
+        }
+      },
+      "gamepad": {
+        "enabled": true,
+        "deadzone": 0.2,
+        "vibration": {
+          "enabled": true,
+          "intensity": 0.7,
+          "duration": 0.1,
+          "rumble_patterns": {
+            "light": { "intensity": 0.3, "duration": 0.05 },
+            "medium": { "intensity": 0.6, "duration": 0.1 },
+            "strong": { "intensity": 0.9, "duration": 0.2 }
+          }
+        },
+        "supported_types": [
+          "xbox",
+          "playstation",
+          "nintendo_switch",
+          "generic"
+        ],
+        "config_files": {
+          "xbox": "res://config/systems/input/xbox_mappings.json",
+          "playstation": "res://config/systems/input/playstation_mappings.json",
+          "nintendo": "res://config/systems/input/nintendo_mappings.json"
+        }
+      },
+      "touch": {
+        "enabled": true,
+        "gestures": {
+          "tap": "interact",
+          "double_tap": "quick_action",
+          "long_press": "context_menu",
+          "pinch_zoom": "zoom",
+          "pan": "move_camera"
+        }
+      }
+    }
+  }
+}

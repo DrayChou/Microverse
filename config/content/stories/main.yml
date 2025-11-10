@@ -1,0 +1,325 @@
+# 故事线配置 - Godot 4.4优化版
+# 包含游戏主线任务、支线任务、剧情进展和事件触发
+
+content:
+  stories:
+    # 主线故事
+    main_storyline:
+      id: "startup_life"
+      title: "创业公司日常"
+      description: "在SleepySheep公司的职场生活故事"
+      estimated_duration: "20-30小时"
+
+      # 章节配置
+      chapters:
+        - id: "chapter_1"
+          title: "初来乍到"
+          description: "新员工入职，了解公司环境"
+          duration: "2-3小时"
+
+          # 场景配置
+          scenes:
+            - scene: "reception"
+              description: "在前台办理入职手续"
+              key_characters: ["lea"]
+              triggers: ["introduction"]
+
+            - scene: "office"
+              description: "参观办公室，认识同事"
+              key_characters: ["stephen", "alice", "tom"]
+              triggers: ["meet_colleagues"]
+
+          # 任务目标
+          objectives:
+            - id: "meet_stephen"
+              description: "与老板史蒂芬见面"
+              required: true
+
+            - id: "meet_team"
+              description: "认识团队成员"
+              required: true
+
+            - id: "setup_desk"
+              description: "布置自己的工位"
+              required: false
+
+        - id: "chapter_2"
+          title: "第一个项目"
+          description: "参与第一个重要项目"
+          duration: "4-5小时"
+
+          scenes:
+            - scene: "meeting_room"
+              description: "项目启动会议"
+              key_characters: ["stephen", "monica", "alice", "jack"]
+              triggers: ["project_kickoff"]
+
+            - scene: "office"
+              description: "项目开发过程"
+              key_characters: ["alice", "jack", "joe"]
+              triggers: ["development_work"]
+
+          objectives:
+            - id: "attend_meeting"
+              description: "参加项目启动会议"
+              required: true
+
+            - id: "complete_tasks"
+              description: "完成分配的开发任务"
+              required: true
+
+            - id: "pass_testing"
+              description: "通过测试验证"
+              required: true
+
+        - id: "chapter_3"
+          title: "危机时刻"
+          description: "项目遇到技术难题"
+          duration: "3-4小时"
+
+          scenes:
+            - scene: "office"
+              description: "紧急问题处理"
+              key_characters: ["jack", "joe", "monica"]
+              triggers: ["crisis_management"]
+
+            - scene: "meeting_room"
+              description: "问题分析会议"
+              key_characters: ["stephen", "monica", "jack"]
+              triggers: ["problem_analysis"]
+
+          objectives:
+            - id: "identify_issue"
+              description: "定位技术问题"
+              required: true
+
+            - id: "find_solution"
+              description: "找到解决方案"
+              required: true
+
+            - id: "implement_fix"
+              description: "实施修复方案"
+              required: true
+
+        - id: "chapter_4"
+          title: "项目成功"
+          description: "项目成功上线"
+          duration: "2-3小时"
+
+          scenes:
+            - scene: "office"
+              description: "最后部署准备"
+              key_characters: ["jack", "alice", "joe"]
+              triggers: ["deployment_preparation"]
+
+            - scene: "lounge"
+              description: "庆祝活动"
+              key_characters: ["all"]
+              triggers: ["celebration"]
+
+          objectives:
+            - id: "deploy_project"
+              description: "成功部署项目"
+              required: true
+
+            - id: "team_celebration"
+              description: "参加团队庆祝"
+              required: false
+
+    # 支线故事
+    side_stories:
+      - id: "coffee_break_talks"
+        title: "咖啡时光"
+        description: "在休息区的日常闲聊"
+        duration: "1-2小时"
+
+        requirements:
+          - chapter: "chapter_1"
+            completed: true
+
+        scenes:
+          - scene: "lounge"
+            key_characters: ["lea", "tom", "grace"]
+            triggers: ["casual_conversation"]
+
+        rewards:
+          - character_relationship: +10
+          - insider_info: true
+
+      - id: "design_dispute"
+        title: "设计之争"
+        description: "参与UI设计方案的讨论"
+        duration: "2-3小时"
+
+        requirements:
+          - chapter: "chapter_2"
+            completed: true
+
+        scenes:
+          - scene: "office"
+            key_characters: ["alice", "monica", "stephen"]
+            triggers: ["design_meeting"]
+
+        rewards:
+          - design_influence: +5
+          - alice_respect: +15
+
+      - id: "debug_helper"
+        title: "调试助手"
+        description: "帮助乔解决测试问题"
+        duration: "1-2小时"
+
+        requirements:
+          - chapter: "chapter_3"
+            completed: true
+
+        scenes:
+          - scene: "office"
+            key_characters: ["joe", "jack"]
+            triggers: ["debugging_session"]
+
+        rewards:
+          - technical_skills: +8
+          - joe_friendship: +12
+
+    # 事件系统
+    events:
+      # 随机事件
+      random_events:
+        - id: "surprise_visitor"
+          title: "意外访客"
+          description: "有重要客户突然来访"
+          probability: 0.1
+          cooldown: 1800  # 30分钟
+
+          triggers:
+            - condition: "in_office"
+              value: true
+
+          effects:
+            - type: "schedule_disruption"
+              duration: 600  # 10分钟
+
+        - id: "system_crash"
+          title: "系统崩溃"
+          description: "开发服务器出现故障"
+          probability: 0.05
+          cooldown: 3600  # 1小时
+
+          triggers:
+            - condition: "development_work"
+              value: true
+
+          effects:
+            - type: "work_interruption"
+              duration: 900  # 15分钟
+
+      # 触发事件
+      triggered_events:
+        - id: "promotion_opportunity"
+          title: "晋升机会"
+          description: "表现出色获得晋升机会"
+          trigger_type: "achievement"
+
+          requirements:
+            - type: "project_success_count"
+              value: 3
+
+            - type: "character_relationship"
+              target: "stephen"
+              value: 80
+
+          rewards:
+            - type: "salary_increase"
+              value: 20
+
+            - type: "new_responsibilities"
+              value: true
+
+    # 角色关系系统
+    character_relationships:
+      # 关系类型
+      relationship_types:
+        - colleague: "同事关系"
+        - friend: "朋友关系"
+        - mentor: "导师关系"
+        - rival: "竞争关系"
+
+      # 关系值配置
+      relationship_values:
+        min: -100
+        max: 100
+        default: 50
+
+        thresholds:
+          enemy: -50
+          stranger: 0
+          acquaintance: 25
+          friend: 50
+          good_friend: 75
+          best_friend: 90
+
+    # 故事进度跟踪
+    progress_tracking:
+      # 自动保存
+      auto_save:
+        enabled: true
+        interval: 300  # 5分钟
+        triggers: ["chapter_complete", "objective_complete"]
+
+      # 成就系统
+      achievements:
+        - id: "first_meeting"
+          title: "初次见面"
+          description: "与所有同事见面"
+          requirement: "meet_all_characters"
+
+        - id: "project_master"
+          title: "项目专家"
+          description: "成功完成5个项目"
+          requirement: "complete_5_projects"
+
+        - id: "social_butterfly"
+          title: "社交达人"
+          description: "与所有角色建立良好关系"
+          requirement: "max_all_relationships"
+
+    # 故事分支
+    branching:
+      # 关键选择点
+      choice_points:
+        - id: "project_approach"
+          title: "项目方案选择"
+          description: "选择不同的技术方案"
+          chapter: "chapter_2"
+
+          options:
+            - choice: "conservative_approach"
+              description: "选择保守的技术方案"
+              effects:
+                - relationship: {"stephen": +10, "alice": -5}
+                - success_rate: 0.9
+
+            - choice: "innovative_approach"
+              description: "选择创新的技术方案"
+              effects:
+                - relationship: {"alice": +10, "stephen": -5}
+                - success_rate: 0.6
+
+        - id: "crisis_response"
+          title: "危机应对"
+          description: "如何应对项目危机"
+          chapter: "chapter_3"
+
+          options:
+            - choice: "overtime_work"
+              description: "加班解决问题"
+              effects:
+                - relationship: {"stephen": +15, "all": -10}
+                - health: -20
+
+            - choice: "smart_solution"
+              description: "寻找巧妙的解决方案"
+              effects:
+                - relationship: {"jack": +10, "joe": +5}
+                - success_rate: 0.7

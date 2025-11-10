@@ -1,0 +1,42 @@
+{
+  "ui_elements": {
+    "main_menu": {
+      "visible": true,
+      "position": {"x": 0, "y": 0},
+      "size": {"width": 1920, "height": 1080},
+      "anchors": {
+        "top": true,
+        "bottom": true,
+        "left": true,
+        "right": true
+      }
+    },
+    "health_bar": {
+      "visible": true,
+      "position": {"x": 20, "y": 20},
+      "size": {"width": 200, "height": 20},
+      "color": "#FF0000",
+      "background_color": "#400000"
+    },
+    "inventory": {
+      "visible": false,
+      "position": {"x": 100, "y": 100},
+      "size": {"width": 600, "height": 400},
+      "grid_size": {"rows": 5, "columns": 8}
+    },
+    "dialog_box": {
+      "visible": false,
+      "position": {"x": 0, "y": 800},
+      "size": {"width": 1920, "height": 280},
+      "text_color": "#FFFFFF",
+      "background_color": "#00000080"
+    },
+    "character_name_tag": {
+      "visible": true,
+      "offset_y": -50,
+      "font_size": 14,
+      "background_color": "#00000080",
+      "text_color": "#FFFFFF"
+    }
+  }
+}

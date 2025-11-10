@@ -1,0 +1,170 @@
+# UI界面配置文件
+# 包含所有用户界面元素的配置参数
+
+ui_config:
+  # 角色详情界面
+  character_detail:
+    labels:
+      name: "姓名："
+      position: "职位："
+      money: "存款："
+      mood: "心情："
+      health: "健康："
+      no_character_selected: "选择一个角色查看人设..."
+      ai_model: "AI模型："
+      api_provider: "API提供商："
+
+  # 医疗系统配置
+  medical_system:
+    diseases:
+      - id: "cold"
+        name: "感冒"
+        severity_min: 1
+        severity_max: 3
+        default_severity: 2
+      - id: "fever"
+        name: "发烧"
+        severity_min: 2
+        severity_max: 5
+        default_severity: 3
+      - id: "allergy"
+        name: "过敏"
+        severity_min: 1
+        severity_max: 4
+        default_severity: 2
+      - id: "depression"
+        name: "抑郁"
+        severity_min: 3
+        severity_max: 7
+        default_severity: 5
+      - id: "anxiety"
+        name: "焦虑"
+        severity_min: 2
+        severity_max: 6
+        default_severity: 4
+      - id: "injury"
+        name: "受伤"
+        severity_min: 2
+        severity_max: 8
+        default_severity: 5
+
+    # 情感系统配置
+    emotions:
+      - id: "like"
+        name: "喜欢"
+        default_strength: 5
+        positive: true
+      - id: "respect"
+        name: "尊敬"
+        default_strength: 3
+        positive: true
+      - id: "jealousy"
+        name: "嫉妒"
+        default_strength: 4
+        positive: false
+      - id: "anger"
+        name: "愤怒"
+        default_strength: 6
+        positive: false
+      - id: "trust"
+        name: "信任"
+        default_strength: 5
+        positive: true
+      - id: "suspicion"
+        name: "怀疑"
+        default_strength: 4
+        positive: false
+      - id: "adoration"
+        name: "崇拜"
+        default_strength: 6
+        positive: true
+
+  # 任务系统配置
+  task_system:
+    max_tasks: 50
+    auto_refresh_interval: 86400  # 24小时（秒）
+
+    # 任务池配置
+    task_pool:
+      office_tasks:
+        - "检查邮件"
+        - "整理工作区"
+        - "与同事交流"
+        - "参加会议"
+        - "休息放松一下"
+        - "准备明天的工作"
+        - "回复重要邮件"
+        - "整理文件"
+        - "学习新技能"
+        - "思考工作改进方案"
+        - "与上级沟通工作进展"
+        - "帮助同事解决问题"
+        - "制定工作计划"
+        - "总结今日工作"
+        - "准备工作报告"
+        - "更新项目进度"
+        - "客户邮件回复"
+        - "数据整理分析"
+        - "代码审查"
+        - "产品功能测试"
+        - "用户反馈处理"
+
+      personal_tasks:
+        - "喝水休息"
+        - "伸展运动"
+        - "眼保健操"
+        - "整理桌面"
+        - "制定个人计划"
+        - "反思工作"
+        - "学习新知识"
+        - "娱乐放松"
+        - "社交聊天"
+        - "规划未来"
+
+  # 日期时间配置
+  datetime:
+    format: "%04d-%02d-%02d %02d:%02d"
+    timezone: "Asia/Shanghai"
+    update_interval: 1.0  # 更新间隔（秒）
+
+  # AI模型选择界面
+  ai_model_selection:
+    default_provider: "LMStudio"
+    show_advanced_options: false
+    refresh_interval: 30  # 模型列表刷新间隔（秒）
+
+  # 设置界面
+  settings:
+    sections:
+      - id: "display"
+        name: "显示设置"
+        icon: "🖥️"
+      - id: "audio"
+        name: "音频设置"
+        icon: "🔊"
+      - id: "controls"
+        name: "控制设置"
+        icon: "🎮"
+      - id: "language"
+        name: "语言设置"
+        icon: "🌐"
+
+  # 对话系统配置
+  dialog:
+    max_history_length: 100
+    auto_save_interval: 60  # 自动保存间隔（秒）
+    typing_speed: 50  # 打字效果速度（字符/秒）
+
+  # 通知系统配置
+  notifications:
+    display_duration: 3.0  # 显示时长（秒）
+    max_notifications: 5
+    fade_duration: 0.5  # 淡入淡出时长（秒）
+
+  # 快捷键配置
+  shortcuts:
+    toggle_menu: "ESC"
+    save_game: "Ctrl+S"
+    load_game: "Ctrl+L"
+    screenshot: "F12"
+    debug_mode: "F11"

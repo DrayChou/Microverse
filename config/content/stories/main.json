@@ -1,0 +1,94 @@
+{
+  "content": {
+    "stories": {
+      "main_storyline": {
+        "id": "startup_life",
+        "title": "创业公司日常",
+        "description": "在SleepySheep公司的职场生活故事",
+        "estimated_duration": "20-30小时",
+        "chapters": [
+          {
+            "id": "chapter_1",
+            "title": "初来乍到",
+            "description": "新员工入职，了解公司环境",
+            "duration": "2-3小时",
+            "scenes": [
+              {
+                "scene": "reception",
+                "description": "在前台办理入职手续",
+                "key_characters": ["lea"],
+                "triggers": ["introduction"]
+              },
+              {
+                "scene": "office",
+                "description": "参观办公室，认识同事",
+                "key_characters": ["stephen", "alice", "tom"],
+                "triggers": ["meet_colleagues"]
+              }
+            ],
+            "objectives": [
+              {
+                "id": "meet_stephen",
+                "description": "与老板史蒂芬见面",
+                "required": true
+              },
+              {
+                "id": "meet_team",
+                "description": "认识团队成员",
+                "required": true
+              },
+              {
+                "id": "setup_desk",
+                "description": "布置自己的工位",
+                "required": false
+              }
+            ]
+          },
+          {
+            "id": "chapter_2",
+            "title": "第一个项目",
+            "description": "参与第一个重要项目",
+            "duration": "4-5小时",
+            "scenes": [
+              {
+                "scene": "meeting_room",
+                "description": "项目启动会议",
+                "key_characters": ["stephen", "monica", "alice", "jack"],
+                "triggers": ["project_kickoff"]
+              },
+              {
+                "scene": "office",
+                "description": "项目开发过程",
+                "key_characters": ["alice", "jack", "joe"],
+                "triggers": ["development_work"]
+              }
+            ],
+            "objectives": [
+              {
+                "id": "attend_meeting",
+                "description": "参加项目启动会议",
+                "required": true
+              },
+              {
+                "id": "complete_tasks",
+                "description": "完成分配的开发任务",
+                "required": true
+              },
+              {
+                "id": "pass_testing",
+                "description": "通过测试验证",
+                "required": true
+              }
+            ]
+          },
+          {
+            "id": "chapter_3",
+            "title": "危机时刻",
+            "description": "项目遇到技术难题",
+            "duration": "3-4小时"
+          }
+        ]
+      }
+    }
+  }
+}

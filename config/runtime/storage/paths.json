@@ -1,0 +1,37 @@
+{
+  "runtime": {
+    "storage": {
+      "paths": {
+        "user_data": "user://",
+        "config": "user://config/",
+        "saves": "user://saves/",
+        "logs": "user://logs/",
+        "cache": "user://cache/",
+        "temp": "user://temp/",
+        "screenshots": "user://screenshots/",
+        "downloads": "user://downloads/",
+        "assets": "res://",
+        "mods": "user://mods/",
+        "custom_content": "user://custom_content/"
+      },
+      "settings": {
+        "auto_save": true,
+        "backup_enabled": true,
+        "backup_count": 5,
+        "max_save_size_mb": 100,
+        "cleanup_interval_days": 7
+      },
+      "database": {
+        "path": "user://database/game_data.db",
+        "backup_path": "user://database/backups/",
+        "connection_pool_size": 5,
+        "timeout_seconds": 30,
+        "sql_commands": [
+          "CREATE INDEX idx_name ON characters(name)",
+          "CREATE INDEX idx_timestamp ON saves(timestamp)",
+          "CREATE INDEX idx_type ON logs(type, timestamp)"
+        ]
+      }
+    }
+  }
+}

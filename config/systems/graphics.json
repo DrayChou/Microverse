@@ -1,0 +1,79 @@
+{
+  "systems": {
+    "graphics": {
+      "renderer": {
+        "rendering_method": "forward_plus",
+        "rendering_driver": "opengl3",
+        "vsync_enabled": true,
+        "vsync_mode": 1,
+        "frame_pacing": true
+      },
+      "resolution": {
+        "screen_mode": "windowed",
+        "base_resolution": {
+          "width": 1920,
+          "height": 1080
+        },
+        "supported_resolutions": [
+          [1280, 720],
+          [1920, 1080],
+          [2560, 1440],
+          [3840, 2160]
+        ],
+        "scaling_mode": "bilinear",
+        "stretch_mode": "keep_aspect"
+      },
+      "quality": {
+        "quality_preset": "high",
+        "shadows": {
+          "enabled": true,
+          "filter_mode": 1,
+          "filter": 1
+        },
+        "textures": {
+          "filter_mode": 2,
+          "repeat_mode": 0,
+          "anisotropic_filtering_level": 4
+        },
+        "anti_aliasing": {
+          "mode": 2,
+          "msaa_2d": false,
+          "msaa_3d": true,
+          "msaa_3d_samples": 4
+        }
+      },
+      "animations": {
+        "optimization": {
+          "culling_enabled": true,
+          "max_memory_mb": 64,
+          "cleanup_threshold": 0.8
+        },
+        "preload": {
+          "critical": [
+            "idle_down",
+            "walk_down",
+            "sit_down",
+            "talk_down"
+          ],
+          "optional": [
+            "run_down",
+            "work_down",
+            "interact_down"
+          ]
+        },
+        "compression": {
+          "enabled": true,
+          "precision": 0.1,
+          "remove_unused_keys": true,
+          "optimize_keyframes": true
+        }
+      },
+      "debug": {
+        "show_animation_state": false,
+        "show_current_animation": false,
+        "show_transition_info": false,
+        "show_blend_weights": false
+      }
+    }
+  }
+}

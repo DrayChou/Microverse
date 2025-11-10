@@ -1,0 +1,225 @@
+# 场景和资源路径配置 - Godot 4.4优化版
+# 利用Godot 4.4的多线程资源加载和缓存优化特性
+
+scenes:
+  # Godot 4.4 资源加载器配置
+  loading:
+    # 缓存模式配置
+    cache_mode: "cache"  # cache, ignore, replace
+    thread_load: true    # 启用多线程资源加载
+
+    # Godot 4.4 资源预加载配置
+    preload_scenes:
+      # 对话和UI相关场景
+      - path: "res://scene/ChatHistory.tscn"
+        cache_key: "chat_history"
+        priority: "high"  # high, medium, low
+
+      - path: "res://scene/UI/DialogBubble.tscn"
+        cache_key: "dialog_bubble"
+        priority: "high"
+
+      - path: "res://scene/ui/AIModelLabel.tscn"
+        cache_key: "ai_model_label"
+        priority: "medium"
+
+      # 菜单和设置场景
+      - path: "res://scene/ui/SettingsPanel.tscn"
+        cache_key: "settings_panel"
+        priority: "medium"
+
+      - path: "res://scene/ui/CharacterAISettings.tscn"
+        cache_key: "character_ai_settings"
+        priority: "medium"
+
+      # 主菜单
+      - path: "res://scene/MainMenu.tscn"
+        cache_key: "main_menu"
+        priority: "high"
+
+      - path: "res://scene/MapSelection.tscn"
+        cache_key: "map_selection"
+        priority: "high"
+
+    # Godot 4.4 加载优先级配置
+    load_priority:
+      critical: 100  # 关键场景立即加载
+      high: 50       # 高优先级场景
+      medium: 25     # 中等优先级场景
+      low: 10        # 低优先级场景
+
+  # 场景文件路径定义
+  paths:
+    # UI场景
+    ui:
+      chat_history: "res://scene/ChatHistory.tscn"
+      dialog_bubble: "res://scene/UI/DialogBubble.tscn"
+      ai_model_label: "res://scene/ui/AIModelLabel.tscn"
+      settings_panel: "res://scene/ui/SettingsPanel.tscn"
+      character_ai_settings: "res://scene/ui/CharacterAISettings.tscn"
+      global_settings: "res://scene/ui/GlobalSettingsUI.tscn"
+      save_load_ui: "res://scene/ui/SaveLoadUI.tscn"
+      god_ui: "res://scene/ui/GodUI.tscn"
+
+    # 主菜单场景
+    menus:
+      main_menu: "res://scene/MainMenu.tscn"
+      map_selection: "res://scene/MapSelection.tscn"
+
+    # 游戏场景
+    game:
+      office: "res://scene/Office.tscn"
+      school: "res://scene/School.tscn"
+      jail: "res://scene/Jail.tscn"
+      coffee_shop: "res://scene/CoffeeShop.tscn"
+
+  # 运行时节点路径配置
+  node_paths:
+    # Godot 4.4 单例和自动加载配置
+    singletons:
+      character_manager: "/root/CharacterManager"
+      settings_manager: "/root/SettingsManager"
+      dialog_manager: "/root/DialogManager"
+      api_manager: "/root/APIManager"
+      content_manager: "/root/ContentManager"
+      memory_manager: "/root/MemoryManager"
+      background_story_manager: "/root/BackgroundStoryManager"
+
+    # UI节点路径配置
+    ui_nodes:
+      # GodUI节点
+      god_ui:
+        left_panel: "HBoxContainer/LeftPanel"
+        right_panel: "HBoxContainer/RightPanel"
+        character_list: "LeftPanel/VBoxContainer/CharacterList"
+        character_detail: "LeftPanel/VBoxContainer/CharacterDetail"
+        toggle_ui_button: "RightPanel/VBoxContainer/ToggleUIButton"
+
+      # 弹窗节点
+      popups:
+        implant_memory:
+          root: "Popups/ImplantMemoryPopup"
+          container: "VBoxContainer"
+          input_field: "VBoxContainer/InputText"
+          buttons:
+            cancel: "VBoxContainer/HBoxContainer/CancelButton"
+            confirm: "VBoxContainer/HBoxContainer/ConfirmButton"
+
+        disease:
+          root: "Popups/DiseasePopup"
+          container: "VBoxContainer"
+          disease_selector: "VBoxContainer/DiseaseSelector"
+          severity_slider: "VBoxContainer/SeveritySlider"
+          buttons:
+            cancel: "VBoxContainer/HBoxContainer/CancelButton"
+            confirm: "VBoxContainer/HBoxContainer/ConfirmButton"
+
+        emotion:
+          root: "Popups/EmotionPopup"
+          container: "VBoxContainer"
+          emotion_type: "VBoxContainer/EmotionType"
+          emotion_strength: "VBoxContainer/EmotionStrength"
+          buttons:
+            cancel: "VBoxContainer/HBoxContainer/CancelButton"
+            confirm: "VBoxContainer/HBoxContainer/ConfirmButton"
+
+        money:
+          root: "Popups/MoneyPopup"
+          container: "VBoxContainer"
+          amount_spin: "VBoxContainer/AmountSpinBox"
+          reason_input: "VBoxContainer/ReasonInput"
+          buttons:
+            cancel: "VBoxContainer/HBoxContainer/CancelButton"
+            confirm: "VBoxContainer/HBoxContainer/ConfirmButton"
+
+        task:
+          root: "Popups/TaskPopup"
+          container: "VBoxContainer"
+          character_selector: "VBoxContainer/CharacterSelector"
+          task_input: "VBoxContainer/AddTaskContainer/TaskInput"
+          priority_slider: "VBoxContainer/AddTaskContainer/PriorityContainer/PrioritySlider"
+          buttons:
+            close: "VBoxContainer/ButtonContainer/CloseButton"
+            refresh: "VBoxContainer/ButtonContainer/RefreshButton"
+            add_task: "VBoxContainer/AddTaskContainer/AddTaskButton"
+
+  # 资源路径配置
+  resources:
+    # 脚本资源
+    scripts:
+      content_manager: "res://script/config/ContentManager.gd"
+      memory_manager: "res://script/ai/memory/MemoryManager.gd"
+      background_story_manager: "res://script/ai/background_story/BackgroundStoryManager.gd"
+      character_personality: "res://script/CharacterPersonalityNew.gd"
+      config_loader: "res://script/config/ConfigLoader.gd"
+
+    # 字体资源
+    fonts:
+      primary: "res://asset/fonts/fusion-pixel-12px-proportional-zh_hans.otf"
+      secondary: "res://asset/fonts/fusion-pixel-12px-proportional-en.otf"
+
+    # 主题资源
+    themes:
+      main: "res://asset/ui/theme/MainTheme.tres"
+      dialog: "res://asset/ui/theme/DialogTheme.tres"
+
+    # 音频资源
+    audio:
+      background_music: "res://asset/audio/background_music.ogg"
+      ui_click: "res://asset/audio/ui_click.wav"
+      ui_hover: "res://asset/audio/ui_hover.wav"
+
+  # 场景切换配置
+  transitions:
+    # Godot 4.4 场景切换效果
+    enabled: true
+    default_duration: 0.5
+    easing_type: "ease_in_out"  # ease_in, ease_out, ease_in_out, linear
+
+    # 支持的过渡类型
+    types:
+      - name: "fade"
+        duration: 0.3
+        color: "#000000"
+      - name: "slide_left"
+        duration: 0.4
+        distance: 200.0
+      - name: "slide_right"
+        duration: 0.4
+        distance: 200.0
+
+  # 性能优化配置
+  performance:
+    # Godot 4.4 资源优化
+    resource_optimization:
+      # 纹理压缩
+      texture_compression: true
+      compression_quality: 0.8
+
+      # 网格优化
+      mesh_compression: true
+
+      # 动画压缩
+      animation_compression: true
+
+    # 内存管理
+    memory_management:
+      # 最大缓存内存 (MB)
+      max_cache_memory: 512
+
+      # 自动清理阈值
+      cleanup_threshold: 0.8
+
+      # 空闲时间清理间隔 (秒)
+      idle_cleanup_interval: 60.0
+
+    # 加载优化
+    loading_optimization:
+      # 并发加载线程数
+      max_loading_threads: 4
+
+      # 加载超时时间 (秒)
+      loading_timeout: 30.0
+
+      # 预加载策略
+      preload_strategy: "aggressive"  # aggressive, moderate, conservative

@@ -1,5 +1,5 @@
-# APIConfig.gd - API配置管理器
-# 统一管理所有API相关的配置信息，避免硬编码和重复代码
+# APIConfig.gd - API配置管理器 v2.0
+# 统一管理所有API相关的配置信息，从YAML配置文件加载，避免硬编码
 
 class_name APIConfig
 
@@ -14,197 +14,166 @@ enum APIType {
 	CLAUDE,
 	SILICONFLOW,
 	KIMI,
-	OPENAI_COMPATIBLE  # 新增：OpenAI兼容API枚举
+	OPENAI_COMPATIBLE
 }
 
 # API配置数据结构
 class APIProvider:
 	var name: String
 	var display_name: String
-	var url: String
+	var base_url: String
+	var endpoints: Dictionary
 	var models: Array[String]
 	var requires_api_key: bool
 	var headers_template: Dictionary
-	var request_format: String  # "ollama", "LMStudio", "openai", "gemini", "claude"
-	var response_parser: String  # 响应解析器类型
-	
-	func _init(n: String, dn: String, u: String, m: Array[String], req_key: bool, headers: Dictionary, req_fmt: String, resp_parser: String):
+	var request_format: String
+	var response_parser: String
+	var timeout: float
+	var max_retries: int
+	var pricing: Dictionary
+
+	func _init(n: String, dn: String, url: String, ep: Dictionary, m: Array[String], req_key: bool, headers: Dictionary, req_fmt: String, resp_parser: String, to: float = 30.0, retries: int = 3, price: Dictionary = {}):
 		name = n
 		display_name = dn
-		url = u
+		base_url = url
+		endpoints = ep
 		models = m
 		requires_api_key = req_key
 		headers_template = headers
 		request_format = req_fmt
 		response_parser = resp_parser
+		timeout = to
+		max_retries = retries
+		pricing = price
 
-# 静态配置数据
+# 从YAML配置加载的提供商数据
 static var _providers: Dictionary = {}
+static var _model_display_names: Dictionary = {}
 static var _initialized: bool = false
+static var _content_manager: ContentManager
 
-# 模型显示名称映射（提升用户体验）
-static var _model_display_names: Dictionary = {
-	"qwen3:4b": "Qwen3 4B",
-	"qwen3-vl:4b": "Qwen3-VL 4B",
-	"qwen2.5:1.5b": "Qwen2.5 1.5B",
-	"llama3.2:1b": "Llama3.2 1B",
-	"llama3.2:3b": "Llama3.2 3B",
-	"gemma2:2b": "Gemma2 2B",
-	"qwen/qwen3-vl-4b": "Qwen3-VL 4B",
-	"gpt-4o-mini": "GPT-4o Mini",
-	"gpt-4o": "GPT-4o",
-	"gpt-3.5-turbo": "GPT-3.5 Turbo",
-	"deepseek-chat": "DeepSeek Chat",
-	"doubao-lite-4k": "Doubao Lite 4K",
-	"doubao-lite-32k": "Doubao Lite 32K",
-	"doubao-lite-128k": "Doubao Lite 128K",
-	"doubao-pro-4k": "Doubao Pro 4K",
-	"doubao-pro-32k": "Doubao Pro 32K",
-	"doubao-pro-128k": "Doubao Pro 128K",
-	"gemini-1.5-flash": "Gemini 1.5 Flash",
-	"gemini-1.5-pro": "Gemini 1.5 Pro",
-	"gemini-1.0-pro": "Gemini 1.0 Pro",
-	"claude-3-5-sonnet-20241022": "Claude 3.5 Sonnet",
-	"claude-3-5-haiku-20241022": "Claude 3.5 Haiku",
-	"claude-3-opus-20240229": "Claude 3 Opus",
-	"moonshot-v1-8k": "Moonshot V1 8K",
-	"moonshot-v1-32k": "Moonshot V1 32K",
-	"moonshot-v1-128k": "Moonshot V1 128K",
-	"deepseek-ai/DeepSeek-V3.1-Terminus": "DeepSeek V3.1 Terminus",
-	"inclusionAI/Ring-1T": "Ring-1T",
-	"zai-org/GLM-4.6": "GLM-4.6"
-}
-
-# 初始化API提供商配置
+# 初始化 - 从配置文件加载
 static func _initialize():
 	if _initialized:
 		return
-	
-	# Ollama配置
-	_providers["Ollama"] = APIProvider.new(
-		"Ollama",
-		"Ollama (本地)",
-		"http://localhost:11434/api/generate",
-		["qwen3:4b", "qwen3-vl:4b", "qwen2.5:1.5b", "llama3.2:1b", "llama3.2:3b", "gemma2:2b"],
-		false,
-		{"Content-Type": "application/json"},
-		"ollama",
-		"ollama"
-	)
 
-	# LMStudio 配置
+	print("[APIConfig] 正在从配置文件初始化API配置（优先JSON，回退YAML）...")
+
+	# 获取ContentManager实例
+	_content_manager = ContentManager.get_instance()
+	if _content_manager == null:
+		print("[APIConfig错误] ContentManager未初始化，使用默认配置")
+		_load_fallback_config()
+		_initialized = true
+		return
+
+	# 加载AI模型配置
+	var ai_config = _content_manager.get_all_ai_providers()
+	if ai_config.is_empty():
+		print("[APIConfig错误] 无法加载AI配置，使用默认配置")
+		_load_fallback_config()
+		_initialized = true
+		return
+
+	# 解析提供商配置
+	_parse_providers_from_config(ai_config)
+
+	# 解析模型显示名称
+	_parse_model_display_names(ai_config)
+
+	_initialized = true
+	print("[APIConfig] 配置初始化完成，加载了 ", _providers.size(), " 个API提供商")
+
+# 解析提供商配置
+static func _parse_providers_from_config(ai_config: Dictionary):
+	# 直接使用传入的providers配置
+	var providers_config = ai_config
+
+	for provider_name in providers_config.keys():
+		var provider_data = providers_config[provider_name]
+
+		# 构建端点映射
+		var endpoints = {}
+		if provider_data.has("endpoints"):
+			for endpoint_name in provider_data.endpoints:
+				endpoints[endpoint_name] = provider_data.endpoints[endpoint_name]
+
+		# 获取模型列表
+		var models: Array[String] = []
+		if provider_data.has("models"):
+			for model_data in provider_data.models:
+				models.append(model_data.get("id", ""))
+
+		# 获取请求头模板
+		var headers_template = {}
+		if provider_data.has("authentication"):
+			var auth = provider_data.authentication
+			if auth.has("type") and auth.type == "api_key":
+				var key_header = auth.get("key_header", "Authorization")
+				var key_prefix = auth.get("key_prefix", "Bearer")
+				headers_template[key_header] = key_prefix + " {api_key}"
+
+		# 添加通用请求头
+		if provider_data.has("headers"):
+			for header_name in provider_data.headers:
+				headers_template[header_name] = provider_data.headers[header_name]
+
+		# 获取定价信息
+		var pricing = {}
+		if provider_data.has("pricing"):
+			pricing = provider_data.pricing
+
+		# 创建APIProvider实例
+		var provider = APIProvider.new(
+			provider_name,
+			provider_data.get("display_name", provider_name),
+			provider_data.get("base_url", ""),
+			endpoints,
+			models,
+			provider_data.get("requires_api_key", true),
+			headers_template,
+			provider_data.get("request_format", "openai"),
+			provider_data.get("response_parser", "openai"),
+			provider_data.get("timeout", 30.0),
+			provider_data.get("max_retries", 3),
+			pricing
+		)
+
+		_providers[provider_name] = provider
+
+# 解析模型显示名称
+static func _parse_model_display_names(ai_config: Dictionary):
+	_model_display_names.clear()
+
+	# 直接使用传入的providers配置
+	var providers_config = ai_config
+	for provider_name in providers_config.keys():
+		var provider_data = providers_config[provider_name]
+		if provider_data.has("models"):
+			for model_data in provider_data.models:
+				var model_id = model_data.get("id", "")
+				var display_name = model_data.get("display_name", model_id)
+				if not model_id.is_empty():
+					_model_display_names[model_id] = display_name
+
+# 备用配置（当YAML配置加载失败时使用）
+static func _load_fallback_config():
+	print("[APIConfig] 加载备用配置...")
+
+	# 基本的LMStudio配置作为备用
 	_providers["LMStudio"] = APIProvider.new(
 		"LMStudio",
 		"LMStudio (本地)",
-		"http://localhost:11435/v1/chat/completions",
+		"http://localhost:11435",
+		{"chat": "/v1/chat/completions"},
 		["qwen/qwen3-vl-4b"],
 		false,
 		{"Content-Type": "application/json"},
-		"openai",  # LMStudio使用OpenAI兼容格式
-		"openai"   # LMStudio使用OpenAI兼容解析
-	)
-	
-	# OpenAI配置
-	_providers["OpenAI"] = APIProvider.new(
-		"OpenAI",
-		"OpenAI",
-		"https://api.openai.com/v1/chat/completions",
-		["gpt-4o-mini", "gpt-4o", "gpt-3.5-turbo"],
-		true,
-		{"Content-Type": "application/json", "Authorization": "Bearer {api_key}"},
-		"openai",
-		"openai"
-	)
-	
-	# DeepSeek配置
-	_providers["DeepSeek"] = APIProvider.new(
-		"DeepSeek",
-		"DeepSeek",
-		"https://api.deepseek.com/v1/chat/completions",
-		["deepseek-chat"],
-		true,
-		{"Content-Type": "application/json", "Authorization": "Bearer {api_key}"},
-		"openai",
-		"openai"
-	)
-	
-	# 豆包配置
-	_providers["Doubao"] = APIProvider.new(
-		"Doubao",
-		"豆包 (字节跳动)",
-		"https://ark.cn-beijing.volces.com/api/v3/chat/completions",
-		["doubao-lite-4k", "doubao-lite-32k", "doubao-lite-128k", "doubao-pro-4k", "doubao-pro-32k", "doubao-pro-128k"],
-		true,
-		{"Content-Type": "application/json", "Authorization": "Bearer {api_key}"},
-		"openai",
-		"openai"
-	)
-	
-	# Gemini配置
-	_providers["Gemini"] = APIProvider.new(
-		"Gemini",
-		"Gemini (Google)",
-		"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-		["gemini-1.5-flash", "gemini-1.5-pro", "gemini-1.0-pro"],
-		true,
-		{"Content-Type": "application/json", "x-goog-api-key": "{api_key}"},
-		"gemini",
-		"gemini"
-	)
-	
-	# Claude配置
-	_providers["Claude"] = APIProvider.new(
-		"Claude",
-		"Claude (Anthropic)",
-		"https://api.anthropic.com/v1/messages",
-		["claude-3-5-sonnet-20241022", "claude-3-5-haiku-20241022", "claude-3-opus-20240229"],
-		true,
-		{"Content-Type": "application/json", "Authorization": "Bearer {api_key}", "anthropic-version": "2023-06-01"},
-		"claude",
-		"claude"
-	)
-	
-	# KIMI配置
-	_providers["KIMI"] = APIProvider.new(
-		"KIMI",
-		"KIMI (月之暗面)",
-		"https://api.moonshot.cn/v1/chat/completions",
-		["moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"],
-		true,
-		{"Content-Type": "application/json", "Authorization": "Bearer {api_key}"},
 		"openai",
 		"openai"
 	)
 
-
-	# 硅基流动配置
-	_providers["SiliconFlow"] = APIProvider.new(
-		"SiliconFlow",
-		"硅基流动",
-		"https://api.siliconflow.cn/v1/chat/completions",
-		["deepseek-ai/DeepSeek-V3.1-Terminus", "inclusionAI/Ring-1T", "zai-org/GLM-4.6"],
-		true,
-		{"Content-Type": "application/json", "Authorization": "Bearer {api_key}"},
-		"openai",
-		"openai"
-	)
-	
-	# 新增：OpenAI Compatible通用提供商
-	# URL 这里用占位符，在运行时替换或通过配置文件设置
-	_providers["OpenAICompatible"] = APIProvider.new(
-		"OpenAICompatible",
-		"OpenAI Compatible (自定义)",
-		"https://custom-openai-compatible.com/v1/chat/completions",  # 占位符URL，实际使用时可扩展动态设置
-		[],  # 模型列表为空，由用户指定或动态加载
-		true,
-		{"Content-Type": "application/json", "Authorization": "Bearer {api_key}"},
-		"openai",
-		"openai"
-	)
-	
-	_initialized = true
-
-# 获取所有API提供商名称（自动包含新增）
+# 获取所有API提供商名称
 static func get_api_types() -> Array[String]:
 	_initialize()
 	var result: Array[String] = []
@@ -215,25 +184,43 @@ static func get_api_types() -> Array[String]:
 # 获取API提供商配置
 static func get_provider(api_type: String) -> APIProvider:
 	_initialize()
-	return _providers.get(api_type, _providers["Ollama"])
+	if _providers.has(api_type):
+		return _providers[api_type]
+
+	# 如果找不到指定提供商，返回第一个可用的
+	if not _providers.is_empty():
+		var first_key = _providers.keys()[0]
+		print("[APIConfig警告] 未找到提供商 '", api_type, "'，使用备用 '", first_key, "'")
+		return _providers[first_key]
+
+	# 最后的备用选择
+	return _providers.get("LMStudio", null)
 
 # 获取指定API的模型列表
 static func get_models_for_api(api_type: String) -> Array[String]:
 	_initialize()
 	var provider = get_provider(api_type)
-	return provider.models
+	if provider:
+		return provider.models
+	return []
 
 # 检查API是否需要密钥
 static func requires_api_key(api_type: String) -> bool:
 	_initialize()
 	var provider = get_provider(api_type)
-	return provider.requires_api_key
+	if provider:
+		return provider.requires_api_key
+	return true
 
 # 构建请求数据
-static func build_request_data(api_type: String, model: String, prompt: String) -> Dictionary:
+static func build_request_data(api_type: String, model: String, prompt: String, messages: Array = []) -> Dictionary:
 	_initialize()
 	var provider = get_provider(api_type)
-	
+
+	if not provider:
+		print("[APIConfig错误] 无法找到API提供商: ", api_type)
+		return {}
+
 	match provider.request_format:
 		"ollama":
 			return {
@@ -242,107 +229,120 @@ static func build_request_data(api_type: String, model: String, prompt: String) 
 				"stream": false
 			}
 		"openai":
+			# 如果提供了messages数组就使用，否则构建单条消息
+			var message_array = messages
+			if message_array.is_empty():
+				message_array = [{"role": "user", "content": prompt}]
+
 			return {
 				"model": model,
-				"messages": [{
-					"role": "user",
-					"content": prompt
-				}]
+				"messages": message_array
 			}
 		"gemini":
 			return {
 				"contents": [{
-					"parts": [{
-						"text": prompt
-					}]
+					"parts": [{"text": prompt}]
 				}]
 			}
 		"claude":
 			return {
 				"model": model,
 				"max_tokens": 1024,
-				"messages": [{
-					"role": "user",
-					"content": prompt
-				}]
+				"messages": [{"role": "user", "content": prompt}]
 			}
 		_:
+			print("[APIConfig错误] 未知的请求格式: ", provider.request_format)
 			return {}
 
 # 构建请求头
-static func build_headers(api_type: String, api_key: String) -> Array[String]:
+static func build_headers(api_type: String, api_key: String = "") -> Array[String]:
 	_initialize()
 	var provider = get_provider(api_type)
+
+	if not provider:
+		return []
+
 	var headers: Array[String] = []
-	
+
 	for key in provider.headers_template:
 		var value = provider.headers_template[key]
-		if value.find("{api_key}") != -1:
+		if not api_key.is_empty() and value.find("{api_key}") != -1:
 			value = value.replace("{api_key}", api_key)
 		headers.append(key + ": " + value)
-	
+
 	return headers
 
-# 获取请求URL（新增对兼容模式的处理，如果需要动态URL，可在这里扩展）
-static func get_url(api_type: String, model: String = "") -> String:
+# 获取请求URL
+static func get_url(api_type: String, endpoint_type: String = "chat", model: String = "") -> String:
 	_initialize()
 	var provider = get_provider(api_type)
-	var url = provider.url
-	
+
+	if not provider:
+		print("[APIConfig错误] 无法找到API提供商: ", api_type)
+		return ""
+
+	var url = provider.base_url
+
+	# 添加端点路径
+	if provider.endpoints.has(endpoint_type):
+		url += provider.endpoints[endpoint_type]
+
+	# 替换模型占位符
 	if url.find("{model}") != -1:
 		url = url.replace("{model}", model)
-	
-	# 新增：如果api_type是OpenAICompatible，可以添加自定义逻辑（如从全局配置读取URL）
-	# if api_type == "OpenAICompatible":
-	#     url = GlobalConfig.custom_openai_url  # 示例扩展，需项目支持
-	 
+
 	return url
 
 # 解析API响应
 static func parse_response(api_type: String, response: Dictionary, character_name: String = "") -> String:
 	_initialize()
 	var provider = get_provider(api_type)
-	
+
+	if not provider:
+		print("[APIConfig错误] 无法找到API提供商: ", api_type)
+		return ""
+
 	match provider.response_parser:
 		"ollama":
-			if not "response" in response:
-				print("[APIConfig] %s 的Ollama API响应格式错误：缺少response字段" % character_name)
+			if not response.has("response"):
+				print("[APIConfig] ", character_name, " 的Ollama API响应格式错误：缺少response字段")
 				return ""
 			return response.response
 
 		"openai":
-			if not "choices" in response or not response.has("choices") or response.choices.size() == 0:
-				print("[APIConfig] %s 的OpenAI格式API响应错误：缺少choices字段或为空" % character_name)
+			if not response.has("choices") or response.choices.size() == 0:
+				print("[APIConfig] ", character_name, " 的OpenAI格式API响应错误：缺少choices字段或为空")
 				return ""
 			if not response.choices[0].has("message") or not response.choices[0].message.has("content"):
-				print("[APIConfig] %s 的OpenAI格式API响应错误：缺少message或content字段" % character_name)
+				print("[APIConfig] ", character_name, " 的OpenAI格式API响应错误：缺少message或content字段")
 				return ""
 			return response.choices[0].message.content
-		
+
 		"gemini":
-			if not "candidates" in response or response.candidates.size() == 0:
-				print("[APIConfig] %s 的Gemini API响应格式错误：缺少candidates字段或为空" % character_name)
+			if not response.has("candidates") or response.candidates.size() == 0:
+				print("[APIConfig] ", character_name, " 的Gemini API响应格式错误：缺少candidates字段或为空")
 				return ""
 			if not response.candidates[0].has("content") or not response.candidates[0].content.has("parts") or response.candidates[0].content.parts.size() == 0:
-				print("[APIConfig] %s 的Gemini API响应格式错误：缺少content或parts字段" % character_name)
+				print("[APIConfig] ", character_name, " 的Gemini API响应格式错误：缺少content或parts字段")
 				return ""
 			return response.candidates[0].content.parts[0].text
-		
+
 		"claude":
-			if not "content" in response or response.content.size() == 0:
-				print("[APIConfig] %s 的Claude API响应格式错误：缺少content字段或为空" % character_name)
+			if not response.has("content") or response.content.size() == 0:
+				print("[APIConfig] ", character_name, " 的Claude API响应格式错误：缺少content字段或为空")
 				return ""
 			if not response.content[0].has("text"):
-				print("[APIConfig] %s 的Claude API响应格式错误：缺少text字段" % character_name)
+				print("[APIConfig] ", character_name, " 的Claude API响应格式错误：缺少text字段")
 				return ""
 			return response.content[0].text
-		
+
 		_:
-			print("[APIConfig] %s 未知的API类型，使用默认处理" % character_name)
+			print("[APIConfig] ", character_name, " 未知的响应解析器: ", provider.response_parser)
 			return ""
 
-# 获取模型的显示名称（提升用户体验）
+# 获取模型的显示名称
 static func get_model_display_name(model_id: String) -> String:
+	_initialize()
 	if _model_display_names.has(model_id):
 		return _model_display_names[model_id]
 	else:
@@ -354,3 +354,31 @@ static func get_model_display_name(model_id: String) -> String:
 			if parts.size() > 1:
 				display_name = parts[1]
 		return display_name
+
+# 获取提供商定价信息
+static func get_provider_pricing(provider_name: String) -> Dictionary:
+	_initialize()
+	var provider = get_provider(provider_name)
+	if provider:
+		return provider.pricing
+	return {}
+
+# 重新加载配置（用于热重载）
+static func reload_configs():
+	_initialized = false
+	_providers.clear()
+	_model_display_names.clear()
+	_initialize()
+
+# 检查配置是否有效
+static func validate_config() -> bool:
+	_initialize()
+	if _providers.is_empty():
+		print("[APIConfig错误] 没有加载任何API提供商配置")
+		return false
+
+	# 检查默认提供商是否存在
+	if not _providers.has("LMStudio"):
+		print("[APIConfig警告] 未找到默认LMStudio提供商")
+
+	return true

@@ -1,0 +1,36 @@
+{
+  "systems": {
+    "physics": {
+      "movement": {
+        "basic_settings": {
+          "gravity": 980.0,
+          "max_fall_speed": 800.0,
+          "acceleration": 500.0,
+          "friction": 0.1,
+          "bounce": 0.0
+        },
+        "character_physics": {
+          "mass": 1.0,
+          "collision_layer": 1,
+          "collision_mask": 1,
+          "shape": "circle",
+          "radius": 16.0
+        },
+        "navigation": {
+          "agent_radius": 16.0,
+          "neighbor_distance": 50.0,
+          "max_neighbors": 10,
+          "time_horizon": 5.0,
+          "max_speed": 200.0,
+          "pathfinding_interval": 0.5
+        },
+        "interaction": {
+          "interaction_distance": 50.0,
+          "pickup_distance": 30.0,
+          "talk_distance": 80.0,
+          "collision_push_force": 100.0
+        }
+      }
+    }
+  }
+}

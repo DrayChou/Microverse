@@ -3,6 +3,10 @@ extends Control
 # 脚本引用
 var BackgroundStoryManager = preload("res://script/ai/background_story/BackgroundStoryManager.gd")
 
+# 配置数据
+var ui_config: Dictionary = {}
+var character_detail_labels: Dictionary = {}
+
 # 面板引用
 @onready var left_panel = $HBoxContainer/LeftPanel
 @onready var right_panel = $HBoxContainer/RightPanel
@@ -29,6 +33,9 @@ var all_characters = []
 var ui_visible = true
 
 func _ready():
+	# 加载UI配置
+	_load_ui_config()
+
 	# 初始隐藏头像动画节点
 	if avatar_sprite:
 		avatar_sprite.visible = false
@@ -79,23 +86,10 @@ func _ready():
 	_init_task_system()
 	
 	# 初始化疾病选项
-	var disease_selector = disease_popup.get_node("VBoxContainer/DiseaseSelector")
-	disease_selector.add_item("感冒")
-	disease_selector.add_item("发烧")
-	disease_selector.add_item("过敏")
-	disease_selector.add_item("抑郁")
-	disease_selector.add_item("焦虑")
-	disease_selector.add_item("受伤")
-	
+	_init_disease_options()
+
 	# 初始化情感类型选项
-	var emotion_selector = emotion_popup.get_node("VBoxContainer/EmotionType")
-	emotion_selector.add_item("喜欢")
-	emotion_selector.add_item("尊敬")
-	emotion_selector.add_item("嫉妒")
-	emotion_selector.add_item("愤怒")
-	emotion_selector.add_item("信任")
-	emotion_selector.add_item("怀疑")
-	emotion_selector.add_item("崇拜")
+	_init_emotion_options()
 	
 	# 获取场景中的角色
 	_update_character_lists()
@@ -170,11 +164,11 @@ func _on_character_selected(index):
 func _update_character_detail():
 	if not selected_character:
 		# 清空详情显示
-		character_detail.get_node("NameLabel").text = "姓名："
-		character_detail.get_node("HBoxContainer/VBoxContainer/MoneyLabel").text = "存款：0"
-		character_detail.get_node("HBoxContainer/VBoxContainer/MoodLabel").text = "心情：普通"
-		character_detail.get_node("HBoxContainer/VBoxContainer/HealthLabel").text = "健康：良好"
-		character_detail.get_node("TabContainer/人设/PersonalityText").text = "选择一个角色查看人设..."
+		character_detail.get_node("NameLabel").text = character_detail_labels.get("no_character_selected", "选择一个角色查看人设...")
+		character_detail.get_node("HBoxContainer/VBoxContainer/MoneyLabel").text = character_detail_labels.get("money", "存款：") + "0"
+		character_detail.get_node("HBoxContainer/VBoxContainer/MoodLabel").text = character_detail_labels.get("mood", "心情：") + "普通"
+		character_detail.get_node("HBoxContainer/VBoxContainer/HealthLabel").text = character_detail_labels.get("health", "健康：") + "良好"
+		character_detail.get_node("TabContainer/人设/PersonalityText").text = character_detail_labels.get("no_character_selected", "选择一个角色查看人设...")
 		_clear_children(character_detail.get_node("TabContainer/记忆/MemoryList"))
 		_clear_children(character_detail.get_node("TabContainer/情感/RelationList"))
 		
@@ -190,16 +184,16 @@ func _update_character_detail():
 		return
 	
 	# 基本信息
-	character_detail.get_node("NameLabel").text = "姓名：" + selected_character.name
-	
+	character_detail.get_node("NameLabel").text = character_detail_labels.get("name", "姓名：") + selected_character.name
+
 	# 尝试获取角色属性，如果不存在则使用默认值
 	var money = selected_character.get_meta("money", 0)
 	var mood = selected_character.get_meta("mood", "普通")
 	var health = selected_character.get_meta("health", "良好")
-	
-	character_detail.get_node("HBoxContainer/VBoxContainer/MoneyLabel").text = "存款：" + str(money)
-	character_detail.get_node("HBoxContainer/VBoxContainer/MoodLabel").text = "心情：" + str(mood)
-	character_detail.get_node("HBoxContainer/VBoxContainer/HealthLabel").text = "健康：" + str(health)
+
+	character_detail.get_node("HBoxContainer/VBoxContainer/MoneyLabel").text = character_detail_labels.get("money", "存款：") + str(money)
+	character_detail.get_node("HBoxContainer/VBoxContainer/MoodLabel").text = character_detail_labels.get("mood", "心情：") + str(mood)
+	character_detail.get_node("HBoxContainer/VBoxContainer/HealthLabel").text = character_detail_labels.get("health", "健康：") + str(health)
 	
 	# 人设
 	var personality_data = CharacterPersonality.get_personality(selected_character.name)
@@ -369,9 +363,10 @@ func _on_disease_confirm():
 	var character_data = character.get_meta("character_data", {})
 	if not character_data.has("memories"):
 		character_data["memories"] = []
-	
+
 	var current_time = Time.get_datetime_dict_from_system()
-	var time_str = "%04d-%02d-%02d %02d:%02d" % [
+	var format = _get_datetime_format()
+	var time_str = format % [
 		current_time.year, current_time.month, current_time.day,
 		current_time.hour, current_time.minute
 	]
@@ -427,9 +422,10 @@ func _on_money_confirm():
 	var character_data = character.get_meta("character_data", {})
 	if not character_data.has("memories"):
 		character_data["memories"] = []
-	
+
 	var current_time = Time.get_datetime_dict_from_system()
-	var time_str = "%04d-%02d-%02d %02d:%02d" % [
+	var format = _get_datetime_format()
+	var time_str = format % [
 		current_time.year, current_time.month, current_time.day,
 		current_time.hour, current_time.minute
 	]
@@ -484,9 +480,10 @@ func _on_emotion_confirm():
 	# 添加情感相关记忆
 	if not character_a.has_meta("memories"):
 		character_a.set_meta("memories", [])
-	
+
 	var current_time = Time.get_datetime_dict_from_system()
-	var time_str = "%04d-%02d-%02d %02d:%02d" % [
+	var format = _get_datetime_format()
+	var time_str = format % [
 		current_time.year, current_time.month, current_time.day,
 		current_time.hour, current_time.minute
 	]
@@ -649,7 +646,8 @@ func _on_add_task():
 	
 	# 添加任务记忆
 	var current_time = Time.get_datetime_dict_from_system()
-	var time_str = "%04d-%02d-%02d %02d:%02d" % [
+	var format = _get_datetime_format()
+	var time_str = format % [
 		current_time.year, current_time.month, current_time.day,
 		current_time.hour, current_time.minute
 	]
@@ -800,25 +798,9 @@ func _generate_random_task(character_node):
 	if not character_node:
 		return null
 		
-	# 通用任务池
-	var tasks_pool = [
-		"检查邮件",
-		"整理工作区",
-		"与同事交流",
-		"参加会议",
-		"休息放松一下",
-		"准备明天的工作",
-		"回复重要邮件",
-		"整理文件",
-		"学习新技能",
-		"思考工作改进方案",
-		"与上级沟通工作进展",
-		"帮助同事解决问题",
-		"制定工作计划",
-		"总结今日工作",
-		"准备工作报告"
-	]
-	
+	# 从配置文件获取任务池
+	var tasks_pool = _get_task_pool()
+
 	# 随机选择一个任务
 	var random_task = tasks_pool[randi() % tasks_pool.size()]
 	
@@ -1104,3 +1086,99 @@ func clear_character_selection():
 		character_list.deselect_all()
 	# 更新角色详情显示
 	_update_character_detail()
+
+# ===== 配置相关方法 =====
+
+# 加载UI配置
+func _load_ui_config():
+	var content_manager = get_node_or_null("/root/ContentManager")
+	if content_manager and content_manager._initialized:
+		ui_config = content_manager.get_ui_config()
+		print("[GodUI] UI配置加载成功")
+
+		# 缓存角色详情标签文本
+		var labels_config = ui_config.get("character_detail", {}).get("labels", {})
+		character_detail_labels = {
+			"name": labels_config.get("name", "姓名："),
+			"money": labels_config.get("money", "存款："),
+			"mood": labels_config.get("mood", "心情："),
+			"health": labels_config.get("health", "健康："),
+			"no_character_selected": labels_config.get("no_character_selected", "选择一个角色查看人设...")
+		}
+	else:
+		print("[GodUI警告] ContentManager未初始化，使用默认配置")
+		# 使用默认配置
+		ui_config = {}
+		character_detail_labels = {
+			"name": "姓名：",
+			"money": "存款：",
+			"mood": "心情：",
+			"health": "健康：",
+			"no_character_selected": "选择一个角色查看人设..."
+		}
+
+# 初始化疾病选项
+func _init_disease_options():
+	var disease_selector = disease_popup.get_node("VBoxContainer/DiseaseSelector")
+	if not disease_selector:
+		return
+
+	var diseases_config = ui_config.get("medical_system", {}).get("diseases", [])
+
+	if diseases_config.is_empty():
+		# 使用默认疾病列表
+		var default_diseases = ["感冒", "发烧", "过敏", "抑郁", "焦虑", "受伤"]
+		for disease in default_diseases:
+			disease_selector.add_item(disease)
+		print("[GodUI警告] 使用默认疾病配置")
+	else:
+		# 使用配置文件中的疾病列表
+		for disease_data in diseases_config:
+			disease_selector.add_item(disease_data.get("name", "未知疾病"))
+		print("[GodUI] 从配置文件加载了 ", diseases_config.size(), " 个疾病选项")
+
+# 初始化情感类型选项
+func _init_emotion_options():
+	var emotion_selector = emotion_popup.get_node("VBoxContainer/EmotionType")
+	if not emotion_selector:
+		return
+
+	var emotions_config = ui_config.get("medical_system", {}).get("emotions", [])
+
+	if emotions_config.is_empty():
+		# 使用默认情感列表
+		var default_emotions = ["喜欢", "尊敬", "嫉妒", "愤怒", "信任", "怀疑", "崇拜"]
+		for emotion in default_emotions:
+			emotion_selector.add_item(emotion)
+		print("[GodUI警告] 使用默认情感配置")
+	else:
+		# 使用配置文件中的情感列表
+		for emotion_data in emotions_config:
+			emotion_selector.add_item(emotion_data.get("name", "未知情感"))
+		print("[GodUI] 从配置文件加载了 ", emotions_config.size(), " 个情感选项")
+
+# 获取任务池配置
+func _get_task_pool() -> Array:
+	var task_system_config = ui_config.get("task_system", {}).get("task_pool", {})
+	var office_tasks = task_system_config.get("office_tasks", [])
+	var personal_tasks = task_system_config.get("personal_tasks", [])
+
+	# 合并所有任务类型
+	var all_tasks = []
+	all_tasks.append_array(office_tasks)
+	all_tasks.append_array(personal_tasks)
+
+	if all_tasks.is_empty():
+		# 使用默认任务池
+		all_tasks = [
+			"检查邮件", "整理工作区", "与同事交流", "参加会议",
+			"休息放松一下", "准备明天的工作", "回复重要邮件",
+			"整理文件", "学习新技能", "思考工作改进方案"
+		]
+		print("[GodUI警告] 使用默认任务池")
+
+	return all_tasks
+
+# 获取日期时间格式配置
+func _get_datetime_format() -> String:
+	return ui_config.get("datetime", {}).get("format", "%04d-%02d-%02d %02d:%02d")

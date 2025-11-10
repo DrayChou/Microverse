@@ -1,0 +1,197 @@
+# 对话系统配置 - Godot 4.4优化版
+# 包含对话逻辑、显示样式、交互选项等配置
+
+content:
+  dialogue:
+    # 对话系统基础设置
+    system:
+      # 对话显示配置
+      display:
+        # UI显示
+        ui:
+          dialogue_box: "res://scene/ui/DialogueBox.tscn"
+          name_label_color: "#2C3E50"
+          text_color: "#34495E"
+          background_color: "#ECF0F1"
+          border_color: "#BDC3C7"
+
+        # 字体设置
+        fonts:
+          name_font: "res://asset/fonts/fusion-pixel-12px-proportional-zh_hans.otf"
+          dialogue_font: "res://asset/fonts/fusion-pixel-12px-proportional-zh_hans.otf"
+          name_size: 16
+          dialogue_size: 14
+
+        # 动画配置
+        animations:
+          text_fade_in_duration: 0.3
+          box_slide_in_duration: 0.2
+          typewriter_effect: true
+          typewriter_speed: 30  # 字符/秒
+
+      # 对话控制
+      control:
+        # 自动播放
+        auto_play: false
+        auto_delay: 3.0  # 自动延迟时间（秒）
+
+        # 跳过配置
+        allow_skip: true
+        skip_key: "space"
+
+        # 回滚配置
+        enable_history: true
+        history_size: 50
+        history_key: "h"
+
+    # 对话内容配置
+    content:
+      # 默认对话模板
+      default_templates:
+        greeting: |
+          你好，我是{{character_name}}。
+          {{personality_intro}}
+
+        work_talk: |
+          {{character_name}}：{{work_content}}
+          根据我的{{personality_style}}，我觉得...
+
+        casual_talk: |
+          {{character_name}}：{{casual_content}}
+          {{emotion_expression}}
+
+      # 情感表达配置
+      emotions:
+        happy:
+          expressions: ["开心地笑", "心情愉快", "兴高采烈"]
+          text_modifiers: ["~", "!", "😊"]
+
+        sad:
+          expressions: ["叹气", "情绪低落", "垂头丧气"]
+          text_modifiers: ["...", "😢"]
+
+        angry:
+          expressions: ["皱眉", "生气", "愤愤不平"]
+          text_modifiers: ["!", "！", "😠"]
+
+        surprised:
+          expressions: ["惊讶", "目瞪口呆", "难以置信"]
+          text_modifiers: ["？", "！", "😲"]
+
+    # 角色对话特性
+    character_styles:
+      # 史蒂芬 - 老板风格
+      stephen:
+        speech_patterns:
+          - "福报"
+          - "奋斗"
+          - "期权池"
+          - "明年就敲钟"
+
+        tone: "authoritative"
+        formality: "high"
+        emoji_usage: "minimal"
+
+      # 爱丽丝 - 设计师风格
+      alice:
+        speech_patterns:
+          - "像素"
+          - "设计规范"
+          - "用户体验"
+          - "色彩搭配"
+
+        tone: "critical"
+        formality: "medium"
+        emoji_usage: "sarcastic"
+
+      # 汤姆 - 助理风格
+      tom:
+        speech_patterns:
+          - "老板英明"
+          - "您说得太对了"
+          - "深受启发"
+
+        tone: "flattering"
+        formality: "high"
+        emoji_usage: "respectful"
+
+      # 莉娅 - 前台风格
+      lea:
+        speech_patterns:
+          - "有什么可以帮您"
+          - "请这边走"
+          - "需要咖啡吗"
+
+        tone: "friendly"
+        formality: "medium"
+        emoji_usage: "warm"
+
+    # 话题系统
+    topics:
+      # 工作相关话题
+      work:
+        - "项目进度"
+        - "技术方案"
+        - "客户需求"
+        - "团队协作"
+
+      # 生活话题
+      life:
+        - "周末计划"
+        - "兴趣爱好"
+        - "美食推荐"
+        - "旅行经历"
+
+      # 娱乐话题
+      entertainment:
+        - "最新电影"
+        - "热门游戏"
+        - "音乐推荐"
+        - "综艺节目"
+
+    # 上下文管理
+    context:
+      # 记忆保持
+      memory:
+        short_term_duration: 300  # 5分钟（秒）
+        long_term_topics: ["project", "deadline", "vacation"]
+
+      # 场景感知
+      scene_awareness:
+        location_reactions: true
+        time_reactions: true
+        character_presence_reactions: true
+
+    # AI对话配置
+    ai_integration:
+      # API配置
+      api:
+        max_tokens: 1024
+        temperature: 0.8
+        timeout: 30.0
+
+      # 提示词模板
+      prompts:
+        system_prompt: |
+          你是{{character_name}}，{{position}}。
+          性格特点：{{personality_traits}}
+          说话风格：{{speaking_style}}
+          当前情境：{{current_context}}
+
+        context_prompt: |
+          当前时间：{{time}}
+          当前地点：{{location}}
+          在场角色：{{present_characters}}
+          话题：{{topic}}
+
+    # 调试和开发
+    debug:
+      # 调试显示
+      show_dialogue_ids: false
+      show_ai_responses: false
+      log_dialogue_events: true
+
+      # 测试模式
+      test_mode: false
+      auto_advance_dialogue: false
+      skip_ai_calls: false

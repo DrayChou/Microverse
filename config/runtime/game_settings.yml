@@ -1,0 +1,150 @@
+# 游戏设置配置文件
+# 包含所有游戏的基础设置和选项
+
+game_settings:
+  # 显示设置
+  display:
+    default_resolution: [1280, 720]    # 默认分辨率 [width, height]
+    supported_resolutions:
+      - [1024, 576]    # 标准16:9
+      - [1280, 720]    # HD
+      - [1920, 1080]   # Full HD
+      - [2560, 1440]   # 2K
+      - [3840, 2160]   # 4K
+
+    window_modes:
+      - value: "windowed"
+        display: "窗口化"
+      - value: "fullscreen"
+        display: "全屏"
+      - value: "exclusive_fullscreen"
+        display: "独占全屏"
+
+    # 渲染设置
+    rendering:
+      vsync: true                      # 垂直同步
+      target_fps: 60                   # 目标帧率
+      anti_aliasing: "msaa_2x"         # 抗锯齿设置: off, msaa_2x, msaa_4x, msaa_8x
+      shadows:
+        enabled: true
+        quality: "medium"              # low, medium, high, ultra
+        distance: 500.0
+
+  # 音频设置
+  audio:
+    master_volume: 1.0                 # 主音量 (0.0 - 1.0)
+    music_volume: 0.8                  # 音乐音量
+    sfx_volume: 0.9                    # 音效音量
+    voice_volume: 1.0                  # 语音音量
+
+    # 音频设备
+    device: "default"                  # 默认音频设备
+    sample_rate: 44100                 # 采样率
+    buffer_size: 512                   # 缓冲区大小
+
+  # 控制设置
+  controls:
+    mouse_sensitivity: 1.0             # 鼠标灵敏度
+    invert_mouse_y: false              # 是否反转鼠标Y轴
+
+    # 键盘绑定
+    keybindings:
+      move_up: "W"
+      move_down: "S"
+      move_left: "A"
+      move_right: "D"
+      zoom_in: "="
+      zoom_out: "-"
+      reset_camera: "R"
+      toggle_ui: "TAB"
+      pause: "ESC"
+      screenshot: "F12"
+
+    # 手柄绑定
+    gamepad_bindings:
+      move_up: "joy_left_stick_y"
+      move_down: "joy_left_stick_y_negative"
+      move_left: "joy_left_stick_x"
+      move_right: "joy_left_stick_x_positive"
+      zoom_in: "joy_right_shoulder"
+      zoom_out: "joy_left_shoulder"
+      reset_camera: "joy_right_stick_click"
+      toggle_ui: "joy_start"
+
+  # 语言和本地化
+  localization:
+    default_language: "zh-CN"
+    supported_languages:
+      - code: "zh-CN"
+        name: "简体中文"
+        font: "fusion-pixel-12px-proportional-zh_hans.otf"
+      - code: "en-US"
+        name: "English"
+        font: "fusion-pixel-12px-proportional-en.otf"
+
+    # 字体设置
+    fonts:
+      primary_font: "res://asset/fonts/fusion-pixel-12px-proportional-zh_hans.otf"
+      font_sizes:
+        small: 10
+        medium: 12
+        large: 16
+        xlarge: 20
+
+  # 游戏玩法设置
+  gameplay:
+    # 时间设置
+    time:
+      time_scale: 1.0                  # 时间流逝速度
+      auto_save_interval: 300          # 自动保存间隔（秒）
+      pause_on_focus_lost: true        # 失去焦点时暂停
+
+    # AI设置
+    ai:
+      response_timeout: 30.0           # AI响应超时时间（秒）
+      max_concurrent_requests: 3       # 最大并发请求数
+      cache_responses: true            # 是否缓存响应
+
+    # 角色设置
+    characters:
+      max_characters: 20               # 最大角色数量
+      interaction_distance: 100.0      # 交互距离（像素）
+      auto_movement: true              # 是否启用自动移动
+
+  # 调试和开发设置
+  debug:
+    show_fps: false                    # 是否显示FPS
+    show_coordinates: false           # 是否显示坐标
+    god_mode: false                    # 是否启用上帝模式
+    log_level: "INFO"                 # 日志级别: DEBUG, INFO, WARN, ERROR
+
+    # 开发工具
+    developer_console: false          # 是否启用开发者控制台
+    debug_overlay: false              # 是否启用调试覆盖层
+    performance_monitor: false        # 是否启用性能监控
+
+  # 网络设置
+  network:
+    enable_network: false             # 是否启用网络功能
+    api_timeout: 10.0                 # API超时时间（秒）
+    retry_attempts: 3                 # 重试次数
+    connection_timeout: 5.0           # 连接超时时间（秒）
+
+  # 性能优化设置
+  performance:
+    # 渲染优化
+    render_distance: 1000.0           # 渲染距离
+    lod_distance: 500.0               # LOD切换距离
+    max_draw_calls: 1000              # 最大绘制调用数
+
+    # 内存管理
+    memory_limit: 1024                # 内存限制（MB）
+    texture_quality: "high"           # 纹理质量: low, medium, high, ultra
+    compression_enabled: true         # 是否启用压缩
+
+  # 保存设置
+  save_system:
+    auto_save: true                   # 是否自动保存
+    max_save_slots: 10                # 最大存档槽位数
+    save_format: "json"               # 保存格式: json, binary
+    compression_level: 6              # 压缩级别 (0-9)

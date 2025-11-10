@@ -1,0 +1,206 @@
+# 相机移动和控制配置 - Godot 4.4优化版
+# 充分利用Godot 4.4的Camera2D新特性和渲染优化
+
+systems:
+  camera:
+    movement:
+      # 基础移动参数
+      follow_speed: 5.0
+      smooth_factor: 0.1
+      max_follow_distance: 300.0
+      catch_up_speed: 8.0
+
+      # 缩放级别配置
+      zoom:
+        # 不同模式下的缩放级别
+        levels:
+          global: 0.8               # 全局视角
+          character: 1.5            # 角色跟随视角
+          manual: 0.8               # 手动控制视角
+          detail: 2.0               # 细节查看视角
+          overview: 0.5             # 总览视角
+
+        # 缩放限制
+        limits:
+          min_zoom: 0.3
+          max_zoom: 3.0
+          default_zoom: 0.8
+
+        # 缩放控制
+        control:
+          zoom_speed: 0.1
+          zoom_step: 0.1
+          smooth_zoom: true
+          zoom_inertia: 0.9
+
+      # 地图配置
+      map:
+        # 地图中心和边界
+        center: [576, 320]
+        bounds: [0, 0, 1152, 640]  # [min_x, min_y, max_x, max_y]
+        constrain_to_bounds: true
+
+        # 地图显示设置
+        display:
+          show_grid: false
+          grid_size: 32
+          grid_color: "#404040"
+          grid_alpha: 0.3
+
+      # 拖拽控制
+      drag:
+        enabled: true
+        drag_speed: 1.0
+        momentum: true
+        friction: 0.95
+        min_drag_distance: 5.0
+
+        # Godot 4.4 输入优化
+        input:
+          use_relative: true
+          smooth_factor: 0.2
+
+      # 键盘控制
+      keyboard:
+        enabled: true
+        move_speed: 200.0  # 像素/秒
+        diagonal_slowdown: 0.707  # 对角线移动速度系数
+        accelerate_time: 0.2
+        decelerate_time: 0.1
+
+        # 快捷键绑定
+        key_bindings:
+          zoom_in: "="
+          zoom_out: "-"
+          reset_view: "R"
+          toggle_bounds: "B"
+          toggle_grid: "G"
+
+      # 边缘滚动
+      edge_scrolling:
+        enabled: false
+        edge_threshold: 50  # 像素
+        scroll_speed: 100.0  # 像素/秒
+        auto_return_time: 2.0
+
+      # 震动效果
+      shake:
+        enabled: true
+        default_duration: 0.3
+        default_intensity: 5.0
+        max_intensity: 20.0
+        frequency: 20.0
+
+        # 预设震动效果
+        presets:
+          light:
+            duration: 0.2
+            intensity: 3.0
+            frequency: 25.0
+          medium:
+            duration: 0.3
+            intensity: 8.0
+            frequency: 20.0
+          heavy:
+            duration: 0.5
+            intensity: 15.0
+            frequency: 15.0
+
+      # 聚焦行为
+      focus:
+        # 角色聚焦
+        character:
+          transition_duration: 0.5
+          offset_y: -50
+          zoom_padding: 100
+          smooth_follow: true
+
+        # 位置聚焦
+        position:
+          transition_duration: 0.3
+          arrival_threshold: 5.0
+          overshoot_prevention: true
+
+      # 跟随模式
+      follow_modes:
+        # 松散跟随
+        loose:
+          follow_speed: 2.0
+          look_ahead_distance: 50
+          predictive_following: false
+
+        # 紧密跟随
+        tight:
+          follow_speed: 8.0
+          look_ahead_distance: 20
+          predictive_following: true
+
+        # 智能跟随
+        smart:
+          follow_speed: 5.0
+          adaptive_speed: true
+          prediction_enabled: true
+          obstacle_avoidance: true
+
+      # 性能配置
+      performance:
+        # 更新频率
+        update_rate: 60.0  # Hz
+        enable_smoothing: true
+
+        # 视口裁剪
+        culling:
+          enabled: true
+          culling_distance: 1000.0
+          margin: 100.0
+
+        # Godot 4.4 渲染优化
+        rendering:
+          use_2d_physics_interpolation: true
+          physics_interpolation_max_steps: 8
+          physics_interpolation_max_time: 0.1
+
+      # Godot 4.4 特定配置
+      godot44_features:
+        # 渲染器配置
+        renderer:
+          use_2d_physical_lighting: false
+          physics_interpolation_mode: "interpolate"  # interpolate, extrapolate
+
+        # 空间音频跟随
+        audio_listener:
+          follow_camera: true
+          attenuation_model: "inverse"  # inverse, inverse_squared, linear
+          max_distance: 500.0
+
+        # 视觉效果
+        visual_effects:
+          parallax_layers:
+            enabled: false
+            layer_count: 3
+            base_speed: 0.1
+
+          screen_shake_2d:
+            use_new_system: true  # 使用Godot 4.4的新屏幕震动系统
+
+      # 调试和可视化
+      debug:
+        # 调试显示
+        show_camera_bounds: false
+        show_follow_target: false
+        show_zoom_level: false
+        show_fps: false
+
+        # 可视化工具
+        visual_aids:
+          camera_bounds_color: "#FF0000"
+          target_indicator_color: "#00FF00"
+          zoom_text_color: "#FFFFFF"
+          fps_text_color: "#FFFF00"
+
+        # 性能监控
+        performance_monitor:
+          enabled: false
+          show_update_time: false
+          show_render_time: false
+          history_size: 100

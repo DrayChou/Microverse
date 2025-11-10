@@ -1,0 +1,131 @@
+# 背景故事配置文件
+background_stories:
+  office:
+    display_name: "办公室"
+    company:
+      name: "CountSheep游戏公司"
+      description: |
+        一家专注于休闲小游戏开发的创新公司，主要产品是《CountSheep》小游戏。
+        游戏宣传语：Can't Sleep? Count Sheep。
+        游戏玩法：通过让用户数手机屏幕上跳过的小羊，然后有九宫格数字按钮来计数得分。
+        该游戏目前十分流行，吸引了许多跟时髦的小青年充值购买小羊皮肤和按键皮肤。
+    environment:
+      description: |
+        这是一家现代化的公司，有多个工作区、会议室和休息区。
+        办公室装修简洁明亮，有大窗户可以看到外面的景色。
+        工作环境轻松愉快，鼓励创新和团队合作。
+      features:
+        - 多个工作区
+        - 会议室
+        - 休息区
+        - 大窗户采光
+    time_period: "现代（2024年）"
+    cultural_context: |
+      现代都市办公文化，注重工作与生活平衡，团队协作和创新思维。
+    economic_situation: |
+      公司处于快速发展期，游戏收入稳定增长，员工待遇良好。
+    social_rules:
+      - "工作时间内应保持专业态度"
+      - "鼓励团队合作和知识分享"
+      - "尊重同事的个人空间和工作习惯"
+      - "会议室使用需要提前预约"
+      - "保持工作区域整洁"
+      - "午休时间可以适当放松"
+      - "重要决策需要团队讨论"
+    assets:
+      background_image: "res://asset/scenes/office_background.png"
+      background_music: "res://assets/sounds/office_ambience.ogg"
+      theme_colors:
+        primary: "#2E7D32"
+        secondary: "#E8F5E8"
+        accent: "#4CAF50"
+
+  school:
+    display_name: "学校"
+    company:
+      name: "阳光学院"
+      description: |
+        一所注重全面发展的现代化学校，致力于培养学生的学术能力和综合素质。
+        学校设有完善的教学设施和丰富的课外活动。
+    environment:
+      description: |
+        校园环境优美，有教学楼、图书馆、实验室、体育馆等设施。
+        绿树成荫，学习氛围浓厚。
+      features:
+        - 教学楼
+        - 图书馆
+        - 实验室
+        - 体育馆
+        - 绿化园区
+    time_period: "现代（2024年）"
+    cultural_context: |
+      教育文化环境，重视知识传授、品德培养和师生关系。
+    economic_situation: |
+      学校资金充足，设施完善，教师待遇稳定。
+    social_rules:
+      - "上课时间保持安静，认真听讲"
+      - "尊重老师和同学"
+      - "按时完成作业和任务"
+      - "保持校园环境整洁"
+      - "遵守校规校纪"
+      - "积极参与课堂讨论"
+      - "课间时间可以适当休息和交流"
+    assets:
+      background_image: "res://asset/scenes/school_background.png"
+      background_music: "res://assets/sounds/school_ambience.ogg"
+      theme_colors:
+        primary: "#1976D2"
+        secondary: "#E3F2FD"
+        accent: "#FF9800"
+
+  coffee_shop:
+    display_name: "咖啡厅"
+    company:
+      name: "时光咖啡馆"
+      description: |
+        一家温馨舒适的独立咖啡馆，提供各种饮品和简餐。
+        店主是一位退休教师，喜欢和客人聊天，分享人生智慧。
+    environment:
+      description: |
+        咖啡厅装修温暖舒适，有舒适的座位和安静的学习角落。
+        气氛轻松，是学生和上班族的好去处。
+      features:
+        - 吧啡吧台
+        - 舒适座位区
+        - 安静学习区
+        - 小型书架
+    time_period: "现代（2024年）"
+    cultural_context: |
+      休闲文化环境，注重生活品质和人际关系。
+    economic_situation: |
+        经营稳定，客流稳定，在当地社区有一定知名度。
+    social_rules:
+      - "保持安静，不大声喧哗"
+      - "尊重其他客人"
+      - "爱护店内设施"
+      - "消费后清理桌面"
+      - "使用电子设备时戴耳机"
+      - "尊重店主的建议"
+      - "可以停留休息和交谈"
+    assets:
+      background_image: "res://asset/scenes/coffee_shop_background.png"
+      background_music: "res://assets/sounds/coffee_shop_ambience.ogg"
+      theme_colors:
+        primary: "#8D6E63"
+        secondary: "#FFF3E0"
+        accent: "#FFB74D"
+
+# 用户自定义规则模板
+custom_rules_template:
+  - rule: "禁止在办公区域大声喧哗"
+    category: "behavior"
+    severity: "medium"
+    description: "维护良好的工作环境"
+  - rule: "鼓励创新思考和实验"
+    category: "innovation"
+    severity: "low"
+    description: "培养创新文化"
+  - rule: "保持工作与生活的平衡"
+    category: "wellness"
+    severity: "low"
+    description: "注重员工福祉"

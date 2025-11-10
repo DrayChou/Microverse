@@ -1,0 +1,236 @@
+# 角色动画系统配置 - Godot 4.4优化版
+# 利用Godot 4.4的AnimationPlayer、粒子系统和特效功能
+
+animations:
+  character:
+    # Godot 4.4 AnimationPlayer优化配置
+    animation_player:
+      # 混合模式配置
+      blend_mode: "blend"  # blend, additive, subtract
+      blend_time: 0.2
+      blend_mode_transition: true
+
+      # 播放模式配置
+      playback_mode: "normal"  # normal, loop, pingpong
+      process_callback: "idle"  # idle, physics, manual (Godot 4.4新选项)
+
+      # 性能优化
+      advance_on_start: true
+      autoplay: false
+
+    # 动画命名规则
+    naming:
+      idle_prefix: "idle_"
+      run_prefix: "run_"
+      walk_prefix: "walk_"
+      sit_prefix: "sit_"
+      stand_prefix: "stand_"
+      talk_prefix: "talk_"
+      work_prefix: "work_"
+
+    # 方向定义
+    directions: ["up", "down", "left", "right"]
+    diagonal_directions: ["up_left", "up_right", "down_left", "down_right"]
+
+    # 动画速度配置
+    speeds:
+      idle: 1.0
+      run: 1.2
+      walk: 1.0
+      sit: 0.8
+      stand: 1.0
+      talk: 1.5
+      work: 1.0
+
+    # 动画过渡配置
+    transitions:
+      idle_to_run:
+        duration: 0.2
+        easing: "ease_out_quad"
+      run_to_idle:
+        duration: 0.3
+        easing: "ease_in_quad"
+      stand_to_sit:
+        duration: 0.5
+        easing: "ease_in_out_cubic"
+      sit_to_stand:
+        duration: 0.4
+        easing: "ease_out_cubic"
+
+    # 状态机配置
+    state_machine:
+      # 状态定义
+      states:
+        - name: "idle"
+          transitions: ["run", "walk", "sit", "talk", "work"]
+          animation_prefix: "idle_"
+        - name: "moving"
+          transitions: ["idle", "sit"]
+          animation_prefix: "run_"
+        - name: "sitting"
+          transitions: ["idle", "stand"]
+          animation_prefix: "sit_"
+        - name: "talking"
+          transitions: ["idle", "work"]
+          animation_prefix: "talk_"
+        - name: "working"
+          transitions: ["idle", "talk"]
+          animation_prefix: "work_"
+
+    # Godot 4.4 特效配置
+    effects:
+      # 脚步粒子特效
+      footstep_particles:
+        enabled: true
+        scene_path: "res://effects/footstep_particles.tscn"
+        emission_rate: 10
+        lifetime: 1.0
+        scale_range: [0.5, 1.0]
+        colors: ["#8B4513", "#654321"]  # 棕色系
+
+      # 对话气泡特效
+      talk_bubble:
+        enabled: true
+        scene_path: "res://effects/talk_bubble.tscn"
+        scale_range: [0.8, 1.2]
+        fade_in_time: 0.2
+        fade_out_time: 0.3
+        offset: [0, -40]
+
+      # 工作特效
+      work_effects:
+        enabled: true
+        effects:
+          - type: "glow"
+            color: "#FFFF00"  # 黄色光晕
+            intensity: 0.5
+            radius: 30.0
+          - type: "particles"
+            scene_path: "res://effects/work_particles.tscn"
+            emission_rate: 5
+
+    # 动画事件配置
+    animation_events:
+      # 脚步声事件
+      footstep_events:
+        - animation: "run_left"
+          time: 0.5
+          sound: "res://audio/footstep_grass.wav"
+        - animation: "run_right"
+          time: 0.5
+          sound: "res://audio/footstep_grass.wav"
+
+      # 椅子交互事件
+      chair_events:
+        - animation: "sit_down"
+          time: 0.8
+          event: "sit_complete"
+        - animation: "stand_up"
+          time: 0.6
+          event: "stand_complete"
+
+    # 嘴型同步配置
+    lip_sync:
+      enabled: true
+      sensitivity: 0.5
+      update_rate: 30  # FPS
+
+      # 嘴型映射
+      phoneme_map:
+        "a": "mouth_open_wide"
+        "e": "mouth_open_medium"
+        "i": "mouth_open_narrow"
+        "o": "mouth_open_round"
+        "u": "mouth_open_pucker"
+
+    # 表情动画配置
+    expressions:
+      # 默认表情
+      default: "neutral"
+
+      # 表情列表
+      expressions_list:
+        - name: "neutral"
+          duration: 1.0
+          blend_shape_weights: {}
+        - name: "happy"
+          duration: 1.5
+          blend_shape_weights:
+            "smile": 1.0
+            "eyes_squint": 0.3
+        - name: "sad"
+          duration: 2.0
+          blend_shape_weights:
+            "frown": 1.0
+            "eyes_down": 0.5
+        - name: "angry"
+          duration: 1.8
+          blend_shape_weights:
+            "scowl": 1.0
+            "eyebrows_lowered": 0.8
+
+    # Godot 4.4 GPU动画配置
+    gpu_animation:
+      enabled: false  # 如果角色支持GPU动画
+      skinning_method: "dual_quaternion"  # linear, dual_quaternion
+      morph_targets: true
+
+    # 性能优化配置
+    performance:
+      # 动画LOD（距离优化）
+      lod:
+        enabled: true
+        distances:
+          high: 100
+          medium: 300
+          low: 600
+
+        # LOD级别的动画简化
+        lod_settings:
+          high:
+            animation_speed: 1.0
+            effects_enabled: true
+          medium:
+            animation_speed: 0.8
+            effects_enabled: false
+          low:
+            animation_speed: 0.6
+            animation_set: "basic"  # basic, idle_only
+
+      # 动画批处理
+      batch_processing:
+        enabled: true
+        batch_size: 10
+        update_interval: 0.016  # 60 FPS
+
+    # 调试和可视化
+    debug:
+      # 调试显示
+      show_animation_state: false
+      show_current_animation: false
+      show_transition_info: false
+
+      # 可视化工具
+      visual_aids:
+        show_effect_ranges: false
+        effect_color: "#00FF00"
+        show_lod_zones: false
+
+    # 资源管理
+    resources:
+      # 动画资源缓存
+      cache_animations: true
+      max_cache_memory_mb: 64
+
+      # 预加载关键动画
+      preload_critical:
+        - "idle_down"
+        - "run_down"
+        - "sit_down"
+        - "talk_down"
+
+      # 动画压缩
+      compression:
+        enabled: true
+        precision: 0.1
+        remove_unused_keys: true

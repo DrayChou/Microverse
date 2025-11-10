@@ -1,0 +1,456 @@
+# 音频系统配置 - Godot 4.4优化版
+# 充分利用Godot 4.4的AudioServer和音频特性
+
+systems:
+  audio:
+    # Godot 4.4 AudioServer配置
+    audio_server:
+      mix_rate: 44100            # 采样率 (Hz)
+      output_latency: 0.1        # 输出延迟 (秒)
+      channel_count: 2            # 声道数 (1=单声道, 2=立体声)
+      buffer_size: 1024          # 缓冲区大小
+      output_device: "default"
+
+    # 主音量控制
+    volume_control:
+      master_volume: 1.0       # 主音量 (0.0-1.0)
+      default_music_volume: 0.8  # 默认音乐音量
+      default_sfx_volume: 0.9    # 默认音效音量
+      default_voice_volume: 1.0  # 默认语音音量
+      mute_on_focus_lost: false     # 失去焦点时静音
+
+    # 音频流配置
+    audio_streams:
+      stream_count: 4           # 音频流数量
+      stream_sizes:            # 每个流的大小
+        - 4096
+        - 4096
+        - 2048
+        - 1024
+
+    # 性能设置
+    performance:
+      enable_audio_threading: true   # 启用音频线程处理
+      audio_thread_priority: 2        # 音频线程优先级
+      buffer_pool_size: 16          # 缓冲池大小
+      max_sound_instances: 64      # 最大同时播放音效数
+
+    # 背景音乐配置
+    background_music:
+      # 音乐播放器设置
+      player:
+        auto_play: false            # 自动播放
+        loop: true                 # 循环播放
+        crossfade_duration: 2.0   # 淡音过渡时长 (秒)
+        fade_duration: 1.0         # 淡入淡出时长 (秒)
+        random_track_selection: true # 随机选择曲目
+
+      # 音量控制
+      volume:
+        default_volume: 0.8
+        min_volume: 0.1
+        max_volume: 1.0
+        step_size: 0.05
+        mute_button_debounce: 0.1
+
+      # 音乐库
+      music_library:
+        # 办公室背景音乐
+        office:
+          - track_id: "office_ambient"
+            file_path: "res://asset/audio/music/office_ambient.ogg"
+            display_name: "办公室环境音"
+            duration: 180
+            mood: "neutral"
+            volume: 0.6
+            loop: true
+          - track_id: "office_work"
+            file_path: "res://asset/audio/music/office_work.ogg"
+            display_name: "办公工作音乐"
+            duration: 120
+            mood: "upbeat"
+            volume: 0.7
+            loop: true
+          - track_id: "office_tense"
+            file_path: "res://asset/audio/music/office_tense.ogg"
+            display_name: "办公室紧张氛围"
+            duration: 90
+            mood: "tense"
+            volume: 0.5
+            loop: true
+
+        # 休闲区音乐
+        relaxation:
+          - track_id: "cafe_ambient"
+            file_path: "res://asset/audio/music/cafe_ambient.ogg"
+            display_name: "咖啡馆环境音"
+            duration: 240
+            mood: "relaxed"
+            volume: 0.5
+            loop: true
+          - track_id: "cafe_jazz"
+            file_path: "res://asset/audio/music/cafe_jazz.ogg"
+            display_name: "咖啡馆爵士"
+            duration: 180
+            mood: "upbeat"
+            volume: 0.6
+            loop: true
+
+        # 情感音乐
+        emotional:
+          - track_id: "sad_piano"
+            file_path: "asset/audio/music/sad_piano.ogg"
+            display_name: "忧郁钢琴"
+            duration: 150
+            mood: "sad"
+            volume: 0.4
+            loop: true
+          - track_id: "happy_melody"
+            file_path: "asset/audio/music/happy_melody.ogg"
+            display_name: "欢快旋律"
+            duration: 120
+            mood: "happy"
+            volume: 0.7
+            loop: true
+          - track_id: "suspense_theme"
+            file_path: "asset/audio/music/suspense_theme.ogg"
+            display_name: "悬疑主题"
+            duration: 180
+            mood: "tense"
+            volume: 0.6
+            loop: true
+
+      # 音乐播放列表
+      playlists:
+        work_playlist:
+          name: "工作播放列表"
+          tracks: ["office_work", "office_ambient"]
+          shuffle: false
+          repeat: true
+          auto_switch_interval: 300  # 5分钟
+
+        relaxation_playlist:
+          name: "放松播放列表"
+          tracks: ["cafe_ambient", "cafe_jazz"]
+          shuffle: true
+          repeat: true
+          auto_switch_interval: 600  # 10分钟
+
+    # 音效配置
+    sound_effects:
+      # 音效播放器设置
+      player:
+        max_concurrent_sounds: 16     # 最大同时播放音效数
+        sound_instance_pool_size: 32   # 音效实例池大小
+        instance_auto_recycle: true    # 实例自动回收
+        positional_audio: true        # 启用3D音效
+
+      # 音量控制
+      volume:
+        default_volume: 0.9
+        min_volume: 0.1
+        max_volume: 1.0
+        step_size: 0.1
+
+      # 3D音效配置
+      spatial_audio:
+        enabled: true
+        max_distance: 500.0        # 最大可听距离
+        reference_distance: 100.0  # 参考距离
+        attenuation_model: "inverse"  # 衰减模型: inverse, inverse_squared, linear
+        doppler_factor: 1.0         # 多普勒因子
+
+      # 音效库
+      sound_library:
+        # 角色交互音效
+        character:
+          - effect_id: "footstep_grass"
+            file_path: "res://asset/audio/sfx/footstep_grass.wav"
+            display_name: "草地脚步声"
+            volume: 0.3
+            pitch_variation: [0.8, 1.2]
+            categories: ["footstep", "movement"]
+          - effect_id: "footstep_wood"
+            file_path: "res://asset/audio/sfx/footstep_wood.wav"
+            display_name: "木地板脚步声"
+            volume: 0.4
+            pitch_variation: [0.9, 1.1]
+            categories: ["footstep", "movement"]
+          - effect_id: "sit_down"
+            file_path: "res://audio/sfx/sit_down.wav"
+            display_name: "坐下声"
+            volume: 0.5
+            categories: ["interaction", "chair"]
+          - effect_id: "stand_up"
+            file_path: "res://audio/sfx/stand_up.wav"
+            display_name: "起立声"
+            volume: 0.5
+            categories: ["interaction", "chair"]
+          - effect_id: "talk_start"
+            file_path: "res://audio/sfx/talk_start.wav"
+            display_name: "开始说话声"
+            volume: 0.3
+            categories: ["interaction", "voice"]
+
+        # UI音效
+        ui:
+          - effect_id: "ui_click"
+            file_path: "res://asset/audio/sfx/ui_click.wav"
+            display_name: "UI点击声"
+            volume: 0.5
+            categories: ["ui", "button"]
+          - effect_id: "ui_hover"
+            file_path: "res://audio/sfx/ui_hover.wav"
+            display_name: "UI悬停声"
+            volume: 0.3
+            categories: ["ui", "hover"]
+          - effect_id: "ui_error"
+            file_path: "res://audio/sfx/ui_error.wav"
+            display_name: "UI错误声"
+            volume: 0.6
+            categories: ["ui", "error"]
+          - effect_id: "ui_success"
+            file_path: "res://audio/sfx/ui_success.wav"
+            display_name: "UI成功声"
+            volume: 0.5
+            categories: ["ui", "success"]
+
+        # 环境音效
+        environment:
+          - effect_id: "keyboard_typing"
+            file_path: "res://audio/sfx/keyboard_typing.wav"
+            display_name: "键盘打字声"
+            volume: 0.4
+            pitch_variation: [0.9, 1.1]
+            categories: ["environment", "work"]
+          - effect_id: "door_open"
+            file_path: "res://audio/sfx/door_open.wav"
+            display_name: "开门声"
+            volume: 0.6
+            categories: ["environment", "interaction"]
+          - effect_id: "door_close"
+            file_path: "res://audio/sfx/door_close.wav"
+            display_name: "关门声"
+            volume: 0.5
+            categories: ["environment", "interaction"]
+          - effect_id: "paper_rustle"
+            file_path: "res://audio/sfx/paper_rustle.wav"
+            display_name: "纸张摩擦声"
+            volume: 0.3
+            categories: ["environment", "work"]
+
+        # 特效音效
+        effects:
+          - effect_id: "notification"
+            file_path: "res://asset/audio/sfx/notification.wav"
+            display_name: "通知声"
+            volume: 0.7
+            categories: ["ui", "notification"]
+          - effect_id: "achievement"
+            file_path: "res://audio/sfx/achievement.wav"
+            display_name: "成就解锁声"
+            volume: 0.8
+            categories: ["ui", "achievement"]
+          - effect_id: "level_up"
+            file_path: "audio/sfx/level_up.wav"
+            display_name: "升级音效"
+            volume: 0.9
+            categories: ["gameplay", "achievement"]
+
+    # 语音配置
+    voice:
+      # 语音播放器设置
+      player:
+        auto_play: false            # 自动播放语音
+        interrupt_on_sfx: true      # 音效时中断语音
+        max_speech_duration: 30.0   # 最大语音时长 (秒)
+        speech_threshold: 0.1         # 语音检测阈值
+
+      # 语音识别配置
+      recognition:
+        enabled: false             # 是否启用语音识别
+        api_provider: "google"       # API提供商: google, azure, wit
+        language: "zh-CN"            # 识别语言
+        confidence_threshold: 0.7   # 置信度阈值
+        partial_results: true        # 部分结果处理
+
+      # 语音合成配置
+      synthesis:
+        enabled: true              # 启用语音合成
+        engine: "piper"           # TTS引擎: piper, google, azure
+        voice_id: "default"
+        speed: 1.0              # 语音速度 (0.5-2.0)
+        pitch: 1.0               # 音调 (0.5-2.0)
+        volume: 1.0              # 音量
+
+        # 语音库配置
+        voices:
+          - voice_id: "zh-CN-xiaoxiao-neural"
+            name: "晓晓"
+            language: "zh-CN"
+            gender: "female"
+            description: "女性声音，标准普通话"
+          - voice_id: "en-US-AriaNeural"
+            name: "Aria"
+            language: "en-US"
+            gender: "female"
+            description: "女性声音，美式英语"
+          - voice_id: "ja-JP-Nicotaro"
+            name: "Nico"
+            language: "ja-JP"
+            gender: "male"
+            description: "男性声音，日语"
+
+    # 音频总线配置
+    audio_buses:
+      # 主音频总线结构
+      bus_layout:
+        master:
+          name: "Master"
+          volume: 1.0
+          mute: false
+          solo: false
+          effects: []
+        music:
+          name: "Music"
+          volume: 0.8
+          parent: "Master"
+          mute: false
+          solo: false
+          effects:
+            - name: "music_reverb"
+              type: "reverb"
+              parameters:
+                room_size: 0.5
+                damping: 0.5
+                wet: 0.3
+                dry: 0.7
+        sfx:
+          name: "SFX"
+          volume: 0.9
+          parent: "Master"
+          mute: false
+          solo: false
+          effects:
+            - name: "sfx_echo"
+              type: "echo"
+              parameters:
+                delay: 0.3
+                delay_ms: 300
+                wet: 0.2
+                dry: 0.8
+        voice:
+          name: "Voice"
+          volume: 1.0
+          parent: "Master"
+          mute: false
+          solo: false
+          effects:
+            - name: "voice_compressor"
+              type: "compressor"
+              parameters:
+                threshold: -20.0
+                ratio: 4.0
+                attack: 0.1
+                release: 0.3
+                gain: 1.0
+
+      # 音频效果器详情
+      effects:
+        reverb:
+          - name: "music_reverb"
+            type: "AudioEffectReverb"
+            preset: "small_room"
+            parameters:
+              room_size: 0.5
+              damping: 0.5
+              wet: 0.3
+              dry: 0.7
+              predelay: 0.05
+              predelay_msec: 50
+        echo:
+          - name: "sfx_echo"
+            type: "AudioEffectDelay"
+        compressor:
+          - name: "sfx_compressor"
+            type: "AudioEffectCompressor"
+            parameters:
+              threshold: -20.0
+              ratio: 4.0
+              attack: 0.1
+              release: 0.3
+              gain: 1.0
+              sidechain: false
+        voice_compressor:
+          - name: "voice_compressor"
+            type: "AudioEffectCompressor"
+            parameters:
+              threshold: -20.0
+              ratio: 4.0
+              attack: 0.1
+              release: 0.3
+              gain: 1.0
+              sidechain: false
+
+    # 平台特定配置
+    platform:
+      # Windows特定配置
+      windows:
+        audio_drivers: ["wasapi", "directsound"]
+        default_driver: "wasapi"
+        device_detection_timeout: 5.0
+        exclusive_mode: false
+
+      # macOS特定配置
+      macos:
+        audio_drivers: ["coreaudio"]
+        default_driver: "coreaudio"
+        device_detection_timeout: 3.0
+        exclusive_mode: false
+
+      # Linux特定配置
+      linux:
+        audio_drivers: ["pulseaudio", "alsa", "oss"]
+        default_driver: "pulseaudio"
+        device_detection_timeout: 5.0
+        exclusive_mode: false
+
+      # Web平台特定配置
+      web:
+        audio_driver: "web"
+        max_audio_buses: 8
+        stream_buffer_size: 4096
+
+    # 调试和监控
+    debug:
+      # 调试信息
+      show_audio_info: false
+      log_audio_events: false
+      show_bus_activity: false
+
+      # 性能监控
+      performance:
+        monitor_cpu_usage: false
+        track_stream_count: false
+        log_buffer_overruns: false
+
+      # 音频可视化
+      visualization:
+        show_spectrum_analyzer: false
+        show_vu_meters: false
+        update_rate: 30  # FPS
+
+    # 开发配置
+    development:
+      # 开发时音频设置
+      dev_mode:
+        enable_audio_debug: false
+        log_missing_files: true
+        force_mono: false
+        disable_compression: false
+
+      # 测试工具
+      testing:
+        test_all_audio: false
+        validate_audio_files: false
+        generate_audio_report: false

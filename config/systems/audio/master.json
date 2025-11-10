@@ -1,0 +1,51 @@
+{
+  "systems": {
+    "audio": {
+      "audio_server": {
+        "mix_rate": 44100,
+        "output_latency": 0.1,
+        "channel_count": 2,
+        "buffer_size": 1024,
+        "output_device": "default"
+      },
+      "volume_control": {
+        "master_volume": 1.0,
+        "default_music_volume": 0.8,
+        "default_sfx_volume": 0.9,
+        "default_voice_volume": 1.0,
+        "mute_on_focus_lost": false
+      },
+      "audio_streams": {
+        "stream_count": 4,
+        "stream_sizes": [4096, 4096, 2048, 1024]
+      },
+      "performance": {
+        "enable_audio_threading": true,
+        "audio_thread_priority": 2,
+        "buffer_pool_size": 16,
+        "max_sound_instances": 64
+      },
+      "background_music": {
+        "player": {
+          "auto_play": false,
+          "loop": true,
+          "crossfade_duration": 2.0,
+          "fade_duration": 1.0,
+          "random_track_selection": true
+        },
+        "volume": {
+          "default_volume": 0.8,
+          "min_volume": 0.1,
+          "max_volume": 1.0,
+          "step_size": 0.05,
+          "mute_button_debounce": 0.1
+        }
+      },
+      "debug": {
+        "enable_audio_debug": false,
+        "log_audio_events": false,
+        "show_performance_stats": false
+      }
+    }
+  }
+}

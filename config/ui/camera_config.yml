@@ -1,0 +1,71 @@
+# 相机控制配置文件
+# 包含所有相机相关的参数和设置
+
+camera_config:
+  # 基础移动参数
+  movement:
+    follow_speed: 5.0          # 跟随目标的速度
+    smooth_factor: 0.1         # 平滑系数
+    max_follow_distance: 300.0 # 最大跟随距离
+
+  # 缩放级别配置
+  zoom_levels:
+    global: 0.8               # 全局视角缩放
+    character: 1.5            # 角色聚焦缩放
+    manual: 0.8               # 手动控制默认缩放
+    min_zoom: 0.3             # 最小缩放
+    max_zoom: 3.0             # 最大缩放
+
+  # 缩放控制参数
+  zoom_control:
+    zoom_speed: 0.1           # 缩放速度
+    zoom_step: 0.1            # 每次缩放步长
+    smooth_zoom: true         # 是否使用平滑缩放
+
+  # 地图配置
+  map:
+    center: [576, 320]        # 地图中心坐标 [x, y]
+    bounds:                  # 地图边界 [min_x, min_y, max_x, max_y]
+      - 0
+      - 0
+      - 1152
+      - 640
+    constrain_to_bounds: true # 是否限制相机在边界内
+
+  # 拖拽控制
+  drag_control:
+    enabled: true             # 是否启用拖拽
+    drag_speed: 1.0           # 拖拽速度
+    momentum: true            # 是否启用惯性
+    friction: 0.95            # 摩擦系数
+
+  # 键盘控制
+  keyboard_control:
+    enabled: true             # 是否启用键盘控制
+    move_speed: 200.0         # 键盘移动速度（像素/秒）
+    diagonal_slowdown: 0.707 # 对角线移动速度系数
+
+  # 边缘滚动
+  edge_scrolling:
+    enabled: false            # 是否启用边缘滚动
+    edge_threshold: 50        # 边缘触发距离（像素）
+    scroll_speed: 100.0       # 滚动速度（像素/秒）
+
+  # 震动效果
+  shake:
+    enabled: true             # 是否启用震动效果
+    default_duration: 0.3     # 默认震动时长（秒）
+    default_intensity: 5.0    # 默认震动强度
+    max_intensity: 20.0       # 最大震动强度
+
+  # 聚焦行为
+  focus:
+    transition_duration: 0.5  # 聚焦过渡时长（秒）
+    offset_y: -50            # 聚焦时的Y轴偏移
+    zoom_padding: 100        # 聚焦时的边界填充
+
+  # 性能配置
+  performance:
+    update_rate: 60.0         # 更新频率（Hz）
+    enable_smoothing: true    # 是否启用平滑处理
+    culling_distance: 1000.0  # 剔除距离（超出此距离的对象不渲染）

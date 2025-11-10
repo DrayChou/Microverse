@@ -1,0 +1,78 @@
+{
+  "background_stories": {
+    "office": {
+      "display_name": "办公室",
+      "company": {
+        "name": "CountSheep游戏公司",
+        "description": "一家专注于休闲小游戏开发的创新公司，主要产品是《CountSheep》小游戏。\n游戏宣传语：Can't Sleep? Count Sheep。\n游戏玩法：通过让用户数手机屏幕上跳过的小羊，然后有九宫格数字按钮来计数得分。\n该游戏目前十分流行，吸引了许多跟时髦的小青年充值购买小羊皮肤和按键皮肤。"
+      },
+      "environment": {
+        "description": "这是一家现代化的公司，有多个工作区、会议室和休息区。\n办公室装修简洁明亮，有大窗户可以看到外面的景色。\n工作环境轻松愉快，鼓励创新和团队合作。",
+        "features": [
+          "多个工作区",
+          "会议室",
+          "休息区",
+          "大窗户采光"
+        ]
+      },
+      "time_period": "现代（2024年）",
+      "cultural_context": "现代都市办公文化，注重工作与生活平衡，团队协作和创新思维。",
+      "economic_situation": "公司处于快速发展期，游戏收入稳定增长，员工待遇良好。",
+      "social_rules": [
+        "工作时间内应保持专业态度",
+        "鼓励团队合作和知识分享",
+        "尊重同事的个人空间和工作习惯",
+        "会议室使用需要提前预约",
+        "保持工作区域整洁",
+        "午休时间可以适当放松",
+        "重要决策需要团队讨论"
+      ],
+      "assets": {
+        "background_image": "res://asset/scenes/office_background.png",
+        "background_music": "res://assets/sounds/office_ambience.ogg",
+        "theme_colors": {
+          "primary": "#2E7D32",
+          "secondary": "#E8F5E8",
+          "accent": "#4CAF50"
+        }
+      }
+    },
+    "school": {
+      "display_name": "学校",
+      "company": {
+        "name": "阳光学院",
+        "description": "一所注重全面发展的现代化学校，致力于培养学生的学术能力和综合素质。\n学校设有完善的教学设施和丰富的课外活动。"
+      },
+      "environment": {
+        "description": "校园环境优美，有教学楼、图书馆、实验室、体育馆等设施。\n绿树成荫，学习氛围浓厚。",
+        "features": [
+          "教学楼",
+          "图书馆",
+          "实验室",
+          "体育馆",
+          "绿化园区"
+        ]
+      },
+      "time_period": "现代（2024年）",
+      "cultural_context": "现代教育环境，注重学术研究和个人发展。",
+      "economic_situation": "教育投入稳定，设施完善，师资力量雄厚。",
+      "social_rules": [
+        "课堂内保持安静",
+        "尊重师长和同学",
+        "爱护学校设施",
+        "按时完成作业",
+        "积极参与课堂讨论",
+        "遵守校园规章制度"
+      ],
+      "assets": {
+        "background_image": "res://asset/scenes/school_background.png",
+        "background_music": "res://assets/sounds/school_ambience.ogg",
+        "theme_colors": {
+          "primary": "#1976D2",
+          "secondary": "#E3F2FD",
+          "accent": "#2196F3"
+        }
+      }
+    }
+  }
+}

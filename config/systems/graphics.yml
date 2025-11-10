@@ -1,0 +1,298 @@
+# 图形和动画系统配置 - Godot 4.4优化版
+# 充分利用Godot 4.4的AnimationPlayer、粒子系统和渲染特性
+
+systems:
+  graphics:
+    animations:
+      # Godot 4.4 AnimationPlayer优化
+      player:
+        # 播放控制
+        blend_mode: "blend"  # blend, additive, subtract
+        blend_time: 0.2
+        playback_mode: "normal"  # normal, loop, pingpong
+        process_callback: "idle"  # idle, physics, manual (Godot 4.4新选项)
+
+        # 性能优化
+        advance_on_start: true
+        autoplay: false
+        movie_quit_on_finish: false
+
+      # 角色动画配置
+      character:
+        # 动画命名规则
+        naming:
+          idle_prefix: "idle_"
+          walk_prefix: "walk_"
+          run_prefix: "run_"
+          sit_prefix: "sit_"
+          stand_prefix: "stand_"
+          talk_prefix: "talk_"
+          work_prefix: "work_"
+          interact_prefix: "interact_"
+
+        # 方向定义
+        directions: ["up", "down", "left", "right"]
+        diagonal_directions: ["up_left", "up_right", "down_left", "down_right"]
+
+        # 动画速度
+        speeds:
+          idle: 1.0
+          walk: 1.0
+          run: 1.2
+          sit: 0.8
+          stand: 1.0
+          talk: 1.5
+          work: 1.0
+          interact: 1.1
+
+        # 动画过渡
+        transitions:
+          idle_to_walk:
+            duration: 0.1
+            easing: "ease_out_quad"
+          walk_to_idle:
+            duration: 0.2
+            easing: "ease_in_quad"
+          idle_to_run:
+            duration: 0.15
+            easing: "ease_out_cubic"
+          run_to_idle:
+            duration: 0.25
+            easing: "ease_in_cubic"
+          stand_to_sit:
+            duration: 0.5
+            easing: "ease_in_out_quart"
+          sit_to_stand:
+            duration: 0.4
+            easing: "ease_out_quart"
+
+        # 状态机配置
+        state_machine:
+          # 状态定义
+          states:
+            - name: "idle"
+              transitions: ["walk", "run", "sit", "talk", "work"]
+              animation_prefix: "idle_"
+              physics_mode: "character"
+            - name: "moving"
+              transitions: ["idle", "sit"]
+              animation_prefix: "run_"
+              physics_mode: "character"
+            - name: "sitting"
+              transitions: ["idle", "stand"]
+              animation_prefix: "sit_"
+              physics_mode: "static"
+            - name: "talking"
+              transitions: ["idle", "work"]
+              animation_prefix: "talk_"
+              physics_mode: "character"
+            - name: "working"
+              transitions: ["idle", "talk"]
+              animation_prefix: "work_"
+              physics_mode: "character"
+
+      # Godot 4.4 特效配置
+      effects:
+        # 粒子系统
+        particles:
+          # 脚步粒子
+          footstep:
+            enabled: true
+            scene_path: "res://effects/footstep_particles.tscn"
+            emission_rate: 10
+            lifetime: 1.0
+            scale_range: [0.5, 1.0]
+            colors: ["#8B4513", "#654321"]
+            fade_time: 0.3
+
+          # 工作粒子
+          work:
+            enabled: true
+            scene_path: "res://effects/work_particles.tscn"
+            emission_rate: 5
+            scale_range: [0.8, 1.2]
+            colors: ["#FFD700", "#FFA500"]
+
+          # 对话气泡
+          talk_bubble:
+            enabled: true
+            scene_path: "res://effects/talk_bubble.tscn"
+            scale_range: [0.8, 1.2]
+            fade_in_time: 0.2
+            fade_out_time: 0.3
+            offset: [0, -40]
+
+        # 光效
+        lighting:
+          # 工作时的光晕
+          work_glow:
+            enabled: true
+            color: "#FFFF00"
+            intensity: 0.5
+            radius: 30.0
+            pulse_speed: 1.0
+
+          # 对话时的光环
+          talk_aura:
+            enabled: false
+            color: "#00FFFF"
+            intensity: 0.3
+            radius: 25.0
+
+      # 嘴型同步配置
+      lip_sync:
+        enabled: true
+        sensitivity: 0.5
+        update_rate: 30  # FPS
+        interpolation_speed: 10.0
+
+        # 音素到嘴型映射
+        phoneme_map:
+          "a": "mouth_open_wide"
+          "e": "mouth_open_medium"
+          "i": "mouth_open_narrow"
+          "o": "mouth_open_round"
+          "u": "mouth_open_pucker"
+          "m": "mouth_closed"
+          "f": "mouth_teeth"
+          "s": "mouth_teeth_tongue"
+
+      # 表情动画配置
+      expressions:
+        # 默认表情
+        default: "neutral"
+
+        # 表情列表
+        expressions_list:
+          - name: "neutral"
+            duration: 1.0
+            blend_shapes: {}
+            transition_time: 0.3
+          - name: "happy"
+            duration: 1.5
+            blend_shapes:
+              "smile": 1.0
+              "eyes_squint": 0.3
+              "cheeks_raise": 0.2
+            transition_time: 0.5
+          - name: "sad"
+            duration: 2.0
+            blend_shapes:
+              "frown": 1.0
+              "eyes_down": 0.5
+              "eyebrows_sad": 0.8
+            transition_time: 0.6
+          - name: "angry"
+            duration: 1.8
+            blend_shapes:
+              "scowl": 1.0
+              "eyebrows_lowered": 0.8
+              "eyes_narrow": 0.5
+            transition_time: 0.4
+          - name: "surprised"
+            duration: 1.2
+            blend_shapes:
+              "eyes_wide": 1.0
+              "mouth_open": 0.8
+              "eyebrows_raised": 0.9
+            transition_time: 0.3
+
+      # Godot 4.4 GPU动画配置
+      gpu_animation:
+        enabled: false  # 如果支持GPU蒙皮动画
+        skinning_method: "dual_quaternion"  # linear, dual_quaternion
+        morph_targets: true
+        vertex_animation: false
+
+      # 渲染优化配置
+      rendering:
+        # LOD配置
+        lod:
+          enabled: true
+          distances:
+            high: 100    # 高质量距离
+            medium: 300  # 中等质量距离
+            low: 600     # 低质量距离
+
+          # LOD级别配置
+          levels:
+            high:
+              animation_quality: "high"
+              effects_enabled: true
+              lip_sync_enabled: true
+              expressions_enabled: true
+            medium:
+              animation_quality: "medium"
+              effects_enabled: false
+              lip_sync_enabled: false
+              expressions_enabled: false
+            low:
+              animation_quality: "low"
+              effects_enabled: false
+              lip_sync_enabled: false
+              expressions_enabled: false
+              animation_set: "idle_only"  # basic, idle_only
+
+        # 批处理优化
+        batch_processing:
+          enabled: true
+          batch_size: 10
+          update_interval: 0.016  # 60 FPS
+
+        # Godot 4.4 Compositor效果
+        compositor:
+          enabled: false  # 角色级别的后期效果
+          effects:
+            - name: "character_outline"
+              color: "#FFFFFF"
+              width: 1.0
+              enabled: false
+            - name: "character_glow"
+              color: "#FFFF00"
+              intensity: 0.2
+              enabled: false
+
+      # 资源管理
+      resources:
+        # 动画资源缓存
+        cache:
+          enabled: true
+          max_memory_mb: 64
+          cleanup_threshold: 0.8
+
+        # 预加载关键动画
+        preload:
+          critical:
+            - "idle_down"
+            - "walk_down"
+            - "sit_down"
+            - "talk_down"
+          optional:
+            - "run_down"
+            - "work_down"
+            - "interact_down"
+
+        # 动画压缩
+        compression:
+          enabled: true
+          precision: 0.1
+          remove_unused_keys: true
+          optimize_keyframes: true
+
+      # 调试和可视化
+      debug:
+        # 调试显示
+        show_animation_state: false
+        show_current_animation: false
+        show_transition_info: false
+        show_blend_weights: false
+
+        # 可视化工具
+        visual_aids:
+          show_effect_ranges: false
+          effect_color: "#00FF00"
+          show_lod_zones: false
+          lod_zone_colors:
+            high: "#00FF00"
+            medium: "#FFFF00"
+            low: "#FF0000"

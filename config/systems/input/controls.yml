@@ -1,0 +1,469 @@
+# 输入系统配置 - Godot 4.4优化版
+# 充分利用Godot 4.4的输入系统和输入事件处理特性
+
+systems:
+  input:
+    controls:
+      # 键盘控制配置
+      keyboard:
+        enabled: true
+        # 基础键位映射
+        key_mappings:
+          # 移动控制
+          movement:
+            move_up: "W"
+            move_down: "S"
+            move_left: "A"
+            move_right: "D"
+            move_up_alt: "UP"
+            move_down_alt: "DOWN"
+            move_left_alt: "LEFT"
+            move_right_alt: "RIGHT"
+
+          # 通用操作
+          actions:
+            interact: "E"
+            talk: "T"
+            sit: "SPACE"
+            stand: "SPACE"
+            work: "F"
+            cancel: "ESC"
+            confirm: "RETURN"
+            tab: "TAB"
+            backspace: "BACKSPACE"
+
+          # 相机控制
+          camera:
+            zoom_in: "="
+            zoom_out: "-"
+            zoom_reset: "R"
+            follow_character: "F"
+            free_camera: "C"
+            toggle_ui: "TAB"
+            toggle_bounds: "B"
+            toggle_grid: "G"
+
+          # 系统功能
+          system:
+            save_game: "F5"
+            load_game: "F9"
+            screenshot: "F12"
+            debug_mode: "F11"
+            pause: "P"
+            quit: "Q"
+
+        # Godot 4.4 输入事件增强
+        enhanced_features:
+          use_input_map: true
+          input_map_path: "res://config/systems/input/input_map.tres"
+          enable_input_just_pressed: true
+          enable_input_just_released: true
+
+        # 组合键支持
+        combos:
+          - name: "quick_save"
+            keys: ["Ctrl", "S"]
+            action: "save_game"
+          - name: "quick_load"
+            keys: ["Ctrl", "L"]
+            action: "load_game"
+          - name: "fullscreen"
+            keys: ["F11"]
+            action: "toggle_fullscreen"
+          - name: "debug_console"
+            keys: ["Shift", "~"]
+            action: "toggle_debug"
+
+        # 输入重复设置
+        repeat:
+          enabled: true
+          delay: 0.5
+          rate: 0.1
+
+      # 键盘配置
+      keyboard_settings:
+        # 重复延迟和速率
+        repeat_delay_ms: 500
+        repeat_rate_ms: 50
+
+        # 键盘事件过滤
+        filter_unhandled: true
+        filter_text_input: false
+
+        # Godot 4.4 键盘监听
+        key_listeners:
+          enabled: false
+          track_all_keys: false
+
+      # 特殊键处理
+      special_keys:
+        modifier_keys:
+          ctrl: "Ctrl"
+          shift: "Shift"
+          alt: "Alt"
+          meta: "Meta"
+
+        # 功能键
+        function_keys:
+          f1_to_f12:
+            f1: "help"
+            f5: "save_game"
+            f9: "load_game"
+            f11: "debug_mode"
+            f12: "screenshot"
+
+        # 导航键
+        navigation:
+          home: "home"
+          end: "end"
+          page_up: "page_up"
+          page_down: "page_down"
+          insert: "insert"
+          delete: "delete"
+
+      # 多键盘支持
+      multi_keyboard:
+        enabled: false
+        priority_order: ["primary", "secondary"]
+
+      # 键盘快捷键自定义
+      shortcuts:
+        # 开发者快捷键
+        developer:
+          - id: "restart_scene"
+            keys: ["Ctrl", "R", "Shift"]
+            context: "development"
+            description: "重启当前场景"
+          - id: "reload_config"
+            keys: ["Ctrl", "Shift", "R"]
+            context: "development"
+            description: "重新加载配置"
+          - id: "toggle_inspector"
+            keys: ["Ctrl", "I"]
+            context: "development"
+            description: "切换场景检查器"
+
+        # 用户自定义快捷键
+        user_defined:
+          - id: "character_detail"
+            keys: ["C"]
+            context: "game"
+            description: "显示角色详情"
+            customizable: true
+
+      # 键盘灵敏度配置
+      sensitivity:
+        key_repeat_sensitivity: 1.0
+        key_hold_threshold: 0.016
+        multi_key_detection: 0.05
+
+      # 鼠标控制配置
+      mouse:
+        enabled: true
+        # 鼠标按钮映射
+        button_mappings:
+          left_click: "interact"
+          right_click: "context_menu"
+          middle_click: "toggle_camera_mode"
+          double_click: "quick_action"
+
+        # 滚轮配置
+        wheel:
+          enabled: true
+          zoom_sensitivity: 1.0
+          scroll_sensitivity: 1.0
+          invert_zoom: false
+          invert_scroll: false
+          smooth_scroll: true
+
+        # 鼠标移动配置
+        movement:
+          sensitivity: 1.0
+          invert_x: false
+          invert_y: false
+          smoothing: true
+          acceleration: 0.2
+
+        # Godot 4.4 鼠标增强
+        enhanced_features:
+          use_relative: true
+          smooth_factor: 0.2
+          raw_input: false
+
+        # 鼠标手势
+        gestures:
+          enabled: true
+          pinch_zoom: true
+          pan_gestures: true
+          rotation_gesture: false
+
+        # 鼠标光标
+        cursor:
+          custom_cursor: false
+          cursor_texture: "res://asset/ui/cursors/default.png"
+          hotspot: [0, 0]
+          visible_in_game: true
+
+        # 双击配置
+        double_click:
+          enabled: true
+          time_threshold: 0.5
+          distance_threshold: 5
+
+      # 手柄控制配置
+      gamepad:
+        enabled: true
+        # 手柄检测和连接
+        detection:
+          auto_connect: true
+          connection_timeout: 5.0
+          vibration_feedback: true
+
+        # 按钮映射
+        button_mappings:
+          # Xbox/通用手柄
+          universal:
+            dpad_up: "move_up"
+            dpad_down: "move_down"
+            dpad_left: "move_left"
+            dpad_right: "move_right"
+            a_button: "interact"
+            b_button: "cancel"
+            x_button: "context_menu"
+            y_button: "toggle_camera_mode"
+            start_button: "pause"
+            back_button: "open_menu"
+            left_shoulder: "zoom_in"
+            right_sholder: "zoom_out"
+            left_trigger: "precision_mode"
+            right_trigger: "accelerate"
+            left_stick_button: "toggle_free_camera"
+            right_stick_button: "character_selector"
+
+          # PlayStation手柄特定
+          playstation:
+            circle_button: "cancel"
+            cross_button: "interact"
+            square_button: "context_menu"
+            triangle_button: "toggle_camera_mode"
+            l1: "zoom_in"
+            r1: "zoom_out"
+            l2: "precision_mode"
+            r2: "accelerate"
+            l3: "toggle_free_camera"
+            r3: "character_selector"
+
+          # Nintendo手柄特定
+          nintendo:
+            a_button: "interact"
+            b_button: "cancel"
+            x_button: "context_menu"
+            y_button: "toggle_camera_mode"
+            zr: "zoom_in"
+            zl: "zoom_out"
+            l: "precision_mode"
+            r: "accelerate"
+            plus: "open_menu"
+            minus: "zoom_reset"
+            home: "character_selector"
+            capture: "screenshot"
+
+        # 摇杆配置
+        stick_mappings:
+          left_stick:
+            horizontal: "move_horizontal"
+            vertical: "move_vertical"
+            click: "toggle_camera_mode"
+            deadzone: 0.2
+            sensitivity: 1.0
+
+          right_stick:
+            horizontal: "camera_horizontal"
+            vertical: "camera_vertical"
+            click: "zoom_reset"
+            deadzone: 0.15
+            sensitivity: 1.0
+
+        # 触觉反馈配置
+        haptic:
+          enabled: true
+          intensity: 0.7
+          duration: 0.1
+          rumble_patterns:
+            light: { "intensity": 0.3, "duration": 0.05 }
+            medium: { "intensity": 0.6, "duration": 0.1 }
+            strong: { "intensity": 0.9, "duration": 0.2 }
+
+        # 手柄类型支持
+        supported_types:
+          - "xbox"
+          - "playstation"
+          - "nintendo_switch"
+          - "generic"
+
+        # 手柄配置文件
+        config_files:
+          xbox: "res://config/systems/input/xbox_mappings.json"
+          playstation: "res://config/systems/input/playstation_mappings.json"
+          nintendo: "res://config/systems/input/nintendo_mappings.json"
+
+      # 触屏控制配置
+      touch:
+        enabled: true
+        # 触屏手势
+        gestures:
+          tap: "interact"
+          double_tap: "quick_action"
+          long_press: "context_menu"
+          pinch_zoom: "zoom"
+          pan: "move_camera"
+          swipe_up: "move_up"
+          swipe_down: "move_down"
+          swipe_left: "move_left"
+          swipe_right: "move_right"
+
+        # 触屏按钮
+        virtual_buttons:
+          - type: "joystick"
+            position: "bottom_left"
+            size: [100, 100]
+            opacity: 0.7
+          - type: "dpad"
+            position: "bottom_left"
+            size: [80, 80]
+            opacity: 0.7
+          - type: "action_buttons"
+            position: "bottom_right"
+            buttons: ["A", "B", "X", "Y"]
+            size: [40, 40]
+            spacing: 10
+
+        # 触屏灵敏度
+        sensitivity:
+          touch_sensitivity: 1.0
+          gesture_recognition_threshold: 0.2
+          pinch_sensitivity: 1.0
+          pan_sensitivity: 1.0
+
+        # 触屏反馈
+        feedback:
+          haptic: true
+          sound: true
+          visual: true
+
+      # 输入设备配置
+      devices:
+        # 自动检测
+        auto_detect: true
+        device_priority:
+          keyboard: 1
+          mouse: 2
+          gamepad: 3
+          touch: 4
+
+        # 设备管理
+        management:
+          allow_hotswap: true
+          hotplug_detection_interval: 1.0
+          device_lost_handling: "graceful"
+
+        # 设备特定配置
+        device_profiles:
+          # 特定设备的特殊配置
+          "Xbox Controller (XInput Standard)":
+            name: "Xbox手柄"
+            vibration: true
+            led_support: true
+          "PlayStation Controller":
+            name: "PlayStation手柄"
+            lightbar: true
+            touchpad: true
+          "Nintendo Switch Pro Controller":
+            name: "Switch Pro手柄"
+            motion_controls: true
+            amiibo_support: true
+
+      # 输入模式配置
+      input_modes:
+        # 游戏模式
+        game:
+          character_control: true
+          camera_control: true
+          ui_control: true
+          system_control: false
+
+        # 菜单模式
+        menu:
+          character_control: false
+          camera_control: false
+          ui_control: true
+          system_control: true
+
+        # 对话模式
+        dialog:
+          character_control: false
+          camera_control: false
+          ui_control: true
+          system_control: false
+
+        # 编辑模式
+        editor:
+          character_control: false
+          camera_control: true
+          ui_control: true
+          system_control: true
+
+      # 输入调试
+      debug:
+        # 调试显示
+        show_input_events: false
+        show_device_info: false
+        show_input_state: false
+
+        # 输入日志
+        log_input_events: false
+        log_device_connections: false
+        log_input_mapping: false
+
+        # 可视化工具
+        visual_aids:
+          show_active_devices: false
+          show_input_mapping: false
+          show_device_icons: false
+
+        # 测试工具
+        testing:
+          input_test_enabled: false
+          force_device_detection: false
+          simulate_input_events: false
+
+      # Godot 4.4 特定优化
+      godot44_features:
+        # 新的输入系统
+        input_system:
+          use_input_map: true
+          input_event_compact_mode: true
+          device_filtering: true
+
+        # 事件处理优化
+        event_handling:
+          batch_input_events: true
+          input_buffering: true
+          event_queue_size: 1024
+
+        # 输入映射增强
+        input_mapping:
+          dynamic_reloading: true
+          layer_support: true
+          context_sensitive_mapping: true
+
+        # 性能优化
+        performance:
+          async_input_processing: true
+          input_thread_priority: 2
+          enable_input_compression: true
+
+        # 多显示器支持
+        multi_display:
+          display_aware_input: true
+          per_display_input_mapping: false

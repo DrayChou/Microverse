@@ -1,0 +1,36 @@
+{
+  "package": {
+    "name": "SleepySheep Office",
+    "version": "1.0.0",
+    "author": "Microverse Team",
+    "description": "办公室场景基础内容包",
+    "created_date": "2024-11-10",
+    "compatibility": {
+      "game_version": ">=1.0.0",
+      "config_format": "json"
+    },
+    "content": {
+      "characters": [
+        "stephen",
+        "tom",
+        "lea",
+        "alice",
+        "grace",
+        "jack",
+        "joe",
+        "monica"
+      ],
+      "scenes": [
+        "office",
+        "meeting_room",
+        "hr_office",
+        "restroom",
+        "boss_office",
+        "gym",
+        "break_room",
+        "reception",
+        "waiting_hall"
+      ]
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "runtime": {
+    "game_settings": {
+      "general": {
+        "language": "zh_CN",
+        "difficulty": "normal",
+        "auto_save": true,
+        "show_tutorial": true,
+        "screen_shake": true
+      },
+      "audio": {
+        "master_volume": 1.0,
+        "music_volume": 0.8,
+        "sfx_volume": 0.9,
+        "voice_volume": 1.0,
+        "mute_on_focus_lost": false
+      },
+      "graphics": {
+        "resolution": [1280, 720],
+        "fullscreen": false,
+        "vsync": true,
+        "quality_preset": "high",
+        "shadows": true,
+        "anti_aliasing": true
+      },
+      "controls": {
+        "keyboard_layout": "qwerty",
+        "mouse_sensitivity": 1.0,
+        "invert_mouse": false,
+        "gamepad_vibration": true,
+        "touch_gestures": true
+      },
+      "accessibility": {
+        "subtitles": true,
+        "font_size": "medium",
+        "color_blind_mode": "none",
+        "motion_blur": false,
+        "screen_flash": true
+      },
+      "performance": {
+        "target_fps": 60,
+        "background_audio": true,
+        "reduce_particles": false,
+        "lod_distance": "high"
+      }
+    }
+  }
+}

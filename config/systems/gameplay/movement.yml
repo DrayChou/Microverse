@@ -1,0 +1,105 @@
+# 游戏移动系统配置 - Godot 4.4优化版
+# 充分利用Godot 4.4的NavigationServer和PhysicsServer特性
+
+gameplay:
+  movement:
+    # 基础移动参数
+    base_speed: 100.0
+    acceleration: 200.0
+    friction: 150.0
+
+    # Godot 4.4 NavigationServer2D优化配置
+    navigation:
+      # 导航参数
+      detection_distance: 35.0
+      avoidance_duration: 0.5
+      stability_timer: 0.8
+      stuck_threshold: 2.0
+      max_recalculate_attempts: 3
+
+      # Godot 4.4 NavigationServer参数
+      agent:
+        radius: 16.0
+        neighbor_distance: 50.0
+        max_neighbors: 10
+        time_horizon: 1.0
+        max_speed: 200.0
+        path_max_distance: 5.0
+        target_desired_distance: 1.0
+
+      # 寻路参数
+      pathfinding:
+        map_radius: 1000.0
+        cell_size: 16
+        link_radius: 4.0
+        compute_path_cost_scale: 1.0
+        edge_connection_margin: 1.0
+
+      # 避障参数
+      avoidance:
+        enabled: true
+        avoidance_layers: 1
+        avoidance_mask: 1
+        avoidance_priority: 1.0
+        avoidance_use_multiple_threads: true  # Godot 4.4多线程支持
+
+    # 椅子交互系统
+    chair_interaction:
+      # 距离参数
+      approach_distance: 25.0
+      interaction_distance: 20.0
+      click_detection_range: 32.0
+
+      # 动画时间
+      sit_down_duration: 0.5
+      stand_up_duration: 0.3
+      transition_easing: "ease_in_out"
+
+      # AI标签偏移
+      ai_label_offset: [0, -60]  # 坐标相对角色头顶
+
+    # Godot 4.4 PhysicsServer2D配置
+    physics:
+      # 碰撞层和掩码
+      collision:
+        layer: 1
+        mask: 1
+        safe_margin: 0.001
+
+      # 物理参数
+      linear_damp: 0.1
+      angular_damp: 1.0
+      gravity_scale: 1.0
+
+      # 连续碰撞检测
+      continuous_cd: true
+
+      # 运动模式
+      motion_mode: "grounded"  # grounded, floating
+
+    # AI行为参数
+    ai_behavior:
+      # 决策间隔
+      decision_interval: 0.1
+      reaction_time: 0.2
+
+      # 自动移动
+      auto_movement:
+        enabled: true
+        random_walk_radius: 100.0
+        idle_wait_time: [2.0, 5.0]  # 最小和最大等待时间
+
+      # 路径跟随精度
+      path_following:
+        target_reached_distance: 5.0
+        path_point_threshold: 2.0
+        recalculate_distance: 50.0
+
+    # 调试和可视化
+    debug:
+      show_navigation_path: false
+      show_detection_radius: false
+      show_avoidance_forces: false
+      path_color: "#00FF00"
+      detection_color: "#FF0000"
+      path_width: 2.0

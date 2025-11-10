@@ -1,0 +1,393 @@
+# UI布局和界面配置 - Godot 4.4优化版
+# 充分利用Godot 4.4的UI系统和控件特性
+
+systems:
+  ui:
+    layout:
+      # 主界面布局
+      main_interface:
+        # 基础布局参数
+        resolution:
+          default: [1280, 720]
+          minimum: [1024, 576]
+          maximum: [3840, 2160]
+          aspect_ratio: [16, 9]
+
+        # 面板配置
+        panels:
+          left_panel:
+            width: 300
+            min_width: 200
+            max_width: 400
+            margin: 10
+            background_color: "#2C3E50"
+            border_width: 2
+            border_color: "#34495E"
+
+          right_panel:
+            width: 200
+            min_width: 150
+            max_width: 300
+            margin: 10
+            background_color: "#34495E"
+            border_width: 2
+            border_color: "#2C3E50"
+
+        # 间距和边距
+        spacing:
+          main_margin: 10
+          panel_padding: 15
+          element_spacing: 8
+          button_spacing: 10
+          section_spacing: 20
+
+      # 弹窗配置
+      popups:
+        # 通用弹窗设置
+        default:
+          width: 400
+          height: 300
+          min_width: 300
+          min_height: 200
+          modal: true
+          exclusive: true
+          background_color: "#34495E"
+          border_color: "#2C3E50"
+          border_width: 3
+
+        # 特定弹窗
+        implant_memory:
+          width: 450
+          height: 250
+          title: "植入记忆"
+          icon: "💭"
+
+        disease:
+          width: 400
+          height: 200
+          title: "设置疾病"
+          icon: "🏥"
+
+        emotion:
+          width: 400
+          height: 250
+          title: "设置情感"
+          icon: "❤️"
+
+        money:
+          width: 350
+          height: 200
+          title: "设置金钱"
+          icon: "💰"
+
+        task:
+          width: 500
+          height: 400
+          title: "任务管理"
+          icon: "📋"
+
+        settings:
+          width: 600
+          height: 500
+          title: "游戏设置"
+          icon: "⚙️"
+
+      # 控件样式
+      controls:
+        # 按钮配置
+        buttons:
+          # 通用按钮
+          standard:
+            min_size: [80, 32]
+            padding: [12, 8]
+            font_size: 14
+            border_radius: 4
+            background_color: "#3498DB"
+            hover_color: "#2980B9"
+            pressed_color: "#1F618D"
+            text_color: "#FFFFFF"
+
+          # 确认按钮
+          confirm:
+            background_color: "#27AE60"
+            hover_color: "#229954"
+            pressed_color: "#1E8449"
+
+          # 取消按钮
+          cancel:
+            background_color: "#E74C3C"
+            hover_color: "#CB4335"
+            pressed_color: "#A93226"
+
+          # 主要操作按钮
+          primary:
+            background_color: "#8E44AD"
+            hover_color: "#7D3C98"
+            pressed_color: "#6C3483"
+
+        # 输入框配置
+        inputs:
+          text_field:
+            min_size: [200, 32]
+            padding: [8, 4]
+            font_size: 14
+            border_radius: 4
+            border_width: 1
+            border_color: "#BDC3C7"
+            focus_border_color: "#3498DB"
+            background_color: "#ECF0F1"
+            text_color: "#2C3E50"
+
+          number_input:
+            min_size: [120, 32]
+            step: 1
+            min_value: 0
+            max_value: 999999
+
+          text_area:
+            min_size: [300, 100]
+            max_size: [500, 300]
+            font_size: 14
+            line_spacing: 1.2
+            wrap_enabled: true
+
+        # 滑块配置
+        sliders:
+          horizontal:
+            min_length: 150
+            height: 16
+            grabber_size: [12, 24]
+            track_color: "#BDC3C7"
+            grabber_color: "#3498DB"
+            value_color: "#2980B9"
+
+          vertical:
+            min_length: 150
+            width: 16
+            grabber_size: [24, 12]
+            track_color: "#BDC3C7"
+            grabber_color: "#3498DB"
+            value_color: "#2980B9"
+
+        # 下拉选择框
+        dropdowns:
+          standard:
+            min_width: 150
+            min_height: 32
+            padding: [8, 4]
+            font_size: 14
+            border_radius: 4
+            border_color: "#BDC3C7"
+            background_color: "#ECF0F1"
+            text_color: "#2C3E50"
+            arrow_size: 16
+
+        # 列表配置
+        lists:
+          character_list:
+            item_height: 40
+            font_size: 14
+            selected_color: "#3498DB"
+            hover_color: "#5DADE2"
+            text_color: "#2C3E50"
+            icon_size: 32
+
+          task_list:
+            item_height: 30
+            font_size: 12
+            selected_color: "#27AE60"
+            hover_color: "#52BE80"
+            text_color: "#2C3E50"
+
+        # 标签配置
+        labels:
+          # 标题标签
+          title:
+            font_size: 18
+            font_weight: "bold"
+            color: "#2C3E50"
+            shadow_enabled: true
+            shadow_offset: [1, 1]
+            shadow_color: "#000000"
+
+          # 正文标签
+          body:
+            font_size: 14
+            color: "#2C3E50"
+            line_spacing: 1.2
+
+          # 数值标签
+          value:
+            font_size: 16
+            color: "#3498DB"
+            font_weight: "bold"
+
+          # 描述标签
+          description:
+            font_size: 12
+            color: "#7F8C8D"
+            italic: true
+
+      # 字体配置
+      fonts:
+        primary:
+          path: "res://asset/fonts/fusion-pixel-12px-proportional-zh_hans.otf"
+          fallback: "res://asset/fonts/fusion-pixel-12px-proportional-en.otf"
+
+        sizes:
+          tiny: 8
+          small: 10
+          medium: 12
+          large: 14
+          xlarge: 16
+          xxlarge: 18
+          huge: 20
+
+        weights:
+          normal: 400
+          bold: 700
+          light: 300
+
+      # 主题配置
+      themes:
+        # 主主题
+        main:
+          name: "默认主题"
+          colors:
+            primary: "#3498DB"
+            secondary: "#2ECC71"
+            accent: "#E74C3C"
+            warning: "#F39C12"
+            success: "#27AE60"
+            danger: "#E74C3C"
+            info: "#3498DB"
+            light: "#ECF0F1"
+            dark: "#34495E"
+            background: "#FFFFFF"
+            text: "#2C3E50"
+            text_muted: "#7F8C8D"
+            border: "#BDC3C7"
+            shadow: "#000000"
+
+        # 暗色主题
+        dark:
+          name: "暗色主题"
+          colors:
+            background: "#1A1A1A"
+            text: "#FFFFFF"
+            text_muted: "#AAAAAA"
+            border: "#404040"
+            shadow: "#000000"
+
+      # 响应式布局
+      responsive:
+        # 断点配置
+        breakpoints:
+          mobile: 768
+          tablet: 1024
+          desktop: 1280
+          large: 1920
+
+        # 移动端适配
+        mobile:
+          panel_width: 280
+          font_scale: 0.9
+          button_height: 40
+          touch_targets_min: 44
+
+        # 平板适配
+        tablet:
+          panel_width: 320
+          font_scale: 1.0
+          button_height: 36
+
+      # 动画配置
+      animations:
+        # 过渡动画
+        transitions:
+          fade_in:
+            duration: 0.2
+            easing: "ease_in_out"
+
+          fade_out:
+            duration: 0.2
+            easing: "ease_in_out"
+
+          slide_in:
+            duration: 0.3
+            easing: "ease_out_back"
+
+          slide_out:
+            duration: 0.3
+            easing: "ease_in_back"
+
+        # 交互动画
+        interactions:
+          button_hover:
+            duration: 0.1
+            scale_factor: 1.05
+
+          button_press:
+            duration: 0.05
+            scale_factor: 0.95
+
+          tab_switch:
+            duration: 0.2
+            easing: "ease_in_out"
+
+      # Godot 4.4 特定功能
+      godot44_features:
+        # 新的控件功能
+        new_controls:
+          # 可折叠面板
+          collapsible_panels:
+            enabled: true
+            animation_duration: 0.3
+            smooth_scrolling: true
+
+          # 拖拽功能
+          drag_and_drop:
+            enabled: true
+            feedback_color: "#3498DB"
+            snap_threshold: 10
+
+        # 渲染优化
+        rendering:
+          # UI裁剪
+          clipping:
+            enabled: true
+            margin: 2
+
+          # 批处理
+          batching:
+            enabled: true
+            max_batch_size: 100
+
+        # 输入处理
+        input:
+          # 多点触控
+          multitouch:
+            enabled: true
+            pinch_zoom: true
+            pan_gestures: true
+
+          # 键盘导航
+          keyboard_navigation:
+            enabled: true
+            focus_indicator_color: "#3498DB"
+            focus_indicator_width: 2
+
+      # 调试和开发
+      debug:
+        # 调试显示
+        show_layout_bounds: false
+        show_control_hierarchy: false
+        show_performance_info: false
+
+        # 布局调试
+        layout_debug:
+          show_margins: false
+          show_spacing: false
+          grid_size: 10
+          grid_color: "#FF0000"
+          grid_alpha: 0.3

@@ -1,0 +1,361 @@
+# 运行时存储和存档系统配置 - Godot 4.4优化版
+# 充分利用Godot 4.4的DirAccess、FileAccess和压缩特性
+
+runtime:
+  storage:
+    # 存档系统配置
+    save_system:
+      # 存储路径配置
+      paths:
+        base_directory: "user://saves/"
+        auto_save_directory: "user://saves/autosave/"
+        backup_directory: "user://saves/backup/"
+        temp_directory: "user://temp/"
+
+      # 文件格式
+      format:
+        extension: ".json"
+        encoding: "utf-8"
+        backup_extension: ".bak"
+
+      # 自动保存配置
+      auto_save:
+        enabled: true
+        interval: 300  # 自动保存间隔（秒）
+        max_auto_saves: 5
+        on_pause: true  # 暂停时自动保存
+        on_scene_change: true  # 场景切换时自动保存
+
+      # 存档槽位管理
+      slots:
+        max_slots: 10
+        slot_naming: "slot_{index}"
+        preview_images: true
+        compression: true
+
+      # Godot 4.4 压缩选项
+      compression:
+        enabled: true
+        format: "gzip"  # gzip, zstd, deflate (Godot 4.4支持更多格式)
+        level: 6  # 0-9 压缩级别
+        threshold_bytes: 1024  # 小于此文件不压缩
+
+      # 加密和安全
+      security:
+        encryption:
+          enabled: false  # 如需启用需要密钥管理
+          algorithm: "aes-256-gcm"
+          key_derivation: "pbkdf2"
+
+        checksum:
+          enabled: true
+          algorithm: "sha256"
+          verify_on_load: true
+
+        integrity:
+          enabled: true
+          backup_corrupted_files: true
+
+    # Godot 4.4 FileAccess优化
+    access:
+      # 文件访问优化
+      optimization:
+        buffer_size: 8192
+        async_write: true  # 异步写入支持
+        write_delay: 0.1  # 写入延迟（秒）
+        batch_writes: true
+
+      # 缓存配置
+      cache:
+        enabled: true
+        max_memory_mb: 64
+        file_cache_size: 20
+        cleanup_threshold: 0.8
+        cleanup_interval: 300  # 清理间隔（秒）
+
+      # 文件锁定
+      locking:
+        enabled: true
+        timeout: 5.0  # 锁定超时（秒）
+        retry_interval: 0.1
+
+    # 对话历史存储
+    chat_history:
+      # 存储路径
+      directory: "user://chat_history/"
+      file_extension: ".json"
+
+      # 文件管理
+      file_management:
+        max_files_per_character: 100
+        max_file_size_mb: 10
+        auto_cleanup_days: 30
+        compress_old_files: true
+
+      # 分片存储（大量数据时使用）
+      sharding:
+        enabled: false
+        max_file_size_mb: 5
+        shard_count: 5
+        shard_naming: "character_{name}_shard_{index}"
+
+      # 压缩和优化
+      compression:
+        enabled: true
+        format: "gzip"
+        level: 3  # 对话历史用较低压缩级别以保持读取速度
+
+    # 自定义规则存储
+    custom_rules:
+      # 文件路径
+      main_file: "user://custom_social_rules.json"
+      backup_file: "user://custom_social_rules_backup.json"
+      validation_file: "user://rules_schema.json"
+
+      # 备份策略
+      backup:
+        enabled: true
+        max_backups: 5
+        backup_on_save: true
+        backup_interval: 86400  # 每日备份（秒）
+
+      # 版本控制
+      version_control:
+        track_changes: true
+        max_versions: 10
+        change_log_enabled: true
+
+    # 临时文件管理
+    temp_files:
+      # 临时文件配置
+      directory: "user://temp/"
+      cleanup_on_startup: true
+      cleanup_on_shutdown: true
+      max_age_hours: 24
+      max_size_mb: 100
+
+      # 会话临时文件
+      session:
+        enabled: true
+        prefix: "session_"
+        auto_cleanup: true
+
+      # 缓存临时文件
+      cache:
+        enabled: true
+        prefix: "cache_"
+        ttl_seconds: 3600  # 1小时
+
+    # 缓存系统配置
+    cache_system:
+      # 通用缓存
+      directory: "user://cache/"
+      enabled: true
+      max_size_mb: 256
+      cleanup_threshold: 0.8
+
+      # Godot 4.4 资源缓存
+      resource_cache:
+        enabled: true
+        max_memory_mb: 512
+        cleanup_threshold: 0.8
+        texture_cache_max_mb: 256
+        audio_cache_max_mb: 128
+
+      # 缓存策略
+      strategy:
+        lru_enabled: true
+        ttl_check_interval: 300  # TTL检查间隔（秒）
+        preload_important: true
+
+    # 错误处理和恢复
+    error_handling:
+      # 文件损坏处理
+      corruption:
+        backup_recovery: true
+        auto_repair: false  # 严重损坏时手动修复
+        max_recovery_attempts: 3
+        quarantine_corrupted: true
+
+      # 写入失败处理
+      write_failures:
+        retry_attempts: 3
+        retry_delay: 0.5
+        fallback_to_temp: true
+
+      # 读取错误处理
+      read_errors:
+        use_backup: true
+        create_default: true
+        log_errors: true
+
+    # 磁盘空间管理
+    disk_management:
+      # 磁盘空间检查
+      space_monitoring:
+        enabled: true
+        check_interval: 300  # 检查间隔（秒）
+        min_free_space_mb: 100
+        warning_threshold_mb: 200
+
+      # 清理策略
+      cleanup:
+        enabled: true
+        low_space_action: "cleanup"  # cleanup, error, ignore
+        cleanup_order: ["temp", "cache", "backup"]
+        keep_recent_days: 7
+
+    # 跨平台配置
+    cross_platform:
+      # 路径适配
+      path_adapter:
+        enabled: true
+        use_platform_specific_paths: true
+        path_separator: "/"
+
+      # 平台特定配置
+      platforms:
+        windows:
+          app_data: "%APPDATA%/Microverse/"
+          local_app_data: "%LOCALAPPDATA%/Microverse/"
+          documents: "%USERPROFILE%/Documents/Microverse/"
+          use_registry: true
+
+        macos:
+          app_data: "~/Library/Application Support/Microverse/"
+          documents: "~/Documents/Microverse/"
+          cache: "~/Library/Caches/Microverse/"
+          use_plist: true
+
+        linux:
+          app_data: "~/.local/share/microverse/"
+          config: "~/.config/microverse/"
+          cache: "~/.cache/microverse/"
+          documents: "~/Documents/Microverse/"
+
+        mobile:
+          # iOS/Android统一配置
+          app_data: "user://data/"
+          cache: "user://cache/"
+          temp: "user://temp/"
+          documents: "user://documents/"
+
+        web:
+          # Web平台（使用IndexedDB）
+          app_data: "user://"
+          cache: "user://cache/"
+          temp: "user://temp/"
+
+    # 数据库配置（可选）
+    database:
+      enabled: false  # 可选功能
+      type: "sqlite"  # sqlite, custom
+      file: "user://game_data.db"
+
+      # 表结构配置
+      tables:
+        characters:
+          fields:
+            - name: "id"
+              type: "TEXT PRIMARY KEY"
+            - name: "name"
+              type: "TEXT NOT NULL"
+            - name: "data"
+              type: "JSON"
+            - name: "created_at"
+              type: "REAL NOT NULL"
+            - name: "updated_at"
+              type: "REAL NOT NULL"
+          indexes:
+            - "CREATE INDEX idx_name ON characters(name)"
+
+        saves:
+          fields:
+            - name: "id"
+              type: "TEXT PRIMARY KEY"
+            - name: "slot_number"
+              type: "INTEGER NOT NULL"
+            - name: "save_data"
+              type: "JSON"
+            - name: "metadata"
+              type: "JSON"
+            - name: "created_at"
+              type: "REAL NOT NULL"
+
+      # 数据库优化
+      optimization:
+        vacuum_interval: 86400  # 每日清理（秒）
+        analyze_interval: 3600   # 每小时分析（秒）
+        wal_mode: true
+        cache_size: 2000
+
+    # 导入导出功能
+    import_export:
+      # 支持的格式
+      formats:
+        json:
+          extension: ".json"
+          pretty_print: true
+          compression: true
+        csv:
+          extension: ".csv"
+          delimiter: ","
+          quote_char: "\""
+        xml:
+          extension: ".xml"
+          pretty_print: true
+
+      # 导入验证
+      import_validation:
+        enabled: true
+        schema_validation: true
+        backup_before_import: true
+        max_file_size_mb: 50
+
+      # 批量操作
+      batch_operations:
+        max_batch_size: 100
+        progress_reporting: true
+        allow_cancel: true
+        chunk_size: 10
+
+    # 性能监控
+    performance:
+      # I/O监控
+      io_monitoring:
+        enabled: true
+        log_slow_operations: true
+        slow_operation_threshold_ms: 500
+        track_file_operations: true
+
+      # 存储统计
+      storage_stats:
+        enabled: true
+        update_interval: 60  # 更新间隔（秒）
+        log_size_info: true
+        track_file_counts: true
+
+      # 缓存性能
+      cache_performance:
+        enabled: true
+        hit_rate_threshold: 0.8
+        miss_rate_alert: true
+
+    # 调试和开发
+    debug:
+      # 调试选项
+      verbose_logging: false
+      log_file_operations: false
+      track_file_changes: false
+
+      # 开发工具
+      tools:
+        save_inspector: true
+        file_browser: true
+        cache_viewer: false
+
+      # 测试配置
+      testing:
+        mock_disk_space: false
+        simulate_errors: false
+        force_corruption: false

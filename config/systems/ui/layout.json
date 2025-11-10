@@ -1,0 +1,51 @@
+{
+  "systems": {
+    "ui": {
+      "theme": {
+        "primary_font": "res://asset/fonts/default.ttf",
+        "font_size": {
+          "small": 12,
+          "medium": 16,
+          "large": 24,
+          "header": 32
+        },
+        "color_scheme": {
+          "primary": "#2196F3",
+          "secondary": "#FFC107",
+          "success": "#4CAF50",
+          "warning": "#FF9800",
+          "error": "#F44336",
+          "background": "#FFFFFF",
+          "surface": "#F5F5F5",
+          "text": "#212121",
+          "text_secondary": "#757575"
+        }
+      },
+      "layout": {
+        "margin": 16,
+        "padding": 8,
+        "spacing": 4,
+        "corner_radius": 4,
+        "border_width": 1
+      },
+      "animations": {
+        "transition_duration": 0.2,
+        "fade_duration": 0.15,
+        "scale_duration": 0.1,
+        "easing": "ease_out"
+      },
+      "responsiveness": {
+        "breakpoints": {
+          "mobile": 768,
+          "tablet": 1024,
+          "desktop": 1200
+        },
+        "scale_factors": {
+          "mobile": 0.8,
+          "tablet": 0.9,
+          "desktop": 1.0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "content": {
+    "characters": {
+      "stephen": {
+        "id": "stephen",
+        "name": "Stephen",
+        "chinese_name": "斯蒂芬",
+        "display_name": "Stephen",
+        "description": "公司老板",
+        "appearance": {
+          "texture_path": "res://asset/characters/body/Stephenx32.png",
+          "portrait_path": "res://asset/characters/portraits/StephenP32.png",
+          "scale": 1.0,
+          "color": "#FFFFFF"
+        },
+        "position": {
+          "default": {"x": 952, "y": 528},
+          "office": {"x": 952, "y": 528},
+          "meeting_room": {"x": 526, "y": 516}
+        },
+        "ai_settings": {
+          "model": "lmstudio",
+          "model_id": "qwen3:4b",
+          "temperature": 0.8,
+          "system_prompt": "你是Stephen，公司的老板。你关心公司业绩，善于管理团队，但有时会比较严厉。",
+          "max_tokens": 150
+        }
+      },
+      "tom": {
+        "id": "tom",
+        "name": "Tom",
+        "chinese_name": "汤姆",
+        "display_name": "Tom",
+        "description": "老板秘书",
+        "appearance": {
+          "texture_path": "res://asset/characters/body/Tomx32.png",
+          "portrait_path": "res://asset/characters/portraits/TomP32.png",
+          "scale": 1.0,
+          "color": "#FFFFFF"
+        },
+        "position": {
+          "default": {"x": 1032, "y": 512},
+          "office": {"x": 1032, "y": 512},
+          "meeting_room": {"x": 576, "y": 516}
+        },
+        "ai_settings": {
+          "model": "lmstudio",
+          "model_id": "qwen3:4b",
+          "temperature": 0.7,
+          "system_prompt": "你是Tom，老板的秘书。你负责安排会议、处理文件，非常细心和专业。",
+          "max_tokens": 150
+        }
+      },
+      "alice": {
+        "id": "alice",
+        "name": "Alice",
+        "chinese_name": "爱丽丝",
+        "display_name": "Alice",
+        "description": "软件工程师",
+        "appearance": {
+          "texture_path": "res://asset/characters/body/Alicex32.png",
+          "portrait_path": "res://asset/characters/portraits/AliceP32.png",
+          "scale": 1.0,
+          "color": "#FFFFFF"
+        },
+        "position": {
+          "default": {"x": 976, "y": 360},
+          "office": {"x": 976, "y": 360},
+          "meeting_room": {"x": 576, "y": 516}
+        },
+        "ai_settings": {
+          "model": "lmstudio",
+          "model_id": "qwen3:4b",
+          "temperature": 0.6,
+          "system_prompt": "你是Alice，一名软件工程师。你热爱编程，逻辑思维强，经常在办公室工作。",
+          "max_tokens": 150
+        }
+      },
+      "grace": {
+        "id": "grace",
+        "name": "Grace",
+        "chinese_name": "格蕾丝",
+        "display_name": "Grace",
+        "description": "HR经理",
+        "appearance": {
+          "texture_path": "res://asset/characters/body/Gracex32.png",
+          "portrait_path": "res://asset/characters/portraits/GraceP32.png",
+          "scale": 1.0,
+          "color": "#FFFFFF"
+        },
+        "position": {
+          "default": {"x": 256, "y": 208},
+          "office": {"x": 256, "y": 208},
+          "meeting_room": {"x": 476, "y": 516}
+        },
+        "ai_settings": {
+          "model": "lmstudio",
+          "model_id": "qwen3:4b",
+          "temperature": 0.7,
+          "system_prompt": "你是Grace，HR经理。你负责招聘、员工关系，善于与人沟通。",
+          "max_tokens": 150
+        }
+      },
+      "jack": {
+        "id": "jack",
+        "name": "Jack",
+        "chinese_name": "杰克",
+        "display_name": "Jack",
+        "description": "软件工程师",
+        "appearance": {
+          "texture_path": "res://asset/characters/body/Joex32.png",
+          "portrait_path": "res://asset/characters/portraits/JoeP32.png",
+          "scale": 1.0,
+          "color": "#FFFFFF"
+        },
+        "position": {
+          "default": {"x": 752, "y": 360},
+          "office": {"x": 752, "y": 360},
+          "meeting_room": {"x": 476, "y": 516}
+        },
+        "ai_settings": {
+          "model": "lmstudio",
+          "model_id": "qwen3:4b",
+          "temperature": 0.6,
+          "system_prompt": "你是Jack，一名软件工程师。你专注于技术解决，喜欢挑战困难问题。",
+          "max_tokens": 150
+        }
+      },
+      "joe": {
+        "id": "joe",
+        "name": "Joe",
+        "chinese_name": "乔",
+        "display_name": "Joe",
+        "description": "软件工程师",
+        "appearance": {
+          "texture_path": "res://asset/characters/body/Joex32.png",
+          "portrait_path": "res://asset/characters/portraits/JoeP32.png",
+          "scale": 1.0,
+          "color": "#FFFFFF"
+        },
+        "position": {
+          "default": {"x": 848, "y": 360},
+          "office": {"x": 848, "y": 360},
+          "meeting_room": {"x": 476, "y": 516}
+        },
+        "ai_settings": {
+          "model": "lmstudio",
+          "model_id": "qwen3:4b",
+          "temperature": 0.6,
+          "system_prompt": "你是Joe，一名软件工程师。你注重代码质量，经常参与技术讨论。",
+          "max_tokens": 150
+        }
+      },
+      "monica": {
+        "id": "monica",
+        "name": "Monica",
+        "chinese_name": "莫妮卡",
+        "display_name": "Monica",
+        "description": "HR专员",
+        "appearance": {
+          "texture_path": "res://asset/characters/body/Monicax32.png",
+          "portrait_path": "res://asset/characters/portraits/MonicaP32.png",
+          "scale": 1.0,
+          "color": "#FFFFFF"
+        },
+        "position": {
+          "default": {"x": 280, "y": 136},
+          "office": {"x": 280, "y": 136},
+          "meeting_room": {"x": 476, "y": 516}
+        },
+        "ai_settings": {
+          "model": "lmstudio",
+          "model_id": "qwen3:4b",
+          "temperature": 0.7,
+          "system_prompt": "你是Monica，HR专员。你负责面试安排、员工入职培训。",
+          "max_tokens": 150
+        }
+      },
+      "lea": {
+        "id": "lea",
+        "name": "Lea",
+        "chinese_name": "莉娅",
+        "display_name": "Lea",
+        "description": "前台接待",
+        "appearance": {
+          "texture_path": "res://asset/characters/body/Leax32.png",
+          "portrait_path": "res://asset/characters/portraits/LeaP32.png",
+          "scale": 1.0,
+          "color": "#FFFFFF"
+        },
+        "position": {
+          "default": {"x": 120, "y": 512},
+          "office": {"x": 120, "y": 512},
+          "meeting_room": {"x": 476, "y": 516}
+        },
+        "ai_settings": {
+          "model": "lmstudio",
+          "model_id": "qwen3:4b",
+          "temperature": 0.7,
+          "system_prompt": "你是Lea，前台接待。你热情友好，负责接待访客和接听电话。",
+          "max_tokens": 150
+        }
+      }
+    }
+  }
+}

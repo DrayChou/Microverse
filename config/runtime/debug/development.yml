@@ -1,0 +1,290 @@
+# 调试和开发配置 - Godot 4.4优化版
+# 包含开发工具、调试选项、性能监控等配置
+
+runtime:
+  debug:
+    # 基础调试设置
+    development:
+      # 调试模式
+      debug_mode: true
+      godot_debug_mode: true
+
+      # 开发者选项
+      developer_options:
+        god_mode: false
+        unlimited_resources: false
+        skip_cutscenes: false
+        fast_mode: false
+
+    # 调试显示
+    display:
+      # FPS显示
+      fps_counter:
+        enabled: true
+        position: "top_right"
+        color: "#00FF00"
+        update_interval: 0.5
+
+      # 内存使用显示
+      memory_usage:
+        enabled: true
+        position: "top_left"
+        color: "#FFFF00"
+        update_interval: 1.0
+
+      # 网络状态显示
+      network_status:
+        enabled: false
+        position: "bottom_right"
+        color: "#00FFFF"
+        update_interval: 2.0
+
+      # 调试信息面板
+      debug_panel:
+        enabled: false
+        toggle_key: "F3"
+        auto_hide: true
+
+    # 性能监控
+    performance:
+      # 性能分析器
+      profiler:
+        enabled: false
+        capture_frames: 60
+        export_format: "csv"
+
+      # 性能警告
+      warnings:
+        fps_threshold: 30
+        memory_threshold_mb: 512
+        loading_time_threshold: 5.0
+
+      # 性能统计
+      statistics:
+        enabled: true
+        save_to_file: true
+        auto_cleanup_days: 7
+
+    # 日志系统
+    logging:
+      # 日志级别
+      level: "DEBUG"  # DEBUG, INFO, WARNING, ERROR, FATAL
+
+      # 日志输出
+      outputs:
+        console: true
+        file: true
+        network: false
+
+      # 文件日志配置
+      file_logging:
+        path: "user://logs/debug.log"
+        max_size_mb: 100
+        max_files: 5
+        rotation: "daily"
+
+      # 日志分类
+      categories:
+        system: true
+        network: true
+        ai: true
+        dialogue: true
+        scene: true
+        input: true
+        audio: true
+
+    # 测试工具
+    testing:
+      # 自动化测试
+      automated:
+        enabled: false
+        test_scenes: []
+        timeout_per_test: 30.0
+
+      # 单元测试
+      unit_tests:
+        enabled: false
+        test_classes: []
+        verbose_output: false
+
+      # 集成测试
+      integration_tests:
+        enabled: false
+        test_workflows: []
+        cleanup_after_test: true
+
+    # 调试工具
+    tools:
+      # 场景调试器
+      scene_debugger:
+        enabled: true
+        show_hierarchy: true
+        show_properties: true
+        live_editing: true
+
+      # AI调试器
+      ai_debugger:
+        enabled: true
+        show_api_calls: true
+        show_responses: true
+        log_dialogue: true
+
+      # 对话调试器
+      dialogue_debugger:
+        enabled: true
+        show_dialogue_tree: true
+        show_character_states: true
+        jump_to_dialogue: true
+
+      # 配置调试器
+      config_debugger:
+        enabled: true
+        show_config_paths: true
+        live_config_edit: true
+        validate_configs: true
+
+    # 热重载
+    hot_reload:
+      # 脚本热重载
+      scripts:
+        enabled: true
+        auto_reload: true
+        preserve_state: true
+
+      # 资源热重载
+      resources:
+        enabled: true
+        watch_extensions: [".tscn", ".gd", ".yml", ".json"]
+        auto_reload: true
+
+      # 配置热重载
+      configs:
+        enabled: true
+        auto_reload: true
+        validate_on_reload: true
+
+    # 输入调试
+    input_debug:
+      # 输入显示
+      show_input_events: false
+      show_input_state: false
+      show_mouse_position: false
+
+      # 输入录制
+      record_input: false
+        replay_input: false
+        playback_speed: 1.0
+
+      # 手柄调试
+      gamepad_debug:
+        enabled: false
+        show_connected: true
+        show_button_states: true
+
+    # 音频调试
+    audio_debug:
+      # 音频可视化
+      spectrum_analyzer: false
+      volume_meter: false
+
+      # 音频状态
+      show_playing_sounds: false
+        show_audio_buses: false
+
+      # 音频录制
+      record_audio: false
+        record_format: "wav"
+
+    # 网络调试
+    network_debug:
+      # 网络流量
+      traffic_monitor: false
+        show_bandwidth: false
+        show_latency: false
+
+      # API调试
+      api_debugger:
+        enabled: false
+        log_requests: false
+        log_responses: false
+        show_headers: false
+
+    # 场景调试
+    scene_debug:
+      # 场景状态
+      show_scene_tree: false
+        show_active_objects: false
+
+      # 物理调试
+      physics_debug:
+        enabled: false
+        show_collision_shapes: false
+        show_navigation_paths: false
+
+      # 渲染调试
+      rendering_debug:
+        enabled: false
+        show_draw_calls: false
+        show_fps_graph: false
+
+    # 配置验证
+    validation:
+      # 配置文件验证
+      config_validation:
+        enabled: true
+        check_required_fields: true
+        check_data_types: true
+        generate_reports: true
+
+      # 资源验证
+      resource_validation:
+        enabled: true
+        check_missing_resources: true
+        check_broken_links: true
+
+      # 脚本验证
+      script_validation:
+        enabled: true
+        syntax_check: true
+        dependency_check: true
+
+    # 开发辅助
+    development_assist:
+      # 快捷键
+      shortcuts:
+        toggle_debug_panel: "F3"
+        reload_scene: "F5"
+        toggle_fps: "F1"
+        toggle_memory: "F2"
+
+      # 开发者UI
+      dev_ui:
+        enabled: true
+        show_in_release: false
+        auto_position: true
+
+      # 性能优化建议
+      performance_hints:
+        enabled: true
+        show_warnings: true
+        auto_fix: false
+
+    # 错误报告
+    error_reporting:
+      # 崩溃报告
+      crash_reports:
+        enabled: true
+        include_logs: true
+        include_screenshot: true
+
+      # 错误统计
+      error_statistics:
+        enabled: true
+        track_frequency: true
+        generate_reports: true
+
+      # 远程调试
+      remote_debug:
+        enabled: false
+        endpoint: ""
+        authentication_required: true

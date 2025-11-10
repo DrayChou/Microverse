@@ -1,0 +1,198 @@
+# 存档系统配置 - Godot 4.4优化版
+# 包含存档管理、数据序列化、自动保存等配置
+
+runtime:
+  save_system:
+    # 存档基础配置
+    system:
+      # 存档格式
+      format:
+        version: "2.0"
+        compression: true
+        encryption: false
+        encoding: "utf-8"
+
+      # 存档文件管理
+      files:
+        extension: ".sav"
+        backup_extension: ".bak"
+        temp_extension: ".tmp"
+        max_file_size_mb: 100
+
+    # 存档槽位配置
+    slots:
+      # 槽位数量
+      max_slots: 10
+
+      # 槽位命名
+      naming_pattern: "slot_{index}"
+      auto_naming: true
+
+      # 预览图片
+      preview_images:
+        enabled: true
+        resolution: [320, 180]
+        quality: 0.8
+        format: "jpg"
+
+    # 自动保存配置
+    auto_save:
+      # 基础设置
+      enabled: true
+      interval: 300  # 5分钟
+      slot: "autosave"
+
+      # 触发条件
+      triggers:
+        on_scene_change: true
+        on_important_event: true
+        on_character_dialogue: false
+
+      # 自动保存限制
+      limits:
+        max_auto_saves: 5
+        cleanup_interval: 3600  # 1小时
+
+    # 快速保存配置
+    quick_save:
+      enabled: true
+      key: "F5"
+      slot: "quicksave"
+      max_quick_saves: 1
+
+    # 数据分类保存
+    data_categories:
+      # 游戏进度数据
+      progress:
+        chapter_progress: true
+        objectives_status: true
+        achievements: true
+        relationships: true
+
+      # 角色数据
+      characters:
+        positions: true
+        states: true
+        inventories: true
+        dialogue_history: true
+
+      # 系统数据
+      system:
+        game_time: true
+        settings: true
+        statistics: true
+        debug_info: false
+
+      # 场景数据
+      scenes:
+        current_scene: true
+        scene_state: true
+        interactive_objects: true
+        environmental_state: false
+
+    # 数据序列化配置
+    serialization:
+      # Godot对象处理
+      godot_objects:
+        serialize_node_paths: true
+        serialize_resource_paths: true
+        serialize_custom_properties: true
+
+      # 自定义对象处理
+      custom_objects:
+        register_custom_serializers: true
+        fallback_to_string: true
+
+      # 数据验证
+      validation:
+        checksum_enabled: true
+        checksum_algorithm: "crc32"
+        integrity_check: true
+
+    # 压缩和优化
+    optimization:
+      # 压缩设置
+      compression:
+        enabled: true
+        algorithm: "gzip"
+        level: 6
+        threshold_bytes: 1024
+
+      # 数据去重
+      deduplication:
+        enabled: true
+        hash_algorithm: "md5"
+        min_duplicates: 3
+
+    # 存档管理
+    management:
+      # 清理配置
+      cleanup:
+        auto_cleanup: true
+        keep_recent_days: 30
+        cleanup_on_startup: true
+
+      # 存档导入导出
+      import_export:
+        export_format: "json"
+        include_preview: true
+        compress_export: true
+
+    # 错误处理和恢复
+    error_handling:
+      # 损坏检测
+      corruption_detection:
+        enabled: true
+        backup_recovery: true
+        max_recovery_attempts: 3
+
+      # 写入失败处理
+      write_failures:
+        retry_attempts: 3
+        retry_delay: 1.0
+        fallback_to_temp: true
+
+      # 读取失败处理
+      read_failures:
+        use_backup: true
+        create_default: false
+        report_errors: true
+
+    # 性能优化
+    performance:
+      # 异步保存
+      async_save:
+        enabled: true
+        thread_priority: 2
+        timeout_seconds: 30
+
+      # 内存管理
+      memory:
+        max_cache_size_mb: 64
+        cleanup_threshold: 0.8
+        gc_on_save: true
+
+      # 批量操作
+      batch_operations:
+        enabled: true
+        batch_size: 100
+        flush_interval: 60
+
+    # 调试和开发
+    debug:
+      # 调试信息
+      verbose_logging: false
+      log_file_operations: false
+      show_save_stats: false
+
+      # 开发工具
+      tools:
+        save_inspector: true
+        data_browser: true
+        export_all_formats: true
+
+      # 测试配置
+      testing:
+        simulate_corruption: false
+        test_all_formats: false
+        validate_data_integrity: true

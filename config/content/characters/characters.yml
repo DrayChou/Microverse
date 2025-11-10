@@ -1,0 +1,232 @@
+# 角色基本信息配置
+# 包含角色的基础信息、外观和AI设置
+
+content:
+  characters:
+    # 办公室场景角色
+    stephen:
+      display_name: "史蒂芬"
+      position: "SleepySheep公司老板"
+      age: 45
+      gender: "male"
+      department: "management"
+
+      # AI设置
+      ai_settings:
+        api_type: "OpenAI"
+        model: "gpt-4o-mini"
+        temperature: 0.7
+        max_tokens: 1024
+        system_prompt: "你是SleepySheep公司的老板史蒂芬，性格傲慢但内心关心公司发展"
+
+      # 外观配置
+      appearance:
+        sprite_sheet: "res://asset/characters/body/stephen.png"
+        scale: 1.0
+        color_tint: "#FFFFFF"
+        shadow_offset: Vector2(2, 2)
+        z_index: 1
+
+        # 动画配置
+        animations:
+          idle: "res://asset/characters/animations/stephen_idle.png"
+          walk: "res://asset/characters/animations/stephen_walk.png"
+          talk: "res://asset/characters/animations/stephen_talk.png"
+          sit: "res://asset/characters/animations/stephen_sit.png"
+          work: "res://asset/characters/animations/stephen_work.png"
+
+    alice:
+      display_name: "爱丽丝"
+      position: "SleepySheep公司的前端工程师、UI设计师"
+      age: 28
+      gender: "female"
+      department: "engineering"
+
+      ai_settings:
+        api_type: "LMStudio"
+        model: "qwen/qwen3-vl-4b"
+        temperature: 0.8
+        max_tokens: 1024
+        system_prompt: "你是爱丽丝，一个有才华的前端工程师，对设计和代码质量有很高要求"
+
+      appearance:
+        sprite_sheet: "res://asset/characters/body/alice.png"
+        scale: 1.0
+        color_tint: "#E0E0FF"
+        shadow_offset: Vector2(2, 2)
+        z_index: 1
+
+        animations:
+          idle: "res://asset/characters/animations/alice_idle.png"
+          walk: "res://asset/characters/animations/alice_walk.png"
+          talk: "res://asset/characters/animations/alice_talk.png"
+          sit: "res://asset/characters/animations/alice_sit.png"
+          work: "res://asset/characters/animations/alice_work.png"
+
+    tom:
+      display_name: "汤姆"
+      position: "SleepySheep公司老板的高级行政秘书"
+      age: 32
+      gender: "male"
+      department: "administration"
+
+      ai_settings:
+        api_type: "OpenAI"
+        model: "gpt-4o-mini"
+        temperature: 0.6
+        max_tokens: 1024
+        system_prompt: "你是汤姆，老板的得力助手，擅长处理各种行政事务和人际关系"
+
+      appearance:
+        sprite_sheet: "res://asset/characters/body/tom.png"
+        scale: 1.0
+        color_tint: "#D0D0FF"
+        shadow_offset: Vector2(2, 2)
+        z_index: 1
+
+        animations:
+          idle: "res://asset/characters/animations/tom_idle.png"
+          walk: "res://asset/characters/animations/tom_walk.png"
+          talk: "res://asset/characters/animations/tom_talk.png"
+          sit: "res://asset/characters/animations/tom_sit.png"
+          work: "res://asset/characters/animations/tom_work.png"
+
+    lea:
+      display_name: "莉娅"
+      position: "SleepySheep公司前台接待"
+      age: 25
+      gender: "female"
+      department: "administration"
+
+      ai_settings:
+        api_type: "LMStudio"
+        model: "qwen/qwen3-vl-4b"
+        temperature: 0.7
+        max_tokens: 1024
+        system_prompt: "你是莉娅，友善热情的前台，善于与人沟通和协调"
+
+      appearance:
+        sprite_sheet: "res://asset/characters/body/lea.png"
+        scale: 1.0
+        color_tint: "#FFE0E0"
+        shadow_offset: Vector2(2, 2)
+        z_index: 1
+
+        animations:
+          idle: "res://asset/characters/animations/lea_idle.png"
+          walk: "res://asset/characters/animations/lea_walk.png"
+          talk: "res://asset/characters/animations/lea_talk.png"
+          sit: "res://asset/characters/animations/lea_sit.png"
+          work: "res://asset/characters/animations/lea_work.png"
+
+    grace:
+      display_name: "格蕾丝"
+      position: "SleepySheep公司的HR"
+      age: 35
+      gender: "female"
+      department: "human_resources"
+
+      ai_settings:
+        api_type: "OpenAI"
+        model: "gpt-4o-mini"
+        temperature: 0.6
+        max_tokens: 1024
+        system_prompt: "你是格蕾丝，专业细心的HR经理，擅长人才管理和员工关怀"
+
+      appearance:
+        sprite_sheet: "res://asset/characters/body/grace.png"
+        scale: 1.0
+        color_tint: "#E0FFE0"
+        shadow_offset: Vector2(2, 2)
+        z_index: 1
+
+        animations:
+          idle: "res://asset/characters/animations/grace_idle.png"
+          walk: "res://asset/characters/animations/grace_walk.png"
+          talk: "res://asset/characters/animations/grace_talk.png"
+          sit: "res://asset/characters/animations/grace_sit.png"
+          work: "res://asset/characters/animations/grace_work.png"
+
+    jack:
+      display_name: "杰克"
+      position: "SleepySheep公司的后端开发工程师"
+      age: 30
+      gender: "male"
+      department: "engineering"
+
+      ai_settings:
+        api_type: "LMStudio"
+        model: "qwen/qwen3-vl-4b"
+        temperature: 0.5
+        max_tokens: 1024
+        system_prompt: "你是杰克，技术过硬的后端工程师，注重代码质量和系统架构"
+
+      appearance:
+        sprite_sheet: "res://asset/characters/body/jack.png"
+        scale: 1.0
+        color_tint: "#FFD0D0"
+        shadow_offset: Vector2(2, 2)
+        z_index: 1
+
+        animations:
+          idle: "res://asset/characters/animations/jack_idle.png"
+          walk: "res://asset/characters/animations/jack_walk.png"
+          talk: "res://asset/characters/animations/jack_talk.png"
+          sit: "res://asset/characters/animations/jack_sit.png"
+          work: "res://asset/characters/animations/jack_work.png"
+
+    joe:
+      display_name: "乔"
+      position: "SleepySheep公司的测试工程师"
+      age: 27
+      gender: "male"
+      department: "quality_assurance"
+
+      ai_settings:
+        api_type: "LMStudio"
+        model: "qwen/qwen3-vl-4b"
+        temperature: 0.8
+        max_tokens: 1024
+        system_prompt: "你是乔，严谨细致的测试工程师，追求完美质量和用户体验"
+
+      appearance:
+        sprite_sheet: "res://asset/characters/body/joe.png"
+        scale: 1.0
+        color_tint: "#D0D0FF"
+        shadow_offset: Vector2(2, 2)
+        z_index: 1
+
+        animations:
+          idle: "res://asset/characters/animations/joe_idle.png"
+          walk: "res://asset/characters/animations/joe_walk.png"
+          talk: "res://asset/characters/animations/joe_talk.png"
+          sit: "res://asset/characters/animations/joe_sit.png"
+          work: "res://asset/characters/animations/joe_work.png"
+
+    monica:
+      display_name: "莫妮卡"
+      position: "SleepySheep公司的产品经理"
+      age: 33
+      gender: "female"
+      department: "product_management"
+
+      ai_settings:
+        api_type: "OpenAI"
+        model: "gpt-4o-mini"
+        temperature: 0.6
+        max_tokens: 1024
+        system_prompt: "你是莫妮卡，数据驱动的产品经理，注重用户体验和产品创新"
+
+      appearance:
+        sprite_sheet: "res://asset/characters/body/monica.png"
+        scale: 1.0
+        color_tint: "#FFE0D0"
+        shadow_offset: Vector2(2, 2)
+        z_index: 1
+
+        animations:
+          idle: "res://asset/characters/animations/monica_idle.png"
+          walk: "res://asset/characters/animations/monica_walk.png"
+          talk: "res://asset/characters/animations/monica_talk.png"
+          sit: "res://asset/characters/animations/monica_sit.png"
+          work: "res://asset/characters/animations/monica_work.png"

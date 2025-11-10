@@ -1,0 +1,47 @@
+{
+  "runtime": {
+    "debug": {
+      "development": {
+        "debug_mode": true,
+        "godot_debug_mode": true,
+        "developer_options": {
+          "god_mode": false,
+          "unlimited_resources": false,
+          "skip_cutscenes": false,
+          "fast_mode": false
+        },
+        "display": {
+          "fps_counter": {
+            "enabled": true,
+            "position": "top_right",
+            "color": "#00FF00",
+            "update_interval": 0.5
+          },
+          "memory_usage": {
+            "enabled": true,
+            "position": "top_left",
+            "update_interval": 1.0
+          },
+          "debug_overlay": {
+            "enabled": false,
+            "show_physics": false,
+            "show_navigation": false,
+            "show_collisions": false
+          }
+        },
+        "logging": {
+          "log_level": "INFO",
+          "log_to_file": true,
+          "max_log_size": "10MB",
+          "log_rotation_count": 5
+        },
+        "performance": {
+          "enable_profiling": false,
+          "target_fps": 60,
+          "physics_fps": 60,
+          "audio_mix_rate": 44100
+        }
+      }
+    }
+  }
+}

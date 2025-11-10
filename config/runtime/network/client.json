@@ -1,0 +1,47 @@
+{
+  "runtime": {
+    "network": {
+      "client": {
+        "connection": {
+          "server_url": "ws://localhost:8080",
+          "timeout_seconds": 30,
+          "retry_attempts": 3,
+          "retry_delay_seconds": 5,
+          "keep_alive_interval": 30
+        },
+        "protocol": {
+          "version": "1.0",
+          "compression": true,
+          "encryption": true,
+          "message_format": "json"
+        },
+        "bandwidth": {
+          "max_upload_kbps": 1000,
+          "max_download_kbps": 2000,
+          "buffer_size_bytes": 8192
+        },
+        "sync": {
+          "sync_interval_seconds": 1,
+          "sync_delta_compression": true,
+          "interpolation_delay_ms": 100
+        },
+        "features": {
+          "chat": {
+            "enabled": true,
+            "max_message_length": 500,
+            "history_count": 100
+          },
+          "multiplayer": {
+            "enabled": true,
+            "max_players": 32,
+            "sync_distance": 1000
+          },
+          "leaderboard": {
+            "enabled": true,
+            "update_interval_minutes": 5
+          }
+        }
+      }
+    }
+  }
+}

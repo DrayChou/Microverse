@@ -1,0 +1,87 @@
+{
+  "content": {
+    "ai": {
+      "models": {
+        "providers": {
+          "lmstudio": {
+            "display_name": "LMStudio (本地)",
+            "type": "local",
+            "enabled": true,
+            "default_model": "qwen3:4b",
+            "endpoint": "http://localhost:11435",
+            "authentication": {
+              "type": "none"
+            },
+            "models": [
+              {
+                "id": "qwen3:4b",
+                "name": "Qwen3 4B",
+                "description": "Qwen3 4B 参数模型，适合对话",
+                "size": "4B",
+                "context_length": 32768,
+                "pricing": {
+                  "input_tokens": 0,
+                  "output_tokens": 0
+                }
+              },
+              {
+                "id": "llama3.1:8b",
+                "name": "Llama 3.1 8B",
+                "description": "Meta Llama 3.1 8B 参数模型",
+                "size": "8B",
+                "context_length": 32768,
+                "pricing": {
+                  "input_tokens": 0,
+                  "output_tokens": 0
+                }
+              }
+            ],
+            "parameters": {
+              "temperature": 0.7,
+              "max_tokens": 2048,
+              "top_p": 0.9,
+              "frequency_penalty": 0.1,
+              "presence_penalty": 0.1
+            },
+            "retry_config": {
+              "max_retries": 3,
+              "retry_delay": 1.0,
+              "backoff_multiplier": 2.0
+            }
+          },
+          "openai": {
+            "display_name": "OpenAI GPT",
+            "type": "api",
+            "enabled": false,
+            "default_model": "gpt-4",
+            "endpoint": "https://api.openai.com/v1",
+            "authentication": {
+              "type": "api_key",
+              "api_key_env": "OPENAI_API_KEY"
+            },
+            "models": [
+              {
+                "id": "gpt-4",
+                "name": "GPT-4",
+                "description": "OpenAI GPT-4 模型",
+                "size": "Large",
+                "context_length": 8192,
+                "pricing": {
+                  "input_tokens": 0.03,
+                  "output_tokens": 0.06
+                }
+              }
+            ],
+            "parameters": {
+              "temperature": 0.7,
+              "max_tokens": 2048,
+              "top_p": 1.0,
+              "frequency_penalty": 0.0,
+              "presence_penalty": 0.0
+            }
+          }
+        }
+      }
+    }
+  }
+}

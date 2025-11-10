@@ -1,0 +1,329 @@
+# AI模型配置 - Godot 4.4优化版
+# 包含所有AI提供商的API配置信息，支持动态切换和配置化管理
+# 结构匹配APIConfig.gd的期望格式
+
+content:
+  ai:
+    models:
+      # AI提供商配置（APIConfig期望的格式）
+      providers:
+        # Ollama本地提供商
+        Ollama:
+          display_name: "Ollama (本地)"
+          base_url: "http://localhost:11434"
+          requires_api_key: false
+          request_format: "ollama"
+          response_parser: "ollama"
+          timeout: 30.0
+          max_retries: 3
+
+          endpoints:
+            generate: "/api/generate"
+            chat: "/api/chat"
+
+          headers:
+            "Content-Type": "application/json"
+
+          models:
+            - id: "qwen3:4b"
+              display_name: "Qwen3 4B"
+              description: "通义大模型，4B参数"
+            - id: "qwen3-vl:4b"
+              display_name: "Qwen3-VL 4B"
+              description: "视觉语言模型，4B参数"
+            - id: "qwen2.5:1.5b"
+              display_name: "Qwen2.5 1.5B"
+              description: "轻量级模型，1.5B参数"
+            - id: "llama3.2:1b"
+              display_name: "Llama3.2 1B"
+              description: "轻量级开源模型，1B参数"
+            - id: "llama3.2:3b"
+              display_name: "Llama3.2 3B"
+              description: "平衡型开源模型，3B参数"
+            - id: "gemma2:2b"
+              display_name: "Gemma2 2B"
+              description: "轻量级开源模型，2B参数"
+
+        # LMStudio本地提供商
+        LMStudio:
+          display_name: "LMStudio (本地)"
+          base_url: "http://localhost:11435"
+          requires_api_key: false
+          request_format: "openai"
+          response_parser: "openai"
+          timeout: 60.0
+          max_retries: 3
+
+          endpoints:
+            chat: "/v1/chat/completions"
+            models: "/v1/models"
+
+          headers:
+            "Content-Type": "application/json"
+
+          models:
+            - id: "qwen/qwen3-vl-4b"
+              display_name: "Qwen3-VL 4B (LMStudio)"
+              description: "视觉语言模型，通过LMStudio加载"
+            - id: "qwen2.5:1.5b"
+              display_name: "Qwen2.5 1.5B (LMStudio)"
+              description: "轻量级模型，通过LMStudio加载"
+            - id: "mistral-7b-instruct"
+              display_name: "Mistral 7B Instruct (LMStudio)"
+              description: "指令优化模型，7B参数"
+
+        # OpenAI云服务
+        OpenAI:
+          display_name: "OpenAI"
+          base_url: "https://api.openai.com/v1"
+          requires_api_key: true
+          request_format: "openai"
+          response_parser: "openai"
+          timeout: 60.0
+          max_retries: 3
+
+          authentication:
+            type: "api_key"
+            key_header: "Authorization"
+            key_prefix: "Bearer"
+
+          endpoints:
+            chat: "/chat/completions"
+            models: "/models"
+
+          headers:
+            "Content-Type": "application/json"
+
+          models:
+            - id: "gpt-4o-mini"
+              display_name: "GPT-4o Mini"
+              description: "轻量级多模态模型，性价比高"
+            - id: "gpt-4o"
+              display_name: "GPT-4o"
+              description: "高性能多模态模型，支持视觉理解"
+            - id: "gpt-3.5-turbo"
+              display_name: "GPT-3.5 Turbo"
+              description: "经典文本模型，响应速度快"
+
+          pricing:
+            currency: "USD"
+            models:
+              "gpt-4o-mini":
+                input_per_1m: 0.15
+                output_per_1m: 0.6
+              "gpt-4o":
+                input_per_1m: 2.5
+                output_per_1m: 10.0
+              "gpt-3.5-turbo":
+                input_per_1m: 0.5
+                output_per_1m: 1.5
+
+        # Claude云服务
+        Claude:
+          display_name: "Claude (Anthropic)"
+          base_url: "https://api.anthropic.com/v1"
+          requires_api_key: true
+          request_format: "claude"
+          response_parser: "claude"
+          timeout: 90.0
+          max_retries: 3
+
+          authentication:
+            type: "api_key"
+            key_header: "Authorization"
+            key_prefix: "Bearer"
+
+          endpoints:
+            messages: "/messages"
+            models: "/models"
+
+          headers:
+            "Content-Type": "application/json"
+            "anthropic-version": "2023-06-01"
+
+          models:
+            - id: "claude-3-5-sonnet-20241022"
+              display_name: "Claude 3.5 Sonnet"
+              description: "高性能语言模型，平衡性能和成本"
+            - id: "claude-3-5-haiku-20241022"
+              display_name: "Claude 3.5 Haiku"
+              description: "轻量级模型，响应快速"
+            - id: "claude-3-opus-20240229"
+              display_name: "Claude 3 Opus"
+              description: "最强大的模型，支持复杂推理"
+
+          pricing:
+            currency: "USD"
+            models:
+              "claude-3-5-sonnet-20241022":
+                input_per_1m: 3.0
+                output_per_1m: 15.0
+              "claude-3-5-haiku-20241022":
+                input_per_1m: 0.25
+                output_per_1m: 1.25
+              "claude-3-opus-20240229":
+                input_per_1m: 15.0
+                output_per_1m: 75.0
+
+        # Gemini云服务
+        Gemini:
+          display_name: "Gemini (Google)"
+          base_url: "https://generativelanguage.googleapis.com/v1beta"
+          requires_api_key: true
+          request_format: "gemini"
+          response_parser: "gemini"
+          timeout: 60.0
+          max_retries: 3
+
+          authentication:
+            type: "api_key"
+            key_header: "x-goog-api-key"
+            key_prefix: ""
+
+          endpoints:
+            models: "/models"
+
+          headers:
+            "Content-Type": "application/json"
+
+          models:
+            - id: "gemini-1.5-flash"
+              display_name: "Gemini 1.5 Flash"
+              description: "快速响应的多模态模型"
+            - id: "gemini-1.5-pro"
+              display_name: "Gemini 1.5 Pro"
+              description: "高性能多模态模型"
+            - id: "gemini-1.0-pro"
+              display_name: "Gemini 1.0 Pro"
+              description: "经典多模态模型"
+
+          pricing:
+            currency: "USD"
+            models:
+              "gemini-1.5-flash":
+                input_per_1m: 0.075
+                output_per_1m: 0.15
+              "gemini-1.5-pro":
+                input_per_1m: 3.5
+                output_per_1m: 10.5
+              "gemini-1.0-pro":
+                input_per_1m: 0.5
+                output_per_1m: 1.5
+
+        # DeepSeek云服务
+        DeepSeek:
+          display_name: "DeepSeek"
+          base_url: "https://api.deepseek.com/v1"
+          requires_api_key: true
+          request_format: "openai"
+          response_parser: "openai"
+          timeout: 60.0
+          max_retries: 3
+
+          authentication:
+            type: "api_key"
+            key_header: "Authorization"
+            key_prefix: "Bearer"
+
+          endpoints:
+            chat: "/chat/completions"
+            models: "/models"
+
+          headers:
+            "Content-Type": "application/json"
+
+          models:
+            - id: "deepseek-chat"
+              display_name: "DeepSeek Chat"
+              description: "深度求索对话模型"
+
+          pricing:
+            currency: "USD"
+            models:
+              "deepseek-chat":
+                input_per_1m: 0.14
+                output_per_1m: 0.28
+
+        # 硅基流动服务
+        SiliconFlow:
+          display_name: "硅基流动"
+          base_url: "https://api.siliconflow.cn/v1"
+          requires_api_key: true
+          request_format: "openai"
+          response_parser: "openai"
+          timeout: 60.0
+          max_retries: 3
+
+          authentication:
+            type: "api_key"
+            key_header: "Authorization"
+            key_prefix: "Bearer"
+
+          endpoints:
+            chat: "/chat/completions"
+            models: "/models"
+
+          headers:
+            "Content-Type": "application/json"
+
+          models:
+            - id: "deepseek-ai/DeepSeek-V3.1-Terminus"
+              display_name: "DeepSeek V3.1 Terminus"
+              description: "深度求索最新模型"
+            - id: "inclusionAI/Ring-1T"
+              display_name: "Ring-1T"
+              description: "大型语言模型"
+            - id: "zai-org/GLM-4.6"
+              display_name: "GLM-4.6"
+              description: "智谱AI语言模型"
+
+      # 默认设置
+      default_settings:
+        # 通用参数
+        temperature: 0.7
+        max_tokens: 1024
+        top_p: 0.9
+        frequency_penalty: 0.0
+        presence_penalty: 0.0
+
+        # 超时和重试
+        request_timeout: 30.0
+        response_timeout: 60.0
+        max_retries: 3
+        retry_delay: 1.0
+        exponential_backoff: true
+
+        # 流式响应
+        stream_response: true
+        chunk_size: 1024
+
+        # 缓存设置
+        enable_response_cache: false
+        cache_ttl_seconds: 300
+
+        # Godot 4.4 优化
+        use_async_requests: true
+        connection_pool_size: 3
+        enable_request_compression: true
+
+      # 模型推荐
+      model_recommendations:
+        general_chat:
+          preferred_local: ["qwen3:4b", "llama3.2:3b"]
+          preferred_cloud: ["gpt-4o-mini", "gemini-1.5-flash"]
+          fallback_model: "gpt-3.5-turbo"
+
+        code_generation:
+          preferred_local: []
+          preferred_cloud: ["gpt-4o", "claude-3-5-sonnet"]
+          fallback_model: "claude-3-5-haiku"
+
+        creative_writing:
+          preferred_local: ["qwen2.5:1.5b"]
+          preferred_cloud: ["gpt-4o", "claude-3-opus"]
+          fallback_model: "gemini-1.5-pro"
+
+        vision_tasks:
+          preferred_local: ["qwen3-vl:4b"]
+          preferred_cloud: ["gpt-4o", "gemini-1.5-pro"]
+          fallback_model: "gemini-1.5-flash"

@@ -1,0 +1,165 @@
+# 背景场景配置 - Godot 4.4优化版
+# 包含游戏中的所有场景地点信息、环境设置和资源路径
+
+content:
+  backgrounds:
+    # 办公室场景
+    office:
+      display_name: "办公室"
+      description: "SleepySheep公司的主要办公场所"
+      scene_path: "res://scene/Office.tscn"
+
+      # 环境配置
+      environment:
+        lighting: "office_lighting"
+        ambient_color: "#404040"
+        skybox: "res://asset/environment/office_skybox.exr"
+
+      # 音频配置
+      audio:
+        background_music: "office_ambient"
+        ambient_sounds: ["keyboard_typing", "air_conditioning"]
+
+      # 物理配置
+      physics:
+        gravity: Vector2(0, 980)
+        navigation_layer: 1
+
+      # 可交互对象
+      interactive_objects:
+        - id: "stephen_desk"
+          display_name: "史蒂芬的办公桌"
+          interaction_type: "work"
+          position: Vector2(200, 150)
+
+        - id: "alice_desk"
+          display_name: "爱丽丝的工位"
+          interaction_type: "work"
+          position: Vector2(400, 150)
+
+        - id: "meeting_room"
+          display_name: "会议室"
+          interaction_type: "meeting"
+          position: Vector2(300, 300)
+
+    # 休息区场景
+    lounge:
+      display_name: "休息区"
+      description: "员工休息和放松的地方"
+      scene_path: "res://scene/Lounge.tscn"
+
+      environment:
+        lighting: "lounge_lighting"
+        ambient_color: "#504030"
+        skybox: "res://asset/environment/lounge_skybox.exr"
+
+      audio:
+        background_music: "cafe_ambient"
+        ambient_sounds: ["coffee_machine", "soft_music"]
+
+      physics:
+        gravity: Vector2(0, 980)
+        navigation_layer: 2
+
+      interactive_objects:
+        - id: "coffee_machine"
+          display_name: "咖啡机"
+          interaction_type: "coffee"
+          position: Vector2(150, 200)
+
+        - id: "sofa"
+          display_name: "沙发"
+          interaction_type: "rest"
+          position: Vector2(350, 250)
+
+    # 会议室场景
+    meeting_room:
+      display_name: "会议室"
+      description: "团队讨论和决策的地方"
+      scene_path: "res://scene/MeetingRoom.tscn"
+
+      environment:
+        lighting: "meeting_lighting"
+        ambient_color: "#303040"
+        skybox: "res://asset/environment/meeting_skybox.exr"
+
+      audio:
+        background_music: "none"  # 会议时无背景音乐
+        ambient_sounds: ["projector_fan"]
+
+      physics:
+        gravity: Vector2(0, 980)
+        navigation_layer: 1
+
+      interactive_objects:
+        - id: "presentation_screen"
+          display_name: "投影屏幕"
+          interaction_type: "presentation"
+          position: Vector2(300, 100)
+
+        - id: "conference_table"
+          display_name: "会议桌"
+          interaction_type: "meeting"
+          position: Vector2(300, 250)
+
+    # 前台场景
+    reception:
+      display_name: "前台"
+      description: "公司入口和接待区域"
+      scene_path: "res://scene/Reception.tscn"
+
+      environment:
+        lighting: "reception_lighting"
+        ambient_color: "#605040"
+        skybox: "res://asset/environment/reception_skybox.exr"
+
+      audio:
+        background_music: "welcome_music"
+        ambient_sounds: ["door_chime", "phone_ring"]
+
+      physics:
+        gravity: Vector2(0, 980)
+        navigation_layer: 1
+
+      interactive_objects:
+        - id: "reception_desk"
+          display_name: "前台"
+          interaction_type: "reception"
+          position: Vector2(300, 200)
+
+        - id: "company_sign"
+          display_name: "公司标牌"
+          interaction_type: "info"
+          position: Vector2(300, 100)
+
+# 场景切换配置
+scene_transitions:
+  # 默认过渡时间
+  default_duration: 1.0
+
+  # 特定场景间的过渡
+  office_to_lounge:
+    from: "office"
+    to: "lounge"
+    duration: 0.8
+    transition_type: "fade"
+
+  lounge_to_office:
+    from: "lounge"
+    to: "office"
+    duration: 0.8
+    transition_type: "fade"
+
+# 场景加载优化
+loading_optimization:
+  # 预加载场景
+  preload_scenes: ["office", "lounge"]
+
+  # 异步加载
+  async_loading: true
+
+  # LOD配置
+  lod_levels:
+    near: 100
+    medium: 300
+    far: 500

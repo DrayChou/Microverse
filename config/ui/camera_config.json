@@ -1,0 +1,26 @@
+{
+  "ui_camera": {
+    "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 1000.0
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "settings": {
+      "orthographic": true,
+      "size": 1080,
+      "near": -1000,
+      "far": 1000
+    },
+    "effects": {
+      "blur_background": true,
+      "blur_amount": 2.0,
+      "vignette": false,
+      "color_correction": false
+    }
+  }
+}
