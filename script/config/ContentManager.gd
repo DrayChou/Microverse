@@ -163,10 +163,10 @@ func _load_character_configs():
 		character_configs = {}
 
 func _load_character_personalities():
-	var result = ConfigLoader.load_yaml_config(PERSONALITIES_CONFIG_FILE)
+	var result = _load_config_hybrid(PERSONALITIES_CONFIG_FILE)
 	if result.success:
 		character_personalities = result.data.get("content", {}).get("characters", {}).get("personalities", {})
-		print("[ContentManager] 已加载角色性格配置")
+		print("[ContentManager] 已加载角色性格配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 角色性格配置加载失败: ", result.error_message)
 		character_personalities = {}
@@ -207,10 +207,10 @@ func _load_story_configs():
 # === 系统配置加载方法 (systems/) ===
 
 func _load_physics_configs():
-	var result = ConfigLoader.load_yaml_config(PHYSICS_CONFIG_FILE)
+	var result = _load_config_hybrid(PHYSICS_CONFIG_FILE)
 	if result.success:
 		physics_configs = result.data.get("systems", {}).get("physics", {})
-		print("[ContentManager] 已加载物理系统配置")
+		print("[ContentManager] 已加载物理系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 物理系统配置加载失败: ", result.error_message)
 		physics_configs = {}
@@ -225,91 +225,91 @@ func _load_audio_configs():
 		audio_configs = {}
 
 func _load_graphics_configs():
-	var result = ConfigLoader.load_yaml_config(GRAPHICS_CONFIG_FILE)
+	var result = _load_config_hybrid(GRAPHICS_CONFIG_FILE)
 	if result.success:
 		graphics_configs = result.data.get("systems", {}).get("graphics", {})
-		print("[ContentManager] 已加载图形系统配置")
+		print("[ContentManager] 已加载图形系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 图形系统配置加载失败: ", result.error_message)
 		graphics_configs = {}
 
 func _load_input_configs():
-	var result = ConfigLoader.load_yaml_config(INPUT_CONFIG_FILE)
+	var result = _load_config_hybrid(INPUT_CONFIG_FILE)
 	if result.success:
 		input_configs = result.data.get("systems", {}).get("input", {})
-		print("[ContentManager] 已加载输入系统配置")
+		print("[ContentManager] 已加载输入系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 输入系统配置加载失败: ", result.error_message)
 		input_configs = {}
 
 func _load_ui_configs():
-	var result = ConfigLoader.load_yaml_config(UI_CONFIG_FILE)
+	var result = _load_config_hybrid(UI_CONFIG_FILE)
 	if result.success:
 		ui_configs = result.data.get("systems", {}).get("ui", {})
-		print("[ContentManager] 已加载UI系统配置")
+		print("[ContentManager] 已加载UI系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] UI系统配置加载失败: ", result.error_message)
 		ui_configs = {}
 
 func _load_camera_configs():
-	var result = ConfigLoader.load_yaml_config(CAMERA_CONFIG_FILE)
+	var result = _load_config_hybrid(CAMERA_CONFIG_FILE)
 	if result.success:
 		camera_configs = result.data.get("systems", {}).get("camera", {})
-		print("[ContentManager] 已加载摄像机系统配置")
+		print("[ContentManager] 已加载摄像机系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 摄像机系统配置加载失败: ", result.error_message)
 		camera_configs = {}
 
 func _load_animation_system_configs():
-	var result = ConfigLoader.load_yaml_config(ANIMATION_SYSTEM_CONFIG_FILE)
+	var result = _load_config_hybrid(ANIMATION_SYSTEM_CONFIG_FILE)
 	if result.success:
 		animation_system_configs = result.data.get("systems", {}).get("animations", {})
-		print("[ContentManager] 已加载动画系统配置")
+		print("[ContentManager] 已加载动画系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 动画系统配置加载失败: ", result.error_message)
 		animation_system_configs = {}
 
 func _load_dialogue_system_configs():
-	var result = ConfigLoader.load_yaml_config(DIALOGUE_SYSTEM_CONFIG_FILE)
+	var result = _load_config_hybrid(DIALOGUE_SYSTEM_CONFIG_FILE)
 	if result.success:
 		dialogue_system_configs = result.data.get("content", {}).get("dialogue", {})
-		print("[ContentManager] 已加载对话系统配置")
+		print("[ContentManager] 已加载对话系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 对话系统配置加载失败: ", result.error_message)
 		dialogue_system_configs = {}
 
 func _load_gameplay_system_configs():
-	var result = ConfigLoader.load_yaml_config(GAMEPLAY_SYSTEM_CONFIG_FILE)
+	var result = _load_config_hybrid(GAMEPLAY_SYSTEM_CONFIG_FILE)
 	if result.success:
 		gameplay_system_configs = result.data.get("content", {}).get("gameplay", {})
-		print("[ContentManager] 已加载游戏玩法系统配置")
+		print("[ContentManager] 已加载游戏玩法系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 游戏玩法系统配置加载失败: ", result.error_message)
 		gameplay_system_configs = {}
 
 func _load_scenes_system_configs():
-	var result = ConfigLoader.load_yaml_config(SCENES_SYSTEM_CONFIG_FILE)
+	var result = _load_config_hybrid(SCENES_SYSTEM_CONFIG_FILE)
 	if result.success:
 		scenes_system_configs = result.data.get("content", {}).get("scenes", {})
-		print("[ContentManager] 已加载场景系统配置")
+		print("[ContentManager] 已加载场景系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 场景系统配置加载失败: ", result.error_message)
 		scenes_system_configs = {}
 
 func _load_scene_paths_system_configs():
-	var result = ConfigLoader.load_yaml_config(SCENE_PATHS_SYSTEM_CONFIG_FILE)
+	var result = _load_config_hybrid(SCENE_PATHS_SYSTEM_CONFIG_FILE)
 	if result.success:
 		scene_paths_system_configs = result.data.get("content", {}).get("scenes", {}).get("paths", {})
-		print("[ContentManager] 已加载场景路径系统配置")
+		print("[ContentManager] 已加载场景路径系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 场景路径系统配置加载失败: ", result.error_message)
 		scene_paths_system_configs = {}
 
 func _load_locations_system_configs():
-	var result = ConfigLoader.load_yaml_config(LOCATIONS_SYSTEM_CONFIG_FILE)
+	var result = _load_config_hybrid(LOCATIONS_SYSTEM_CONFIG_FILE)
 	if result.success:
 		locations_system_configs = result.data.get("systems", {}).get("scenes", {}).get("locations", {})
-		print("[ContentManager] 已加载地点系统配置")
+		print("[ContentManager] 已加载地点系统配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 地点系统配置加载失败: ", result.error_message)
 		locations_system_configs = {}
@@ -317,46 +317,46 @@ func _load_locations_system_configs():
 # === 运行时配置加载方法 (runtime/) ===
 
 func _load_storage_configs():
-	var result = ConfigLoader.load_yaml_config(STORAGE_CONFIG_FILE)
+	var result = _load_config_hybrid(STORAGE_CONFIG_FILE)
 	if result.success:
 		storage_configs = result.data.get("runtime", {}).get("storage", {})
-		print("[ContentManager] 已加载存储配置")
+		print("[ContentManager] 已加载存储配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 存储配置加载失败: ", result.error_message)
 		storage_configs = {}
 
 func _load_save_configs():
-	var result = ConfigLoader.load_yaml_config(SAVE_CONFIG_FILE)
+	var result = _load_config_hybrid(SAVE_CONFIG_FILE)
 	if result.success:
 		save_configs = result.data.get("runtime", {}).get("save", {})
-		print("[ContentManager] 已加载存档配置")
+		print("[ContentManager] 已加载存档配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 存档配置加载失败: ", result.error_message)
 		save_configs = {}
 
 func _load_network_configs():
-	var result = ConfigLoader.load_yaml_config(NETWORK_CONFIG_FILE)
+	var result = _load_config_hybrid(NETWORK_CONFIG_FILE)
 	if result.success:
 		network_configs = result.data.get("runtime", {}).get("network", {})
-		print("[ContentManager] 已加载网络配置")
+		print("[ContentManager] 已加载网络配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 网络配置加载失败: ", result.error_message)
 		network_configs = {}
 
 func _load_debug_configs():
-	var result = ConfigLoader.load_yaml_config(DEBUG_CONFIG_FILE)
+	var result = _load_config_hybrid(DEBUG_CONFIG_FILE)
 	if result.success:
 		debug_configs = result.data.get("runtime", {}).get("debug", {})
-		print("[ContentManager] 已加载调试配置")
+		print("[ContentManager] 已加载调试配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 调试配置加载失败: ", result.error_message)
 		debug_configs = {}
 
 func _load_game_settings_configs():
-	var result = ConfigLoader.load_yaml_config(GAME_SETTINGS_CONFIG_FILE)
+	var result = _load_config_hybrid(GAME_SETTINGS_CONFIG_FILE)
 	if result.success:
 		game_settings_configs = result.data.get("game_settings", {})
-		print("[ContentManager] 已加载游戏设置配置")
+		print("[ContentManager] 已加载游戏设置配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] 游戏设置配置加载失败: ", result.error_message)
 		game_settings_configs = {}
@@ -364,28 +364,28 @@ func _load_game_settings_configs():
 # === UI配置加载方法 (ui/) ===
 
 func _load_ui_camera_configs():
-	var result = ConfigLoader.load_yaml_config(UI_CAMERA_CONFIG_FILE)
+	var result = _load_config_hybrid(UI_CAMERA_CONFIG_FILE)
 	if result.success:
 		ui_camera_configs = result.data.get("camera_config", {})
-		print("[ContentManager] 已加载UI摄像机配置")
+		print("[ContentManager] 已加载UI摄像机配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] UI摄像机配置加载失败: ", result.error_message)
 		ui_camera_configs = {}
 
 func _load_ui_game_settings_configs():
-	var result = ConfigLoader.load_yaml_config(UI_GAME_SETTINGS_CONFIG_FILE)
+	var result = _load_config_hybrid(UI_GAME_SETTINGS_CONFIG_FILE)
 	if result.success:
 		ui_game_settings_configs = result.data.get("game_settings", {})
-		print("[ContentManager] 已加载UI游戏设置配置")
+		print("[ContentManager] 已加载UI游戏设置配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] UI游戏设置配置加载失败: ", result.error_message)
 		ui_game_settings_configs = {}
 
 func _load_ui_ui_configs():
-	var result = ConfigLoader.load_yaml_config(UI_UI_CONFIG_FILE)
+	var result = _load_config_hybrid(UI_UI_CONFIG_FILE)
 	if result.success:
 		ui_ui_configs = result.data.get("ui_config", {})
-		print("[ContentManager] 已加载UI配置")
+		print("[ContentManager] 已加载UI配置 (", result.source_type.to_upper(), ")")
 	else:
 		print("[ContentManager错误] UI配置加载失败: ", result.error_message)
 		ui_ui_configs = {}
