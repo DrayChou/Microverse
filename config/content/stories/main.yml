@@ -143,8 +143,8 @@ content:
             triggers: ["casual_conversation"]
 
         rewards:
-          - character_relationship: +10
-          - insider_info: true
+          - "character_relationship: +10"
+          - "insider_info: true"
 
       - id: "design_dispute"
         title: "设计之争"
@@ -161,8 +161,8 @@ content:
             triggers: ["design_meeting"]
 
         rewards:
-          - design_influence: +5
-          - alice_respect: +15
+          - "design_influence: +5"
+          - "alice_respect: +15"
 
       - id: "debug_helper"
         title: "调试助手"
@@ -179,8 +179,8 @@ content:
             triggers: ["debugging_session"]
 
         rewards:
-          - technical_skills: +8
-          - joe_friendship: +12
+          - "technical_skills: +8"
+          - "joe_friendship: +12"
 
     # 事件系统
     events:
@@ -298,13 +298,13 @@ content:
               description: "选择保守的技术方案"
               effects:
                 - relationship: {"stephen": +10, "alice": -5}
-                - success_rate: 0.9
+                - "success_rate: 0.9"
 
             - choice: "innovative_approach"
               description: "选择创新的技术方案"
               effects:
                 - relationship: {"alice": +10, "stephen": -5}
-                - success_rate: 0.6
+                - "success_rate: 0.6"
 
         - id: "crisis_response"
           title: "危机应对"
@@ -316,10 +316,10 @@ content:
               description: "加班解决问题"
               effects:
                 - relationship: {"stephen": +15, "all": -10}
-                - health: -20
+                - "health: -20"
 
             - choice: "smart_solution"
               description: "寻找巧妙的解决方案"
               effects:
                 - relationship: {"jack": +10, "joe": +5}
-                - success_rate: 0.7
+                - "success_rate: 0.7"
