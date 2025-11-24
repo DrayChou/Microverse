@@ -7,28 +7,20 @@
             "display_name": "LMStudio (本地)",
             "type": "local",
             "enabled": true,
-            "default_model": "qwen3:4b",
-            "endpoint": "http://localhost:11435",
+            "default_model": "qwen/qwen3-vl-4b",
+            "base_url": "http://localhost:11435",
+            "endpoints": {
+              "chat": "/v1/chat/completions"
+            },
             "authentication": {
               "type": "none"
             },
             "models": [
               {
-                "id": "qwen3:4b",
+                "id": "qwen/qwen3-vl-4b",
                 "name": "Qwen3 4B",
                 "description": "Qwen3 4B 参数模型，适合对话",
                 "size": "4B",
-                "context_length": 32768,
-                "pricing": {
-                  "input_tokens": 0,
-                  "output_tokens": 0
-                }
-              },
-              {
-                "id": "llama3.1:8b",
-                "name": "Llama 3.1 8B",
-                "description": "Meta Llama 3.1 8B 参数模型",
-                "size": "8B",
                 "context_length": 32768,
                 "pricing": {
                   "input_tokens": 0,
@@ -49,12 +41,15 @@
               "backoff_multiplier": 2.0
             }
           },
-          "openai": {
-            "display_name": "OpenAI GPT",
+          "ollama": {
+            "display_name": "ollama GPT",
             "type": "api",
             "enabled": false,
             "default_model": "gpt-4",
-            "endpoint": "https://api.openai.com/v1",
+            "base_url": "http://localhost:11434",
+            "endpoints": {
+              "chat": "/v1/chat/completions"
+            },
             "authentication": {
               "type": "api_key",
               "api_key_env": "OPENAI_API_KEY"

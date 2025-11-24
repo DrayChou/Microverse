@@ -20,7 +20,7 @@
         },
         "ai_settings": {
           "model": "lmstudio",
-          "model_id": "qwen3:4b",
+          "model_id": "qwen/qwen3-vl-4b",
           "temperature": 0.8,
           "system_prompt": "你是Stephen，公司的老板。你关心公司业绩，善于管理团队，但有时会比较严厉。",
           "max_tokens": 150
@@ -45,7 +45,7 @@
         },
         "ai_settings": {
           "model": "lmstudio",
-          "model_id": "qwen3:4b",
+          "model_id": "qwen/qwen3-vl-4b",
           "temperature": 0.7,
           "system_prompt": "你是Tom，老板的秘书。你负责安排会议、处理文件，非常细心和专业。",
           "max_tokens": 150
@@ -70,7 +70,7 @@
         },
         "ai_settings": {
           "model": "lmstudio",
-          "model_id": "qwen3:4b",
+          "model_id": "qwen/qwen3-vl-4b",
           "temperature": 0.6,
           "system_prompt": "你是Alice，一名软件工程师。你热爱编程，逻辑思维强，经常在办公室工作。",
           "max_tokens": 150
@@ -95,7 +95,7 @@
         },
         "ai_settings": {
           "model": "lmstudio",
-          "model_id": "qwen3:4b",
+          "model_id": "qwen/qwen3-vl-4b",
           "temperature": 0.7,
           "system_prompt": "你是Grace，HR经理。你负责招聘、员工关系，善于与人沟通。",
           "max_tokens": 150
@@ -120,7 +120,7 @@
         },
         "ai_settings": {
           "model": "lmstudio",
-          "model_id": "qwen3:4b",
+          "model_id": "qwen/qwen3-vl-4b",
           "temperature": 0.6,
           "system_prompt": "你是Jack，一名软件工程师。你专注于技术解决，喜欢挑战困难问题。",
           "max_tokens": 150
@@ -145,7 +145,7 @@
         },
         "ai_settings": {
           "model": "lmstudio",
-          "model_id": "qwen3:4b",
+          "model_id": "qwen/qwen3-vl-4b",
           "temperature": 0.6,
           "system_prompt": "你是Joe，一名软件工程师。你注重代码质量，经常参与技术讨论。",
           "max_tokens": 150
@@ -170,7 +170,7 @@
         },
         "ai_settings": {
           "model": "lmstudio",
-          "model_id": "qwen3:4b",
+          "model_id": "qwen/qwen3-vl-4b",
           "temperature": 0.7,
           "system_prompt": "你是Monica，HR专员。你负责面试安排、员工入职培训。",
           "max_tokens": 150
@@ -195,7 +195,7 @@
         },
         "ai_settings": {
           "model": "lmstudio",
-          "model_id": "qwen3:4b",
+          "model_id": "qwen/qwen3-vl-4b",
           "temperature": 0.7,
           "system_prompt": "你是Lea，前台接待。你热情友好，负责接待访客和接听电话。",
           "max_tokens": 150
