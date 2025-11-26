@@ -18,7 +18,7 @@
 
 #### AI 核心系统
 
-- **[多提供商AI集成](./multi-provider-ai-integration.md)** - 9个AI提供商统一接口、API抽象层
+- **[多提供商AI集成](./multi-provider-ai-integration.md)** - 7个AI提供商统一接口、API抽象层
 - **[内存系统架构](./memory-system-architecture.md)** - 三层存储、智能压缩、持久化机制
 - **[AI 系统关键技术](./ai-system-key-technical-points.md)** - 多智能体架构、决策算法、行为模式
 - **[提示工程与用户管理](./ai-prompt-and-user-management.md)** - 对话系统、提示优化、用户画像

@@ -44,26 +44,23 @@ class_name CharacterController
 **核心功能**:
 
 - 2D 物理移动和碰撞检测
-- 多状态管理 (SITTING, STANDING, MOVING)
+- 基础状态管理 (is_sitting, is_selected, facing_direction)
 - 家具交互系统
 - 点击选择和目标移动
 
 ```gdscript
-# 角色状态枚举
-enum CharacterState {
-    SITTING,    # 坐着
-    STANDING,   # 站立
+# AI 状态枚举 (AIAgent.gd)
+enum State {
+    IDLE,       # 空闲
     MOVING,     # 移动中
     TALKING     # 对话中
 }
 
-# 物理处理
-func _physics_process(delta):
-    match current_state:
-        CharacterState.MOVING:
-            move_towards_target()
-        CharacterState.SITTING:
-            handle_sitting_state()
+# 角色控制变量 (CharacterController.gd)
+var is_selected = false
+var is_sitting = false
+var target_position = Vector2.ZERO
+var facing_direction = "down"
 ```
 
 ### 角色管理器
@@ -220,10 +217,10 @@ static func _load_config_hybrid(file_path: String) -> LoadResult:
 
 **技术特性**:
 
-- 实时跟随目标角色
-- 动态文本布局
-- 淡入淡出动画
-- 多气泡并发显示
+- 跟随目标角色显示
+- NinePatchRect背景适配
+- 自定义字体支持
+- 自动隐藏机制（5秒后）
 
 ## 🔄 存档系统
 

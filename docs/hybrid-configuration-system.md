@@ -617,7 +617,7 @@ func register_config_plugin(plugin: IConfigPlugin):
 - **开发友好**: 完整的错误处理和调试支持
 
 **技术亮点**:
-- 57个配置文件的统一管理
+- 44个配置文件的统一管理（25个YAML + 19个JSON）
 - JSON/YAML混合加载策略
 - 实时配置热重载机制
 - 企业级的错误处理和验证
